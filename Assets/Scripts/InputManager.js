@@ -1,5 +1,6 @@
-/// description: This is the InputManager Singleton
+/// Author:         Nikolay Hadzhiev
+/// Description:    This is the InputManager Singleton
 
-class InputManager extends Singleton {
+export default class InputManager extends Singleton {
 
 }

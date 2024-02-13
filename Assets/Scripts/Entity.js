@@ -5,18 +5,15 @@ export default class Entity {
     x = 0;
     y = 0;
 
+    image = undefined;
     frame_width = 60;
     frame_height = 60;
     frame_num = 1;
-
     frame_index = 0;
-
-    image = undefined;
-
     last_update = Date.now();
-
     update_speed = 1;
 
+    // This contructor constructs the class instance!
     constructor(startX, startY, spritesheet_path) {
         this.x = startX;
         this.y = startY;
@@ -25,6 +22,8 @@ export default class Entity {
         this.image.src = spritesheet_path;
     }
 
+    // This update function updates the instance's animation frame based
+    // on the time passed since the last call
     update() {
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
@@ -33,6 +32,8 @@ export default class Entity {
         this.last_update = Date.now();
     }
 
+    // This render function renders the instance's current animation frame
+    // at the instance's xy-coordinates
     render(ctx) {
         ctx.drawImage(
             this.image,
