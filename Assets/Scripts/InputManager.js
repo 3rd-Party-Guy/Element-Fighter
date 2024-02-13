@@ -1,5 +1,5 @@
 /// description: This is the InputManager Singleton
 
-class InputManager {
-    
+class InputManager extends Singleton {
+
 }
