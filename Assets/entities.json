@@ -10,14 +10,18 @@
       },
       "run": {
         "num_frames": 8,
-        "sheet_width": 60,
+        "sheet_width": 768,
         "sheet_height": 60
       },
       "attack": {
         "num_frames": 22,
-        "sheet_width": 60,
+        "sheet_width": 3168,
         "sheet_height": 60
       }
+    },
+    "character_info": {
+      "x_friction": 0.25,
+      "y_friction": 0.125
     }
   }
 ]

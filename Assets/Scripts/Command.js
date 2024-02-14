@@ -13,12 +13,13 @@ export default class MoveCommand extends Command {
 
     constructor(xVel, yVel) {
         super();
+        
         this.xVel = xVel;
         this.yVel = yVel;
     }
 
     execute(entity) {
-        entity.x += this.xVel;
-        entity.y += this.yVel;
+        entity.xVel += this.xVel;
+        entity.yVel += this.yVel;
     }
 };
