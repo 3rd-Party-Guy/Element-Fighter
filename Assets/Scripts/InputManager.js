@@ -20,13 +20,9 @@ export default class InputManager{
     {
         console.log("event keycode: " + keyCode);
         this.inputActionLookUp.get(keyCode)?.execute(this.player);
-        
     }
 
     // Adds or changes an existing keyCode's Command
-    addInputActionLookUp(keyCode, Command)
-    {
+    addInputActionLookUp = (keyCode, Command) =>
         this.inputActionLookUp.set(keyCode, Command);
-    }
-
 }

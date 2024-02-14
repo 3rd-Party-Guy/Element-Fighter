@@ -1,4 +1,4 @@
-// Author:          Nikolay Hadzhiev
+// Author:          Nikolay Hadzhiev, Leon Enders
 // Description:     This is the game entry-point
 
 import MoveCommand from "./Command.js";
@@ -10,17 +10,26 @@ const ctx = canvas.getContext('2d');
 
 let player = new Entity(75, 75, "Assets/Sprites/Knight - Debug/Knight.png", ctx);
 
-
+// Create a new Input Manager
 let inputManager = new InputManager(player);
+
+// Add initial KeyCodes and Commands
 inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1,0));
 inputManager.addInputActionLookUp("KeyD", new MoveCommand(1,0));
+
+// Add Input Manager's HandleInput as Callback to KeyDown Event
 window.addEventListener('keydown', (event)=>{inputManager.handleInput(event.code)} ) ;
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
+    // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    // Update entities
     player.update();
     player.render(ctx);
+
+    // Move on to next frame
     requestAnimationFrame(GameLoop);
 }
 
