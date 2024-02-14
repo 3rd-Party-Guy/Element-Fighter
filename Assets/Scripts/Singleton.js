@@ -3,8 +3,10 @@
 //                  Every singleton is only initialized once using lazy-initialization.
 
 class Singleton {
+    // only one instance per class
     static instance = undefined;
 
+    // private function
     #CreateInstance() {
         let object = Object.freeze(new Singleton());
         return object;
