@@ -15,17 +15,20 @@ const inputManager = InputManager.getInstance(InputManager);
 inputManager.givePlayer(player);
 
 // Add initial KeyCodes and Commands
-inputManager.addInputActionLookUp("KeyA", new MoveCommand(-4,0));
-inputManager.addInputActionLookUp("KeyD", new MoveCommand(4,0));
+inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1.7,0));
+inputManager.addInputActionLookUp("KeyD", new MoveCommand(1.7,0));
 
 // Add Input Manager's HandleInput as Callback to KeyDown Event
-window.addEventListener('keydown', (event) => inputManager.handleInput(event.code));
-window.addEventListener('keyup', (event) => inputManager.handleInput(event.code));
+window.addEventListener('keydown', (event) => inputManager.setInput(event));
+window.addEventListener('keyup', (event) => inputManager.setInput(event));
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
     // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    // Handle Input
+    inputManager.handleInput();
 
     // Update entities
     player.update();

@@ -10,19 +10,32 @@ export default class InputManager extends Singleton {
     // Lookup Table for input codes and Commands
     inputActionLookUp = undefined;
     
+    activeInputLookup = undefined;
+
     constructor(player) {
         super();
 
         this.player = player;
+        
         this.inputActionLookUp = new Map();
+        this.activeInputLookup = new Map();
     }
 
-    // Handle Input is called every time there is an input event. This function checks if there is a defined command for
-    // the keyCode, and executes if found
-    handleInput(keyCode)
+    // Set Input is called every time there is an input event.
+    // This is used to keep track of all keys that are currently down.
+    setInput(event) {
+        // console.log("KeyCode: " + event.code);
+        this.activeInputLookup.set(event.code, event.type == 'keydown');
+    }
+
+    // Handle Input is called every frame. It iterates through all commands map to
+    // a key code that is held down
+    handleInput()
     {
-        // console.log("event keycode: " + keyCode);
-        this.inputActionLookUp.get(keyCode)?.execute(this.player);
+        for (const [key, value] of this.activeInputLookup.entries()) {
+            if (value === true)
+                this.inputActionLookUp.get(key)?.execute(this.player);
+        }
     }
 
     // Adds or changes an existing keyCode's Command

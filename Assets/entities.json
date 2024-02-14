@@ -20,7 +20,7 @@
       }
     },
     "character_info": {
-      "x_friction": 0.25,
+      "x_friction": 0.125,
       "y_friction": 0.125
     }
   }
