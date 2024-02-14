@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Knight",
+    "spritesheets_path": "Assets/Sprites/Knight/",
+    "spritesheets_info": {
+      "idle": {
+        "num_frames": 15,
+        "sheet_width": 960,
+        "sheet_height": 64
+      },
+      "run": {
+        "num_frames": 8,
+        "sheet_width": 60,
+        "sheet_height": 60
+      },
+      "attack": {
+        "num_frames": 22,
+        "sheet_width": 60,
+        "sheet_height": 60
+      }
+    }
+  }
+]

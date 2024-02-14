@@ -12,7 +12,6 @@ export default class InputManager extends Singleton {
     
     constructor(player) {
         super();
-        console.log("CREATED");
 
         this.player = player;
         this.inputActionLookUp = new Map();
@@ -22,7 +21,7 @@ export default class InputManager extends Singleton {
     // the keyCode, and executes if found
     handleInput(keyCode)
     {
-        console.log("event keycode: " + keyCode);
+        // console.log("event keycode: " + keyCode);
         this.inputActionLookUp.get(keyCode)?.execute(this.player);
     }
 

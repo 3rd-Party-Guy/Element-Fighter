@@ -8,7 +8,7 @@ import InputManager from "./InputManager.js";
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-let player = new Entity(75, 75, "Assets/Sprites/Knight - Debug/Knight.png", ctx);
+let player = new Entity(75, 75, "Knight");
 
 const inputManager = InputManager.getInstance(InputManager);
 
