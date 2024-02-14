@@ -9,7 +9,7 @@ export default class Entity {
 
     image = undefined;
 
-frame_data = undefined;
+    frame_data = undefined;
 
     frame_index = 0;
     last_update = Date.now();
