@@ -24,7 +24,7 @@ export default class Entity {
     last_update = Date.now();
     update_speed = 60;
 
-    isFlipped = false;
+    is_flipped = false;
 
     #setSpritesheetData() {
         fetch('Assets/entities.json')
@@ -47,6 +47,11 @@ export default class Entity {
 
         this.frame_index = (this.frame_index + 1) % this.frame_data["num_frames"];
         this.last_update = Date.now();
+
+        if (this.xVel < 0)
+            this.is_flipped = true;
+        else if (this.xVel > 0)
+            this.is_flipped = false;
     }
 
     #update_position() {

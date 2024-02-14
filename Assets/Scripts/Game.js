@@ -39,5 +39,4 @@ function GameLoop() {
 }
 
 // When the webpage gets loaded, this lambda-function gets called!
-window.onload = () =>
-    GameLoop();
+window.onload = GameLoop();
