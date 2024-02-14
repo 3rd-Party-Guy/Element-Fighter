@@ -12,13 +12,13 @@ let player = new Entity(75, 75, "Assets/Sprites/Knight - Debug/Knight.png", ctx)
 
 
 let inputManager = new InputManager(player);
-inputManager.addInputActionLookUp(65, new MoveCommand(-1,0));
-inputManager.addInputActionLookUp(68, new MoveCommand(1,0));
-window.addEventListener('keydown', (event)=>{inputManager.handleInput(event.keyCode)} ) ;
-
+inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1,0));
+inputManager.addInputActionLookUp("KeyD", new MoveCommand(1,0));
+window.addEventListener('keydown', (event)=>{inputManager.handleInput(event.code)} ) ;
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     player.update();
     player.render(ctx);
     requestAnimationFrame(GameLoop);

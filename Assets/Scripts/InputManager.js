@@ -2,35 +2,28 @@
 /// Description:    This is the InputManager Singleton
 import MoveCommand from "./Command.js"
 
-
-
-
 export default class InputManager{
-    // Instance Properties: ------------------------------------------------
-    // Player variable
+    // Player, needed for Commands
     player = undefined;
 
-    // Mapping InputKeyCode to Command
+    // Lookup Table for input codes and Commands
     inputActionLookUp = new Map();
-
     
-    // Constructor: ---------------------------------------------------------
     constructor(in_player )
     {
         this.player = in_player;
     }
 
+    // Handle Input is called every time there is an input event. This function checks if there is a defined command for
+    // the keyCode, and executes if found
     handleInput(keyCode)
     {
         console.log("event keycode: " + keyCode);
-        let inputKeyLookUp = this.inputActionLookUp.get(keyCode);
-        if(inputKeyLookUp != null)
-        {
-            inputKeyLookUp.execute(this.player);
-        }
+        this.inputActionLookUp.get(keyCode)?.execute(this.player);
         
     }
 
+    // Adds or changes an existing keyCode's Command
     addInputActionLookUp(keyCode, Command)
     {
         this.inputActionLookUp.set(keyCode, Command);
