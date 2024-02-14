@@ -10,8 +10,9 @@ const ctx = canvas.getContext('2d');
 
 let player = new Entity(75, 75, "Assets/Sprites/Knight - Debug/Knight.png", ctx);
 
-// Create a new Input Manager
-let inputManager = new InputManager(player);
+const inputManager = InputManager.getInstance(InputManager);
+
+inputManager.givePlayer(player);
 
 // Add initial KeyCodes and Commands
 inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1,0));

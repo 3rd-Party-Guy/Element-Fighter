@@ -1,21 +1,22 @@
-// Author:          Nikolay Hadzhiev
-// Description:     This file is supposed to document and implement all the logic for the singletons used in the project.
-//                  Every singleton is only initialized once using lazy-initialization.
+export default class Singleton {
+  // A private, static instances object
+  static #instances = {};
 
-class Singleton {
-    // only one instance per class
-    static instance = undefined;
+  // When a class inherits Singleton, it's constructor will call this super constructor
+  // First, it checks whether there is already an instance of the class, and if so, returns that.
+  // Otherwise, the new instance is added to the static instances object.
+  constructor() {
+    if (Singleton.#instances.hasOwnProperty(this.constructor.name))
+      return Singleton.#instances[this.constructor.name];
 
-    // private function
-    #CreateInstance() {
-        let object = Object.freeze(new Singleton());
-        return object;
-    }
+      Singleton.#instances[this.constructor.name] = this;
+  }
 
-    GetInstance() {
-        if (instance == undefined)
-            instance = this.#CreateInstance();
-        
-        return instance;
-    }
-};
+  // This function works both as lazy-initialization and a getter for singletons.
+  static getInstance(con) {
+    if (!Singleton.#instances.hasOwnProperty(con.name))
+      Singleton.#instances[con.name] = new con();
+
+    return Singleton.#instances[con.name];
+  }
+}
