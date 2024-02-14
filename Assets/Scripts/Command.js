@@ -7,11 +7,12 @@ class Command {
     }
 };
 
-class MoveCommand extends Command {
+export default class MoveCommand extends Command {
     xVel = 0;
     yVel = 0;
 
     constructor(xVel, yVel) {
+        super();
         this.xVel = xVel;
         this.yVel = yVel;
     }
