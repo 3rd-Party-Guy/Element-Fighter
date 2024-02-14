@@ -19,8 +19,8 @@ inputManager.addInputActionLookUp("KeyA", new MoveCommand(-4,0));
 inputManager.addInputActionLookUp("KeyD", new MoveCommand(4,0));
 
 // Add Input Manager's HandleInput as Callback to KeyDown Event
-window.addEventListener('keydown', (event)=>{inputManager.handleInput(event.code); });
-window.addEventListener('keyup', (event) => {inputManager.handleInput(event.code); });
+window.addEventListener('keydown', (event) => inputManager.handleInput(event.code));
+window.addEventListener('keyup', (event) => inputManager.handleInput(event.code));
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
