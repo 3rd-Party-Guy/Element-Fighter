@@ -10,5 +10,6 @@ body {
         border: 1px solid black;
         width: 640px;
         height: 360px;
+        image-rendering: pixelated;         /* Pixel-Perfect Upscaling */
     }
 }
