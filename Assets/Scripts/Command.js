@@ -1,13 +1,13 @@
 /// Author:         Nikolay Hadzhiev
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
-class Command {
+export class Command {
     execute(entity) {
         return;
     }
 };
 
-export default class MoveCommand extends Command {
+export class MoveCommand extends Command {
     xVel = 0;
     yVel = 0;
 
@@ -23,3 +23,13 @@ export default class MoveCommand extends Command {
         entity.yVel += this.yVel;
     }
 };
+
+export class JumpCommand extends Command {
+    constructor(jumpForce) {
+        super();
+    }
+
+    execute(entity) {
+        entity.jump();
+    }
+}

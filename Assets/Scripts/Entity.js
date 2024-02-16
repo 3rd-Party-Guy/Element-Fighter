@@ -34,6 +34,8 @@ export default class Entity {
 
     ground_col_box = undefined;
 
+    jumps_left = 0;
+
     #setSpritesheetData() {
         fetch('Assets/entities.json')
             .then(res => res.json())
@@ -78,7 +80,7 @@ export default class Entity {
         if (!this.is_grounded)
             this.yVel += this.character_data["gravity"]; 
         else
-            this.yVel = 0;
+            this.yVel = Math.min(0, this.yVel);
 
         this.xVel = clamp(this.xVel, -this.maxXVel, this.maxXVel);
 
@@ -105,10 +107,12 @@ export default class Entity {
         for (const col_box of col_boxes) {
             if (col_box.collidesWith(this.ground_col_box)) {
                 this.is_grounded = true;
-                col_box.is_active = true;
-            } else
-                col_box.is_active = false;
+                this.jumps_left = this.character_data["jumps"];
+                return;
+            }
         }
+        this.is_grounded = false;
+        console.log(this.is_grounded);
     }
 
     // This contructor constructs the class instance!
@@ -124,12 +128,19 @@ export default class Entity {
         this.ground_col_box = new CollisionBox( new Vector2(0, 0), new Vector2(0, 0) );
     }
 
+    jump() {
+        if (this.jumps_left > 0) {
+            this.yVel -= this.character_data["jump_force"];
+            this.jumps_left--;
+        }
+    }
+
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update() {
+        this.#updatePosition();
         this.#setGrounded();
         this.#updateAnimation();
-        this.#updatePosition();
     }
 
     // This render function renders the instance's current animation frame

@@ -3,7 +3,7 @@
 
 import Vector2 from "./Vector2.js";
 
-import MoveCommand from "./Command.js";
+import { MoveCommand, JumpCommand } from "./Command.js";
 import Entity from "./Entity.js";
 
 import InputManager from "./InputManager.js";
@@ -19,13 +19,18 @@ const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
 
 inputManager.givePlayer(player);
 
-// Add initial KeyCodes and Commands
-inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1.7,0));
-inputManager.addInputActionLookUp("KeyD", new MoveCommand(1.7,0));
 
 // Add Input Manager's HandleInput as Callback to KeyDown Event
 window.addEventListener('keydown', (event) => inputManager.setInput(event));
 window.addEventListener('keyup', (event) => inputManager.setInput(event));
+
+function SetupInputMaps() {
+    // Add initial KeyCodes and Commands
+    inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1.7,0));
+    inputManager.addInputActionLookUp("KeyD", new MoveCommand(1.7,0));
+    inputManager.addInputActionLookUp("KeyW", new JumpCommand());
+
+}
 
 function SetupMapCollisions() {
     mapColliderManager.addCollision(
@@ -55,6 +60,7 @@ function GameLoop() {
 
 // When the webpage gets loaded, this lambda-function gets called!
 window.onload = () => {
+    SetupInputMaps();
     SetupMapCollisions();
     GameLoop();
 }

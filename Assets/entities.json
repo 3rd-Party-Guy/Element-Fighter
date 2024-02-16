@@ -31,7 +31,9 @@
     },
     "character_info": {
       "x_friction": 0.125,
-      "gravity": 5      
+      "gravity": 5,
+      "jumps": 2,
+      "jump_force": 5
     }
   }
 ]
