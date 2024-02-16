@@ -11,21 +11,33 @@ export default class CollisionBox {
         this.ru = right_up;
     }
 
-    getLD = () => this.ld;
-    getRU = () => this.ru;
+    get ld() { return this.ld; } 
+    get ru() { return this.ru; }
 
-    getHeight = () => this.ru.getY() - this.ld.getY();
-    getWidth = () => this.ru.getX() - this.ld.getX(); 
+    get height() { return this.ru.y - this.ld.y; }
+    get width()  { return this.ru.x - this.ld.x; }
 
-    setLD = (x, y) => this.ld.set(x, y);
-    setRU = (x, y) => this.ru.set(x, y);
+    set ld(ld) { this.ld = ld; }
+    set ru(ru) { this.ru = ru; }
 
     collidesWith(other_box) {
+        const x1 = this.ld.x;
+        const x2 = other_box.ld.x;
+
+        const y1 = this.ld.y;
+        const y2 = other_box.ld.y;
+
+        const width1 = this.width;
+        const width2 = other_box.width;
+
+        const height1 = this.height;
+        const height2 = other_box.height;
+
         return (
-            this.ld.getX() + this.getWidth() >= other_box.getLD().getX() &&
-            other_box.getLD().getX() + other_box.getWidth() >= this.ld.getX() ||
-            this.ld.getY() + this.getHeight() >= other_box.getLD().getY() &&
-            other_box.getLD().getY() + other_box.getHeight() >= this.ld.getY()
+            x1 < x2 + width2    &&
+            x1 + width1 > x2    &&
+            y1 < y2 + height2   &&
+            y1 + height1 > y2
         );
     }
 }

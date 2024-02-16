@@ -9,11 +9,11 @@ export default class MapColliderManager extends Singleton {
 
     renderBoxes(ctx) {
         for (const col_box of this.collision_boxes) {
-            const x = col_box.getLD().getX();
-            const y = col_box.getLD().getY();
+            const x = col_box.ld.x;
+            const y = col_box.ld.y;
 
             ctx.fillStyle = (col_box.is_active) ? "red" : "black"
-            ctx.rect(x, y , col_box.getWidth(), col_box.getHeight());
+            ctx.rect(x, y , col_box.width, col_box.height);
             ctx.fill();
         }
     }

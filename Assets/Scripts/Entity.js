@@ -12,8 +12,6 @@ export default class Entity {
     x = 0;
     y = 0;
 
-    center_offset = 0;
-
     collision_box = undefined;
 
     xVel = 0;
@@ -34,7 +32,7 @@ export default class Entity {
     is_flipped = false;
     is_grounded = false;
 
-    ground_col_box = new CollisionBox(new Vector2(0, 0), new Vector2(0, 0));
+    ground_col_box = undefined;
 
     #setSpritesheetData() {
         fetch('Assets/entities.json')
@@ -45,14 +43,6 @@ export default class Entity {
                 this.frame_data = result["spritesheets_info"]["idle"] || {};
                 this.character_data = result["character_info"] || {};
 
-                const char_width = this.frame_data["sheet_width"] / this.frame_data["num_frames"]
-                const char_height = this.frame_data["sheet_height"] / 2 
-
-                this.center_offset = new Vector2(
-                    char_width / 2,
-                    char_height / 2                    
-                );
-
                 this.collision_box = new CollisionBox(
                     new Vector2(this.frame_data["hitbox"]["left_down"]["x"],
                                 this.frame_data["hitbox"]["left_down"]["y"]),
@@ -62,6 +52,14 @@ export default class Entity {
             })
             .catch(err => 
                 console.error("Error getting frame data:\n", err));
+    }
+
+    // INFO: MIGHT NEED TO CHANGE MAGIC NUMBERS HERE
+    get center_offset() {
+        return new Vector2(
+            this.frame_data["sheet_width"] / this.frame_data["num_frames"] / 4,
+            this.frame_data["sheet_height"] / 2 - 15
+        )
     }
 
     #updateAnimation() {
@@ -94,8 +92,9 @@ export default class Entity {
         else if (this.xVel > 0)
             this.is_flipped = false;
 
-        this.ground_col_box.setLD(this.x, this.y + this.center_offset.getY() * 2 + 10);
-        this.ground_col_box.setRU(this.x + this.center_offset.getX() * 2, this.y + this.center_offset.getY() * 2 + 15);
+        // INFO: MIGHT NEED TO CHANGE MAGIC NUMBERS HERE
+        this.ground_col_box.ld = (new Vector2( this.x + 15, this.y + this.center_offset.y * 2 + 10));
+        this.ground_col_box.ru = (new Vector2((this.x + this.center_offset.x * 2) + 15, this.y + this.center_offset.y * 2 + 15));
     }
 
     #setGrounded() {
@@ -103,7 +102,7 @@ export default class Entity {
 
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
 
-        for (let col_box of col_boxes) {
+        for (const col_box of col_boxes) {
             if (col_box.collidesWith(this.ground_col_box)) {
                 this.is_grounded = true;
                 col_box.is_active = true;
@@ -122,6 +121,7 @@ export default class Entity {
         this.image = new Image();
 
         this.#setSpritesheetData();
+        this.ground_col_box = new CollisionBox( new Vector2(0, 0), new Vector2(0, 0) );
     }
 
     // This update function updates the instance's animation frame based
@@ -151,11 +151,7 @@ export default class Entity {
         );
 
         ctx.fillStyle = "green";
-        ctx.rect(this.collision_box.getLD().getX(), this.ground_col_box.getLD().getY(), this.collision_box.getWidth(), this.collision_box.getHeight());
-        ctx.fill();
-
-        ctx.fillStyle = "green";
-        ctx.rect(this.ground_col_box.getLD().getX(), this.ground_col_box.getLD().getY(), this.ground_col_box.getWidth(), this.ground_col_box.getHeight());
+        ctx.rect(this.ground_col_box.ld.getX, this.ground_col_box.ld.getY, this.ground_col_box.width, this.ground_col_box.height);
         ctx.fill();
     }
 };

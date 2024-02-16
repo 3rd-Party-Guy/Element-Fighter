@@ -49,8 +49,6 @@ function GameLoop() {
     // Render CollisionBoxes
     mapColliderManager.renderBoxes(ctx);
 
-    // await new Promise(r => setTimeout(r, 2000));
-
     // Move on to next frame
     requestAnimationFrame(GameLoop);
 }
