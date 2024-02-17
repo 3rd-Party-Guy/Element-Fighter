@@ -14,6 +14,18 @@ const ctx = canvas.getContext('2d');
 
 let player = new Entity(75, 75, "Knight", canvas);
 
+
+
+// Each physic step calculates 20ms of wall clock time
+let fixedTimeStep = 20;
+
+//Calculate the time for the last frame
+let newFrameTime = Date.now();
+let lastFrameTime = 0;
+let deltaTime = 0;
+let accumulatedTime = 0;
+
+
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
 
@@ -26,8 +38,8 @@ window.addEventListener('keyup', (event) => inputManager.setInput(event));
 
 function SetupInputMaps() {
     // Add initial KeyCodes and Commands
-    inputManager.addInputActionLookUp("KeyA", new MoveCommand(-1.7,0));
-    inputManager.addInputActionLookUp("KeyD", new MoveCommand(1.7,0));
+    inputManager.addInputActionLookUp("KeyA", new MoveCommand(-140,0));
+    inputManager.addInputActionLookUp("KeyD", new MoveCommand(140,0));
     inputManager.addInputActionLookUp("KeyW", new JumpCommand());
 
 }
@@ -43,11 +55,30 @@ function SetupMapCollisions() {
 function GameLoop() {
     // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    
+
+    //Get startTime of new frame
+    
+    accumulatedTime = deltaTime + accumulatedTime;
+    console.log(accumulatedTime);
+    lastFrameTime = newFrameTime;
+    newFrameTime = Date.now();
+    deltaTime = newFrameTime-lastFrameTime;
+    
+   
 
     // Handle Input
     inputManager.handleInput();
-
     // Update entities
+    //let fixedUpdateCounter = 0;
+    while(accumulatedTime >= fixedTimeStep)
+    {
+        player.fixedUpdate(deltaTime/1000);
+        //fixedUpdateCounter++;
+        accumulatedTime -= fixedTimeStep;
+    }
+    //console.log("Accumulated rest: " + accumulatedTime);
+    //console.log("fixedUpdate calls: " + fixedUpdateCounter);
     player.update();
     player.render(ctx);
 

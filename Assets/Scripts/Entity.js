@@ -74,7 +74,7 @@ export default class Entity {
         this.last_update = Date.now();
     }
 
-    #updatePosition() {
+    #updatePosition(deltaTime) {
         if (!this.character_data) return;
         
         if (!this.is_grounded)
@@ -84,10 +84,10 @@ export default class Entity {
 
         this.xVel = clamp(this.xVel, -this.maxXVel, this.maxXVel);
 
-        this.x += this.xVel;
-        this.y += this.yVel;
+        this.x += this.xVel * deltaTime;
+        this.y += this.yVel * deltaTime;
 
-        this.xVel = lerp(this.xVel, 0, this.character_data["x_friction"]);
+        this.xVel = lerp(this.xVel * deltaTime, 0, this.character_data["x_friction"]);
         
         if (this.xVel < 0)
             this.is_flipped = true;
@@ -138,9 +138,13 @@ export default class Entity {
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update() {
-        this.#updatePosition();
-        this.#setGrounded();
+        
         this.#updateAnimation();
+    }
+
+    fixedUpdate(deltaTime){
+        this.#updatePosition(deltaTime);
+        this.#setGrounded();
     }
 
     // This render function renders the instance's current animation frame
