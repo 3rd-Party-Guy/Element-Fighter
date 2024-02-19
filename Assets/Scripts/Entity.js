@@ -81,48 +81,49 @@ export default class Entity {
             })
             .catch(err => 
                 console.error("Error getting frame data:\n", err));
+            
     }
 
     #updateAnimation() {
         if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        if(!this.stateFrameData) this.#updateAnimationState();
         if(this.xVel != 0 && this.is_grounded)
         {
             
             this.movementState.nextState(MovementModes.Running);
-        
+            this.#updateAnimationState();
         }
         else if (this.xVel == 0 && this.is_grounded)
         {
            
             this.movementState.nextState(MovementModes.Idle);
+            this.#updateAnimationState();
         }
 
-
-        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
-
+        
+       
 
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
 
 
           
-        this.frame_index = (this.frame_index + 1) % stateFrameData["num_frames"];
+        this.frame_index = (this.frame_index + 1) % this.stateFrameData["num_frames"];
         this.last_update = Date.now();
 
 
     }
 
     #updateCollisionBox() {
-        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        if (!this.stateFrameData) return;
 
-        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
-
+      
         this.collision_box.ld.x = this.x;
         this.collision_box.ld.y = this.y;
 
       
-        this.collision_box.ru.x = this.x + stateFrameData["sheet_width"] / stateFrameData["num_frames"];
-        this.collision_box.ru.y = this.y + stateFrameData["sheet_height"];
+        this.collision_box.ru.x = this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
+        this.collision_box.ru.y = this.y + this.stateFrameData["sheet_height"];
        
     
 
@@ -161,7 +162,11 @@ export default class Entity {
         }
     }
     
-
+    #updateAnimationState()
+    {
+        this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
+        this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
+    }
 
 
     #setGrounded() {
@@ -205,22 +210,19 @@ export default class Entity {
     // This render function renders the instance's current animation frame
     // at the instance's xy-coordinates
     render(ctx) {
-        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        if (!this.stateFrameData) return;
         if (!this.collision_box) return;
 
-        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
-        let animationImage =  this.AnimationDataForState.get(this.movementState.currentState).aImage;
-    
         ctx.drawImage(
-            animationImage,
-            this.frame_index * stateFrameData["sheet_width"] / stateFrameData["num_frames"],
+            this.stateAnimation,
+            this.frame_index * this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
             0,
-            stateFrameData["sheet_width"] / stateFrameData["num_frames"],
-            stateFrameData["sheet_height"],
+            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
+            this.stateFrameData["sheet_height"],
             this.x,
             this.y,
-            stateFrameData["sheet_width"] / stateFrameData["num_frames"],
-            stateFrameData["sheet_height"]
+            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
+            this.stateFrameData["sheet_height"]
                 );
            
 
