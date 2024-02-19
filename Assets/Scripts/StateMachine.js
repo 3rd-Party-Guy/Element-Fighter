@@ -7,7 +7,7 @@ export const MovementModes = Object.freeze({
 
 export default class MovementState{
 
-    #currentState = MovementModes.Idle;
+    currentState = MovementModes.Idle;
 
     constructor(){
        
@@ -18,15 +18,15 @@ export default class MovementState{
 
     nextState(newMovementMode)
     {
-        switch (this.#currentState) {
+        switch (this.currentState) {
             case MovementModes.Idle:
                     
-                    this.#currentState = newMovementMode;
+                    this.currentState = newMovementMode;
                     
                 break;
             case MovementModes.Running:
                     
-                    this.#currentState = newMovementMode;
+                    this.currentState = newMovementMode;
                     
                 break;
             default:
