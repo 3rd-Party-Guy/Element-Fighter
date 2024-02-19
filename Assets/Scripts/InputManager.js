@@ -17,14 +17,22 @@ export default class InputManager extends Singleton {
 
         this.player = player;
         
-        this.inputActionLookUp = new Map();
+        this.inputActionLookup = new Map();
         this.activeInputLookup = new Map();
     }
 
     // Set Input is called every time there is an input event.
     // This is used to keep track of all keys that are currently down.
     setInput(event) {
-        this.activeInputLookup.set(event.code, event.type == 'keydown');
+        const is_active = event.type == 'keydown';
+        const command = this.inputActionLookup.get(event.code);
+
+        this.activeInputLookup.set(event.code, is_active);
+
+        if (is_active)
+            command?.onSet();
+        else
+            command?.onUnset();
     }
 
     // Handle Input is called every frame. It iterates through all commands map to
@@ -33,14 +41,18 @@ export default class InputManager extends Singleton {
     {
         for (const [key, value] of this.activeInputLookup.entries()) {
             if (value === true)
-                this.inputActionLookUp.get(key)?.execute(this.player);
+                this.inputActionLookup.get(key)?.execute(this.player);
         }
     }
 
     // Adds or changes an existing keyCode's Command
-    addInputActionLookUp = (keyCode, Command) =>
-        this.inputActionLookUp.set(keyCode, Command);
+    addInputActionLookup = (keyCode, Command) =>
+        this.inputActionLookup.set(keyCode, Command);
     
     givePlayer = (player) =>
         this.player = player;
+    
+    isKeyActive = (keyCode) => {
+        return this.activeInputLookup.get(keyCode) ? true : false;
+    }
 }

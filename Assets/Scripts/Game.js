@@ -12,8 +12,8 @@ import MapColliderManager from "./MapColliderManager.js"
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-// 60 physics steps / second
-const FIXED_TIME_STEP = 1000/60;
+// FixedUpdate should run at 240FPS
+const FIXED_DELTA_TIME = 1000 / 240;
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
@@ -37,9 +37,9 @@ function Initialize() {
 
 function SetupInputMaps() {
     // Add initial KeyCodes and Commands
-    inputManager.addInputActionLookUp("KeyA", new MoveCommand(-140,0));
-    inputManager.addInputActionLookUp("KeyD", new MoveCommand(140,0));
-    inputManager.addInputActionLookUp("KeyW", new JumpCommand());
+    inputManager.addInputActionLookup("KeyA", new MoveCommand(-140,0));
+    inputManager.addInputActionLookup("KeyD", new MoveCommand(140,0));
+    inputManager.addInputActionLookup("KeyW", new JumpCommand());
 }
 
 function SetupMapCollisions() {
@@ -47,6 +47,8 @@ function SetupMapCollisions() {
         new Vector2(64, 290),
         new Vector2(580, 310)
     );
+
+    mapColliderManager.addBoxRenders(ctx);
 }
 
 let newFrameTime = 0;
@@ -68,24 +70,21 @@ function EarlyUpdate() {
 function Update() {
     // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    ctx.beginPath();
 
     for(const ent of entities) {
-        ent.update();
+        ent.update(deltaTime / 1000);
         ent.render(ctx);
     }
 
-    // Render CollisionBoxes
-    mapColliderManager.renderBoxes(ctx);
     ctx.fill();
 }
 
 function FixedUpdate() {
-    while (accumulatedTime >= FIXED_TIME_STEP) {
+    while (accumulatedTime >= FIXED_DELTA_TIME) {
         for (const ent of entities)
-            ent.fixedUpdate(FIXED_TIME_STEP/1000);
+            ent.fixedUpdate(FIXED_DELTA_TIME / 1000);
     
-        accumulatedTime -= FIXED_TIME_STEP;
+        accumulatedTime -= FIXED_DELTA_TIME;
     }
 }
 
