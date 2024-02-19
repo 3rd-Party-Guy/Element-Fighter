@@ -85,23 +85,7 @@ export default class Entity {
     }
 
     #updateAnimation() {
-        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        if(!this.stateFrameData) this.#updateAnimationState();
-        if(this.xVel != 0 && this.is_grounded)
-        {
-            
-            this.movementState.nextState(MovementModes.Running);
-            this.#updateAnimationState();
-        }
-        else if (this.xVel == 0 && this.is_grounded)
-        {
-           
-            this.movementState.nextState(MovementModes.Idle);
-            this.#updateAnimationState();
-        }
-
         
-       
 
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
@@ -162,8 +146,21 @@ export default class Entity {
         }
     }
     
+    #updateMovementState()
+    {
+        console.log(this.movementState.currentState);
+        console.log(this.is_grounded);
+        if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        if(!this.stateFrameData) this.#updateAnimationState();
+        this.movementState.nextState(this.xVel, this.is_grounded);
+        console.log(this.movementState.currentState);
+        console.log(this.is_grounded);
+        this.#updateAnimationState();
+    }
+
     #updateAnimationState()
     {
+        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
         this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
     }
@@ -188,13 +185,16 @@ export default class Entity {
         if (this.jumps_left > 0) {
             this.yVel -= this.character_data["jump_force"];
             this.jumps_left--;
+            this.movementState.nextState(MovementModes.Jumping);
         }
     }
 
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update() {
+        this.#updateMovementState();
         this.#updateAnimation();
+        
     }
     
 
