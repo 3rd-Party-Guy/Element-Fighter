@@ -17,12 +17,10 @@ let player = new Entity(75, 75, "Knight", canvas);
 
 
 // Each physic step calculates 20ms of wall clock time
-let fixedTimeStep = 20;
+const FIXED_TIME_STEP = 1000/60;
 
 //Calculate the time for the last frame
-let newFrameTime = Date.now();
-let lastFrameTime = 0;
-let deltaTime = 0;
+let lastFrameTime = Date.now();
 let accumulatedTime = 0;
 
 
@@ -58,12 +56,12 @@ function GameLoop() {
     
 
     //Get startTime of new frame
-    
-    accumulatedTime = deltaTime + accumulatedTime;
-    console.log(accumulatedTime);
+   
+    const newFrameTime = Date.now();
+    const deltaTime = newFrameTime-lastFrameTime;
+    console.log(deltaTime);
+    accumulatedTime += deltaTime;
     lastFrameTime = newFrameTime;
-    newFrameTime = Date.now();
-    deltaTime = newFrameTime-lastFrameTime;
     
    
 
@@ -71,11 +69,11 @@ function GameLoop() {
     inputManager.handleInput();
     // Update entities
     //let fixedUpdateCounter = 0;
-    while(accumulatedTime >= fixedTimeStep)
+    while(accumulatedTime >= FIXED_TIME_STEP)
     {
-        player.fixedUpdate(deltaTime/1000);
+        player.fixedUpdate(FIXED_TIME_STEP/1000);
         //fixedUpdateCounter++;
-        accumulatedTime -= fixedTimeStep;
+        accumulatedTime -= FIXED_TIME_STEP;
     }
     //console.log("Accumulated rest: " + accumulatedTime);
     //console.log("fixedUpdate calls: " + fixedUpdateCounter);

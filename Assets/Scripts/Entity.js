@@ -78,7 +78,7 @@ export default class Entity {
         if (!this.character_data) return;
         
         if (!this.is_grounded)
-            this.yVel += this.character_data["gravity"]; 
+            this.yVel += this.character_data["gravity"] *deltaTime; 
         else
             this.yVel = Math.min(0, this.yVel);
 
@@ -87,7 +87,7 @@ export default class Entity {
         this.x += this.xVel * deltaTime;
         this.y += this.yVel * deltaTime;
 
-        this.xVel = lerp(this.xVel * deltaTime, 0, this.character_data["x_friction"]);
+        this.xVel = lerp(this.xVel, 0, this.character_data["x_friction"]);
         
         if (this.xVel < 0)
             this.is_flipped = true;
