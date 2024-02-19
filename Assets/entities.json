@@ -19,8 +19,8 @@
         "sheet_height": 60
       },
       "jump": {
-        "num_frames": 14,
-        "sheet_width": 652,
+        "num_frames": 10,
+        "sheet_width": 494,
         "sheet_height": 50
       },
       "roll": {
