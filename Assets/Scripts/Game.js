@@ -47,6 +47,8 @@ function SetupMapCollisions() {
         new Vector2(64, 290),
         new Vector2(580, 310)
     );
+
+    mapColliderManager.addBoxRenders(ctx);
 }
 
 let newFrameTime = 0;
@@ -68,15 +70,12 @@ function EarlyUpdate() {
 function Update() {
     // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    ctx.beginPath();
 
     for(const ent of entities) {
         ent.update();
         ent.render(ctx);
     }
 
-    // Render CollisionBoxes
-    mapColliderManager.renderBoxes(ctx);
     ctx.fill();
 }
 
