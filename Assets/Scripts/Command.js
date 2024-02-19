@@ -29,6 +29,8 @@ export class MoveCommand extends Command {
     execute(entity) {
         entity.xVel += this.xVel;
         entity.yVel += this.yVel;
+
+        super.execute();
     }
 };
 
