@@ -21,9 +21,9 @@
     },
     "character_info": {
       "x_friction": 0.125,
-      "gravity": 1000,
+      "gravity": 3000,
       "extra_jumps": 1,
-      "jump_force": 340
+      "jump_force": 500
     }
   }
 ]
