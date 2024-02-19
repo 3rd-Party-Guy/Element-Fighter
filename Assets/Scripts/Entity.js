@@ -5,6 +5,7 @@ import { clamp, lerp } from "./Math.js";
 import Vector2 from "./Vector2.js";
 import CollisionBox from "./CollisionBox.js";
 import MapColliderManager from "./MapColliderManager.js";
+import InputManager from "./InputManager.js";
 
 export default class Entity {
     entity_name = "Knight";
@@ -98,6 +99,11 @@ export default class Entity {
             this.yVel += this.character_data["gravity"] * fixedDeltaTime; 
         else
             this.yVel = Math.min(0, this.yVel);
+
+        if (this.yVel > 0)
+            this.yVel += this.character_data["fall_multiplier"] * fixedDeltaTime;
+        if (this.yVel < 0 && !InputManager.getInstance(InputManager).isKeyActive("KeyW"))
+            this.yVel += this.character_data["low_jump_multiplier"] * fixedDeltaTime;
 
         this.xVel = clamp(this.xVel, -this.maxXVel, this.maxXVel);
     }

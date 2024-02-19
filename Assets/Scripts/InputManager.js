@@ -51,4 +51,8 @@ export default class InputManager extends Singleton {
     
     givePlayer = (player) =>
         this.player = player;
+    
+    isKeyActive = (keyCode) => {
+        return this.activeInputLookup.get(keyCode) ? true : false;
+    }
 }
