@@ -5,6 +5,8 @@ import { clamp, lerp } from "./Math.js";
 import Vector2 from "./Vector2.js";
 import CollisionBox from "./CollisionBox.js";
 import MapColliderManager from "./MapColliderManager.js";
+import MovementState from "./StateMachine.js";
+import { MovementModes } from "./StateMachine.js";
 
 export default class Entity {
     entity_name = "Knight";
@@ -34,6 +36,9 @@ export default class Entity {
 
     jumps_left = 0;
 
+    movementState = new MovementState();
+
+
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
         this.entity_name = name;
@@ -61,12 +66,26 @@ export default class Entity {
 
     #updateAnimation() {
         if (!this.frame_data) return;
+        console.log(this.movementState);
+        if(this.xVel != 0 && this.is_grounded)
+        {
+            
+            this.movementState.nextState(MovementModes.Running);
+        
+        }
+        else if (this.xVel == 0 && this.is_grounded)
+        {
+           
+            this.movementState.nextState(MovementModes.Idle);
+        }
 
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
 
         this.frame_index = (this.frame_index + 1) % this.frame_data["num_frames"];
         this.last_update = Date.now();
+
+
     }
 
     #updateCollisionBox() {
@@ -95,11 +114,21 @@ export default class Entity {
 
         this.xVel = lerp(this.xVel, 0, this.character_data["x_friction"]);
         
+
+        
         if (this.xVel < 0)
             this.is_flipped = true;
         else if (this.xVel > 0)
             this.is_flipped = false;
+
+        if(Math.abs(this.xVel) < 1 && this.xVel != 0)
+        {
+                this.xVel = 0;
+        }
     }
+    
+
+
 
     #setGrounded() {
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
@@ -129,6 +158,9 @@ export default class Entity {
         this.#updateAnimation();
     }
     
+
+    
+
     // INFO: Note 2
     fixedUpdate(deltaTime){
         this.#updatePosition(deltaTime);
