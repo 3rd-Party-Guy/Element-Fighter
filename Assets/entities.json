@@ -17,13 +17,18 @@
         "num_frames": 22,
         "sheet_width": 3168,
         "sheet_height": 60
+      },
+      "jump": {
+        "num_frames": 14,
+        "sheet_width": 2160,
+        "sheet_height": 64
       }
     },
     "character_info": {
       "x_friction": 0.125,
       "gravity": 50,
       "jumps": 2,
-      "jump_force": 200
+      "jump_force": 250
     }
   }
 ]

@@ -77,6 +77,7 @@ export default class Entity {
                 const result = data.find(e => e.name === this.entity_name)
                 this.AnimationDataForState.set(MovementModes.Idle, new AnimationDataContext(result["spritesheets_path"] + "idle.png",result["spritesheets_info"]["idle"] || {} ));
                 this.AnimationDataForState.set(MovementModes.Running,new AnimationDataContext(result["spritesheets_path"] + "run.png", result["spritesheets_info"]["run"] || {}));
+                this.AnimationDataForState.set(MovementModes.Jumping, new AnimationDataContext(result["spritesheets_path"] + "jump.png", result["spritesheets_info"]["jump"] || {}));
                 this.character_data = result["character_info"] || {};
             })
             .catch(err => 
@@ -86,7 +87,7 @@ export default class Entity {
 
     #updateAnimation() {
         
-
+        if(!this.stateFrameData) return;
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
 
@@ -148,10 +149,8 @@ export default class Entity {
     
     #updateMovementState()
     {
-        console.log(this.movementState.currentState);
-        console.log(this.is_grounded);
+        
         if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        if(!this.stateFrameData) this.#updateAnimationState();
         this.movementState.nextState(this.xVel, this.is_grounded);
         console.log(this.movementState.currentState);
         console.log(this.is_grounded);
@@ -160,7 +159,7 @@ export default class Entity {
 
     #updateAnimationState()
     {
-        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        
         this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
     }
