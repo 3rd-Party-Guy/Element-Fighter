@@ -24,7 +24,6 @@ export default class InputManager extends Singleton {
     // Set Input is called every time there is an input event.
     // This is used to keep track of all keys that are currently down.
     setInput(event) {
-        // console.log("KeyCode: " + event.code);
         this.activeInputLookup.set(event.code, event.type == 'keydown');
     }
 

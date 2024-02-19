@@ -34,6 +34,18 @@ export default class Entity {
 
     jumps_left = 0;
 
+    // This contructor constructs the class instance!
+    constructor(startX, startY, name) {
+        this.entity_name = name;
+
+        this.x = startX;
+        this.y = startY;
+
+        this.image = new Image();
+
+        this.#setSpritesheetData();
+    }
+
     #setSpritesheetData() {
         fetch('Assets/entities.json')
             .then(res => res.json())
@@ -103,17 +115,6 @@ export default class Entity {
         this.is_grounded = false;
     }
 
-    // This contructor constructs the class instance!
-    constructor(startX, startY, name) {
-        this.entity_name = name;
-
-        this.x = startX;
-        this.y = startY;
-
-        this.image = new Image();
-
-        this.#setSpritesheetData();
-    }
 
     jump() {
         if (this.jumps_left > 0) {

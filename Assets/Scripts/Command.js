@@ -25,7 +25,7 @@ export class MoveCommand extends Command {
 };
 
 export class JumpCommand extends Command {
-    constructor(jumpForce) {
+    constructor() {
         super();
     }
 
