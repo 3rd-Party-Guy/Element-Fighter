@@ -12,8 +12,8 @@ import MapColliderManager from "./MapColliderManager.js"
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-// Each physic step calculates 20ms of wall clock time
-const FIXED_TIME_STEP = 1000/60;
+// FixedUpdate should run at 240FPS
+const FIXED_DELTA_TIME = 1000 / 240;
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
@@ -72,7 +72,7 @@ function Update() {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
     for(const ent of entities) {
-        ent.update();
+        ent.update(deltaTime / 1000);
         ent.render(ctx);
     }
 
@@ -80,11 +80,11 @@ function Update() {
 }
 
 function FixedUpdate() {
-    while (accumulatedTime >= FIXED_TIME_STEP) {
+    while (accumulatedTime >= FIXED_DELTA_TIME) {
         for (const ent of entities)
-            ent.fixedUpdate(FIXED_TIME_STEP/1000);
+            ent.fixedUpdate(FIXED_DELTA_TIME / 1000);
     
-        accumulatedTime -= FIXED_TIME_STEP;
+        accumulatedTime -= FIXED_DELTA_TIME;
     }
 }
 

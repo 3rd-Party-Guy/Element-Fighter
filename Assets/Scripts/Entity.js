@@ -81,23 +81,25 @@ export default class Entity {
 
     #updatePosition(deltaTime) {
         if (!this.character_data) return;
+
+        this.x += this.xVel * deltaTime;
+        this.y += this.yVel * deltaTime;
+        
+        if (this.xVel < 0) this.is_flipped = true;
+        else if (this.xVel > 0) this.is_flipped = false;
+
+        this.xVel = lerp(this.xVel, 0, this.character_data["x_friction"]);
+    }
+
+    #updateVelocities(fixedDeltaTime) {
+        if (!this.character_data) return;
         
         if (!this.is_grounded)
-            this.yVel += this.character_data["gravity"]; 
+            this.yVel += this.character_data["gravity"] * fixedDeltaTime; 
         else
             this.yVel = Math.min(0, this.yVel);
 
         this.xVel = clamp(this.xVel, -this.maxXVel, this.maxXVel);
-
-        this.x += this.xVel * deltaTime;
-        this.y += this.yVel * deltaTime;
-
-        this.xVel = lerp(this.xVel, 0, this.character_data["x_friction"]);
-        
-        if (this.xVel < 0)
-            this.is_flipped = true;
-        else if (this.xVel > 0)
-            this.is_flipped = false;
     }
 
     #setGrounded() {
@@ -106,7 +108,7 @@ export default class Entity {
         for (const col_box of col_boxes) {
             if (this.collision_box.collidesWith(col_box)) {
                 this.is_grounded = true;
-                this.jumps_left = this.character_data["jumps"];
+                this.jumps_left = this.character_data["extra_jumps"];
                 return;
             }
         }
@@ -116,7 +118,7 @@ export default class Entity {
 
 
     jump() {
-        if (this.jumps_left > 0) {
+        if (this.is_grounded || this.jumps_left > 0) {
             this.yVel = this.character_data["jump_force"] * -1;
             this.jumps_left--;
         }
@@ -124,13 +126,14 @@ export default class Entity {
 
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
-    update() {
+    update(deltaTime) {
+        this.#updatePosition(deltaTime);
         this.#updateAnimation();
     }
     
-    fixedUpdate(deltaTime){
-        this.#updatePosition(deltaTime);
+    fixedUpdate(fixedDeltaTime){
         this.#updateCollisionBox();
+        this.#updateVelocities(fixedDeltaTime);
         this.#setGrounded();
     }
 
