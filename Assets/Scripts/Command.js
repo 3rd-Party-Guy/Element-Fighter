@@ -2,6 +2,7 @@
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
 export class Command {
+    // some commands cannot be held down and should only function when pressed instead
     first_call = true;
 
     execute(entity) {
@@ -39,7 +40,7 @@ export class JumpCommand extends Command {
     execute(entity) {
         if (this.first_call)
             entity.jump();
-        
+
         super.execute();
     }
 }
