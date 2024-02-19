@@ -151,14 +151,10 @@ export default class Entity {
     {
         
         if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        this.movementState.nextState(this.xVel, this.is_grounded);
-        console.log(this.movementState.currentState);
-        console.log(this.is_grounded);
-        this.#updateAnimationState();
-    }
-
-    #updateAnimationState()
-    {
+        if(this.movementState.nextState(this.xVel, this.is_grounded))
+        {
+            this.frame_index = 0;
+        }
         
         this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;

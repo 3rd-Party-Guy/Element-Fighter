@@ -24,28 +24,42 @@ export default class MovementState{
                 if(xVel !=0 && grounded)
                 {
                     this.currentState = MovementModes.Running;
-                    break;
+                    return true;
+                    
                 }
                 if(!grounded)
-                this.currentState = MovementModes.Jumping;
+                {
+                    this.currentState = MovementModes.Jumping;
+                    return true;
+                }
+                
                 break;
             case MovementModes.Running:
                 if(xVel == 0 && grounded)
                 {
                     this.currentState = MovementModes.Idle;
-                    break;
+                    return true;
+                    
                 }
                 if(!grounded)
-                this.currentState = MovementModes.Jumping;
+                {
+                    this.currentState = MovementModes.Jumping;
+                    return true;
+                }
+                
                 break;  
             case MovementModes.Jumping:
                 if(grounded && xVel == 0)
                 {
                     this.currentState = MovementModes.Idle;
-                    break;
+                    return true;
+                    
                 }
                 if(grounded && xVel != 0)
-                this.currentState = MovementModes.Running;
+                {
+                    this.currentState = MovementModes.Running;
+                    return true;
+                }
                 break;
             default:
                 break;

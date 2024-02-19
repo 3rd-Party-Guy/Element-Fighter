@@ -12,7 +12,7 @@ import MapColliderManager from "./MapColliderManager.js"
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-// Each physic step calculates 20ms of wall clock time
+// 60 physics steps / second
 const FIXED_TIME_STEP = 1000/60;
 
 const inputManager = InputManager.getInstance(InputManager);

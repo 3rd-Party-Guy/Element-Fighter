@@ -20,7 +20,12 @@
       },
       "jump": {
         "num_frames": 14,
-        "sheet_width": 2160,
+        "sheet_width": 652,
+        "sheet_height": 50
+      },
+      "roll": {
+        "num_frames": 15,
+        "sheet_width": 2700,
         "sheet_height": 64
       }
     },
@@ -28,7 +33,7 @@
       "x_friction": 0.125,
       "gravity": 50,
       "jumps": 2,
-      "jump_force": 250
+      "jump_force": 150
     }
   }
 ]
