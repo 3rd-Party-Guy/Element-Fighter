@@ -20,7 +20,8 @@
       }
     },
     "character_info": {
-      "x_friction": 0.125,
+      "x_friction": 0.055,
+      "max_x_velocity": 500,
       "gravity": 3000,
       "extra_jumps": 1,
       "jump_force": 750,

@@ -18,8 +18,7 @@ export default class Entity {
     xVel = 0;
     yVel = 0;
 
-    maxXVel = 250;
-    maxYVel = 250;
+    maxXVel = 100;
 
     image = undefined;
 
@@ -34,6 +33,7 @@ export default class Entity {
     is_grounded = false;
 
     jumps_left = 0;
+    x_speed = 1;
 
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
@@ -55,6 +55,7 @@ export default class Entity {
                 this.image.src = result["spritesheets_path"] + "idle.png";
                 this.frame_data = result["spritesheets_info"]["idle"] || {};
                 this.character_data = result["character_info"] || {};
+                this.maxXVel = this.character_data["max_x_velocity"] || 100;
             })
             .catch(err => 
                 console.error("Error getting frame data:\n", err));
