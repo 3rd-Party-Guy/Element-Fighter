@@ -8,6 +8,23 @@ import MapColliderManager from "./MapColliderManager.js";
 import MovementState from "./StateMachine.js";
 import { MovementModes } from "./StateMachine.js";
 
+
+class AnimationDataContext{
+    aImage = undefined;
+    aFrame_data = undefined;
+
+    constructor(imageSource, frame_data)
+    {
+        this.aImage = new Image();
+        this.aImage.src = imageSource;
+        this.aFrame_data = frame_data;
+    }
+};
+
+
+
+
+
 export default class Entity {
     entity_name = "Knight";
 
@@ -22,14 +39,6 @@ export default class Entity {
     maxXVel = 250;
     maxYVel = 250;
 
-    //Idle Animation
-    idleImage = undefined;
-    idleFrame_data = undefined;
-
-    //Running Animation
-    runningImage = undefined;
-    runningFrame_data = undefined;
-
     //Character Data
     character_data = undefined;
 
@@ -42,8 +51,14 @@ export default class Entity {
 
     jumps_left = 0;
 
+    //MovementState variable
     movementState = new MovementState();
 
+    //Mapping Animation Data to State
+    AnimationDataForState = new Map();
+
+    stateAnimation = undefined;
+    stateFrameData = undefined;
 
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
@@ -52,8 +67,6 @@ export default class Entity {
         this.x = startX;
         this.y = startY;
 
-        this.idleImage = new Image();
-        this.runningImage = new Image();
         this.#setSpritesheetData();
     }
 
@@ -62,10 +75,8 @@ export default class Entity {
             .then(res => res.json())
             .then(data => {
                 const result = data.find(e => e.name === this.entity_name)
-                this.idleImage.src = result["spritesheets_path"] + "idle.png";
-                this.idleFrame_data = result["spritesheets_info"]["idle"] || {};
-                this.runningImage.src = result["spritesheets_path"] + "run.png";
-                this.runningFrame_data = result["spritesheets_info"]["run"] || {};
+                this.AnimationDataForState.set(MovementModes.Idle, new AnimationDataContext(result["spritesheets_path"] + "idle.png",result["spritesheets_info"]["idle"] || {} ));
+                this.AnimationDataForState.set(MovementModes.Running,new AnimationDataContext(result["spritesheets_path"] + "run.png", result["spritesheets_info"]["run"] || {}));
                 this.character_data = result["character_info"] || {};
             })
             .catch(err => 
@@ -73,9 +84,7 @@ export default class Entity {
     }
 
     #updateAnimation() {
-        if (!this.idleFrame_data) return;
-        if (!this.runningFrame_data) return;
-        console.log(this.movementState);
+        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
         if(this.xVel != 0 && this.is_grounded)
         {
             
@@ -88,39 +97,33 @@ export default class Entity {
             this.movementState.nextState(MovementModes.Idle);
         }
 
+
+        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
+
+
         if ((Date.now() - this.last_update) < this.update_speed)
             return;
 
 
-            switch(this.movementState.currentState){
-                case MovementModes.Idle:
-                    this.frame_index = (this.frame_index + 1) % this.idleFrame_data["num_frames"];
-                break;
-                case MovementModes.Running:
-                    this.frame_index = (this.frame_index + 1) % this.runningFrame_data["num_frames"];
-                    break;
-                }
+          
+        this.frame_index = (this.frame_index + 1) % stateFrameData["num_frames"];
         this.last_update = Date.now();
 
 
     }
 
     #updateCollisionBox() {
-        if (!this.idleFrame_data) return;
-        if (!this.runningFrame_data) return;
+        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+
+        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
 
         this.collision_box.ld.x = this.x;
         this.collision_box.ld.y = this.y;
 
-        switch(this.movementState.currentState){
-            case MovementModes.Idle:
-                this.collision_box.ru.x = this.x + this.idleFrame_data["sheet_width"] / this.idleFrame_data["num_frames"];
-                this.collision_box.ru.y = this.y + this.idleFrame_data["sheet_height"];
-                break;
-            case MovementModes.Running:
-                this.collision_box.ru.x = this.x + this.runningFrame_data["sheet_width"] / this.runningFrame_data["num_frames"];
-                this.collision_box.ru.y = this.y + this.runningFrame_data["sheet_height"];
-        }
+      
+        this.collision_box.ru.x = this.x + stateFrameData["sheet_width"] / stateFrameData["num_frames"];
+        this.collision_box.ru.y = this.y + stateFrameData["sheet_height"];
+       
     
 
 
@@ -202,40 +205,24 @@ export default class Entity {
     // This render function renders the instance's current animation frame
     // at the instance's xy-coordinates
     render(ctx) {
-        if (!this.idleFrame_data) return;
-        if (!this.runningFrame_data) return;
+        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
         if (!this.collision_box) return;
 
-
-        switch(this.movementState.currentState)
-        {
-            case MovementModes.Idle:
-                ctx.drawImage(
-                    this.idleImage,
-                    this.frame_index * this.idleFrame_data["sheet_width"] / this.idleFrame_data["num_frames"],
-                    0,
-                    this.idleFrame_data["sheet_width"] / this.idleFrame_data["num_frames"],
-                    this.idleFrame_data["sheet_height"],
-                    this.x,
-                    this.y,
-                    this.idleFrame_data["sheet_width"] / this.idleFrame_data["num_frames"],
-                    this.idleFrame_data["sheet_height"]
+        let stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
+        let animationImage =  this.AnimationDataForState.get(this.movementState.currentState).aImage;
+    
+        ctx.drawImage(
+            animationImage,
+            this.frame_index * stateFrameData["sheet_width"] / stateFrameData["num_frames"],
+            0,
+            stateFrameData["sheet_width"] / stateFrameData["num_frames"],
+            stateFrameData["sheet_height"],
+            this.x,
+            this.y,
+            stateFrameData["sheet_width"] / stateFrameData["num_frames"],
+            stateFrameData["sheet_height"]
                 );
-                break;
-            case MovementModes.Running:
-                ctx.drawImage(
-                    this.runningImage,
-                    this.frame_index * this.runningFrame_data["sheet_width"] / this.runningFrame_data["num_frames"],
-                    0,
-                    this.runningFrame_data["sheet_width"] / this.runningFrame_data["num_frames"],
-                    this.runningFrame_data["sheet_height"],
-                    this.x,
-                    this.y,
-                    this.runningFrame_data["sheet_width"] / this.runningFrame_data["num_frames"],
-                    this.runningFrame_data["sheet_height"]
-                );
-                break;
-        }
+           
 
     }
 };
