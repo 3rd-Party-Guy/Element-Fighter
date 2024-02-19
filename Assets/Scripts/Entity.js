@@ -12,7 +12,7 @@ export default class Entity {
     x = 0;
     y = 0;
 
-    collision_box = undefined;
+    collision_box = new CollisionBox(new Vector2(0, 0), new Vector2(0, 0));
 
     xVel = 0;
     yVel = 0;
@@ -32,8 +32,6 @@ export default class Entity {
     is_flipped = false;
     is_grounded = false;
 
-    ground_col_box = undefined;
-
     jumps_left = 0;
 
     #setSpritesheetData() {
@@ -44,24 +42,9 @@ export default class Entity {
                 this.image.src = result["spritesheets_path"] + "idle.png";
                 this.frame_data = result["spritesheets_info"]["idle"] || {};
                 this.character_data = result["character_info"] || {};
-
-                this.collision_box = new CollisionBox(
-                    new Vector2(this.frame_data["hitbox"]["left_down"]["x"],
-                                this.frame_data["hitbox"]["left_down"]["y"]),
-                    new Vector2(this.frame_data["hitbox"]["right_up"]["x"],
-                                this.frame_data["hitbox"]["right_up"]["y"])
-                );
             })
             .catch(err => 
                 console.error("Error getting frame data:\n", err));
-    }
-
-    // INFO: MIGHT NEED TO CHANGE MAGIC NUMBERS HERE
-    get center_offset() {
-        return new Vector2(
-            this.frame_data["sheet_width"] / this.frame_data["num_frames"] / 4,
-            this.frame_data["sheet_height"] / 2 - 15
-        )
     }
 
     #updateAnimation() {
@@ -74,11 +57,22 @@ export default class Entity {
         this.last_update = Date.now();
     }
 
+    #updateCollisionBox() {
+        if (!this.frame_data) return;
+
+        this.collision_box.ld.x = this.x;
+        this.collision_box.ld.y = this.y;
+
+        this.collision_box.ru.x = this.x + this.frame_data["sheet_width"] / this.frame_data["num_frames"];
+        this.collision_box.ru.y = this.y + this.frame_data["sheet_height"];
+    }
+
     #updatePosition(deltaTime) {
         if (!this.character_data) return;
         
+        // INFO: note 1 (applied deltaTime twice)
         if (!this.is_grounded)
-            this.yVel += this.character_data["gravity"] *deltaTime; 
+            this.yVel += this.character_data["gravity"]; 
         else
             this.yVel = Math.min(0, this.yVel);
 
@@ -93,26 +87,20 @@ export default class Entity {
             this.is_flipped = true;
         else if (this.xVel > 0)
             this.is_flipped = false;
-
-        // INFO: MIGHT NEED TO CHANGE MAGIC NUMBERS HERE
-        this.ground_col_box.ld = (new Vector2( this.x + 15, this.y + this.center_offset.y * 2 + 10));
-        this.ground_col_box.ru = (new Vector2((this.x + this.center_offset.x * 2) + 15, this.y + this.center_offset.y * 2 + 15));
     }
 
     #setGrounded() {
-        if (!this.ground_col_box) return;
-
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
 
         for (const col_box of col_boxes) {
-            if (col_box.collidesWith(this.ground_col_box)) {
+            if (this.collision_box.collidesWith(col_box)) {
                 this.is_grounded = true;
                 this.jumps_left = this.character_data["jumps"];
                 return;
             }
         }
+
         this.is_grounded = false;
-        console.log(this.is_grounded);
     }
 
     // This contructor constructs the class instance!
@@ -125,7 +113,6 @@ export default class Entity {
         this.image = new Image();
 
         this.#setSpritesheetData();
-        this.ground_col_box = new CollisionBox( new Vector2(0, 0), new Vector2(0, 0) );
     }
 
     jump() {
@@ -138,12 +125,13 @@ export default class Entity {
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update() {
-        
         this.#updateAnimation();
     }
-
+    
+    // INFO: Note 2
     fixedUpdate(deltaTime){
         this.#updatePosition(deltaTime);
+        this.#updateCollisionBox();
         this.#setGrounded();
     }
 
@@ -151,7 +139,7 @@ export default class Entity {
     // at the instance's xy-coordinates
     render(ctx) {
         if (!this.frame_data) return;
-        if (!this.ground_col_box) return;
+        if (!this.collision_box) return;
 
         ctx.drawImage(
             this.image,
@@ -165,8 +153,5 @@ export default class Entity {
             this.frame_data["sheet_height"]
         );
 
-        ctx.fillStyle = "green";
-        ctx.rect(this.ground_col_box.ld.getX, this.ground_col_box.ld.getY, this.ground_col_box.width, this.ground_col_box.height);
-        ctx.fill();
     }
 };

@@ -6,17 +6,7 @@
       "idle": {
         "num_frames": 15,
         "sheet_width": 960,
-        "sheet_height": 64,
-        "hitbox": {
-          "left_down": {
-            "x": -10,
-            "y": -31
-          },
-          "right_up": {
-            "x": 20,
-            "y": 30
-          }
-        }
+        "sheet_height": 64
       },
       "run": {
         "num_frames": 8,
@@ -31,9 +21,9 @@
     },
     "character_info": {
       "x_friction": 0.125,
-      "gravity": 5,
+      "gravity": 50,
       "jumps": 2,
-      "jump_force": 5
+      "jump_force": 200
     }
   }
 ]

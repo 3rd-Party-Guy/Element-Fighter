@@ -12,34 +12,34 @@ import MapColliderManager from "./MapColliderManager.js"
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-let player = new Entity(75, 75, "Knight", canvas);
-
-
-
 // Each physic step calculates 20ms of wall clock time
 const FIXED_TIME_STEP = 1000/60;
-
-//Calculate the time for the last frame
-let lastFrameTime = Date.now();
-let accumulatedTime = 0;
-
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
 
-inputManager.givePlayer(player);
+let entities = [];
 
+function Initialize() {
+    // Add entities
+    entities.push(new Entity(75, 75, "Knight", canvas));
+    
+    // INFO: not clean
+    inputManager.givePlayer(entities[0]);
+    
+    // Setup Event Callbacks
+    window.addEventListener('keydown', (event) => inputManager.setInput(event));
+    window.addEventListener('keyup', (event) => inputManager.setInput(event));
 
-// Add Input Manager's HandleInput as Callback to KeyDown Event
-window.addEventListener('keydown', (event) => inputManager.setInput(event));
-window.addEventListener('keyup', (event) => inputManager.setInput(event));
+    SetupInputMaps();
+    SetupMapCollisions();
+}
 
 function SetupInputMaps() {
     // Add initial KeyCodes and Commands
     inputManager.addInputActionLookUp("KeyA", new MoveCommand(-140,0));
     inputManager.addInputActionLookUp("KeyD", new MoveCommand(140,0));
     inputManager.addInputActionLookUp("KeyW", new JumpCommand());
-
 }
 
 function SetupMapCollisions() {
@@ -49,39 +49,56 @@ function SetupMapCollisions() {
     );
 }
 
-// This is the main game loop. It is called every frame!
-function GameLoop() {
-    // Clear Canvas before rendering again
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    
+let newFrameTime = 0;
+let deltaTime = 0;
+let lastFrameTime = performance.now();
+let accumulatedTime = 0;
 
-    //Get startTime of new frame
-   
-    const newFrameTime = Date.now();
-    const deltaTime = newFrameTime-lastFrameTime;
-    console.log(deltaTime);
+function EarlyUpdate() {
+    // calculates deltaTime
+    newFrameTime = performance.now();
+    deltaTime = newFrameTime-lastFrameTime;
     accumulatedTime += deltaTime;
     lastFrameTime = newFrameTime;
-    
-   
 
-    // Handle Input
+    // handles input
     inputManager.handleInput();
-    // Update entities
-    //let fixedUpdateCounter = 0;
-    while(accumulatedTime >= FIXED_TIME_STEP)
-    {
-        player.fixedUpdate(FIXED_TIME_STEP/1000);
-        //fixedUpdateCounter++;
-        accumulatedTime -= FIXED_TIME_STEP;
+}
+
+function Update() {
+    // Clear Canvas before rendering again
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    ctx.beginPath();
+
+    for(const ent of entities) {
+        ent.update();
+        ent.render(ctx);
     }
-    //console.log("Accumulated rest: " + accumulatedTime);
-    //console.log("fixedUpdate calls: " + fixedUpdateCounter);
-    player.update();
-    player.render(ctx);
 
     // Render CollisionBoxes
     mapColliderManager.renderBoxes(ctx);
+    ctx.fill();
+}
+
+function FixedUpdate() {
+    while (accumulatedTime >= FIXED_TIME_STEP) {
+        for (const ent of entities)
+            ent.fixedUpdate(FIXED_TIME_STEP/1000);
+    
+        accumulatedTime -= FIXED_TIME_STEP;
+    }
+}
+
+function LateUpdate() {
+
+}
+
+// This is the main game loop. It is called every frame!
+function GameLoop() {
+    EarlyUpdate();
+    FixedUpdate();
+    Update();
+    LateUpdate();
 
     // Move on to next frame
     requestAnimationFrame(GameLoop);
@@ -89,7 +106,6 @@ function GameLoop() {
 
 // When the webpage gets loaded, this lambda-function gets called!
 window.onload = () => {
-    SetupInputMaps();
-    SetupMapCollisions();
+    Initialize();
     GameLoop();
 }

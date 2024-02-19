@@ -12,9 +12,7 @@ export default class MapColliderManager extends Singleton {
             const x = col_box.ld.x;
             const y = col_box.ld.y;
 
-            ctx.fillStyle = (col_box.is_active) ? "red" : "black"
             ctx.rect(x, y , col_box.width, col_box.height);
-            ctx.fill();
         }
     }
 
