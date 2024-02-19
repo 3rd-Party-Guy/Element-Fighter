@@ -2,8 +2,15 @@
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
 export class Command {
+    first_call = true;
+
     execute(entity) {
-        return;
+        this.first_call = false;
+    }
+
+    onSet() {}
+    onUnset() {
+        this.first_call = true;
     }
 };
 
@@ -30,6 +37,9 @@ export class JumpCommand extends Command {
     }
 
     execute(entity) {
-        entity.jump();
+        if (this.first_call)
+            entity.jump();
+        
+        super.execute();
     }
 }

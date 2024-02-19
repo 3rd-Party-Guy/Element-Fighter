@@ -118,7 +118,7 @@ export default class Entity {
 
     jump() {
         if (this.jumps_left > 0) {
-            this.yVel -= this.character_data["jump_force"];
+            this.yVel = this.character_data["jump_force"] * -1;
             this.jumps_left--;
         }
     }

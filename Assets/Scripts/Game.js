@@ -37,9 +37,9 @@ function Initialize() {
 
 function SetupInputMaps() {
     // Add initial KeyCodes and Commands
-    inputManager.addInputActionLookUp("KeyA", new MoveCommand(-140,0));
-    inputManager.addInputActionLookUp("KeyD", new MoveCommand(140,0));
-    inputManager.addInputActionLookUp("KeyW", new JumpCommand());
+    inputManager.addInputActionLookup("KeyA", new MoveCommand(-140,0));
+    inputManager.addInputActionLookup("KeyD", new MoveCommand(140,0));
+    inputManager.addInputActionLookup("KeyW", new JumpCommand());
 }
 
 function SetupMapCollisions() {
