@@ -82,7 +82,6 @@ export default class Entity {
     #updatePosition(deltaTime) {
         if (!this.character_data) return;
         
-        // INFO: note 1 (applied deltaTime twice)
         if (!this.is_grounded)
             this.yVel += this.character_data["gravity"]; 
         else
@@ -129,7 +128,6 @@ export default class Entity {
         this.#updateAnimation();
     }
     
-    // INFO: Note 2
     fixedUpdate(deltaTime){
         this.#updatePosition(deltaTime);
         this.#updateCollisionBox();
