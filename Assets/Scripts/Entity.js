@@ -1,4 +1,4 @@
-// Author:          Nikolay Hadzhiev
+// Author:          Nikolay Hadzhiev, Leon Enders
 // Description:     Base Entity class
 
 import { clamp, lerp } from "./Math.js";
@@ -8,7 +8,6 @@ import MapColliderManager from "./MapColliderManager.js";
 import InputManager from "./InputManager.js";
 import MovementState from "./StateMachine.js";
 import { MovementModes } from "./StateMachine.js";
-
 
 class AnimationDataContext{
     aImage = undefined;
@@ -21,10 +20,6 @@ class AnimationDataContext{
         this.aFrame_data = frame_data;
     }
 };
-
-
-
-
 
 export default class Entity {
     entity_name = "Knight";
@@ -75,49 +70,37 @@ export default class Entity {
         fetch('Assets/entities.json')
             .then(res => res.json())
             .then(data => {
+                // find the right json data for this entity based on the name
                 const result = data.find(e => e.name === this.entity_name)
-                this.AnimationDataForState.set(MovementModes.Idle, new AnimationDataContext(result["spritesheets_path"] + "idle.png",result["spritesheets_info"]["idle"] || {} ));
-                this.AnimationDataForState.set(MovementModes.Running,new AnimationDataContext(result["spritesheets_path"] + "run.png", result["spritesheets_info"]["run"] || {}));
-                this.AnimationDataForState.set(MovementModes.Jumping, new AnimationDataContext(result["spritesheets_path"] + "jump.png", result["spritesheets_info"]["jump"] || {}));
+
+                // set up all animation states
+                this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["idle"] || {}));
+                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "run.png",   result["spritesheets_info"]["run"]  || {}));
+                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "jump.png",  result["spritesheets_info"]["jump"] || {}));
+                
+                // get information about character
                 this.character_data = result["character_info"] || {};
                 this.maxXVel = this.character_data["max_x_velocity"] || 100;
             })
-            .catch(err => 
-                console.error("Error getting frame data:\n", err));
-            
+            .catch(err => console.error("Error getting frame data:\n", err));
     }
 
     #updateAnimation() {
-        
         if(!this.stateFrameData) return;
-        if ((Date.now() - this.last_update) < this.update_speed)
-            return;
+        if ((Date.now() - this.last_update) < this.update_speed) return;
 
-
-          
         this.frame_index = (this.frame_index + 1) % this.stateFrameData["num_frames"];
         this.last_update = Date.now();
-
-
     }
 
     #updateCollisionBox() {
         if (!this.stateFrameData) return;
 
-      
         this.collision_box.ld.x = this.x;
         this.collision_box.ld.y = this.y;
-
-      
+        
         this.collision_box.ru.x = this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
         this.collision_box.ru.y = this.y + this.stateFrameData["sheet_height"];
-       
-    
-
-
-        
-
-       
     }
 
     #updatePosition(deltaTime) {
@@ -152,26 +135,16 @@ export default class Entity {
                 this.xVel = 0;
         }
     }
-        
-
-        
-
-        
-    
     
     #updateMovementState()
     {
-        
         if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
         if(this.movementState.nextState(this.xVel, this.is_grounded))
-        {
             this.frame_index = 0;
-        }
         
         this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
     }
-
 
     #setGrounded() {
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
@@ -187,7 +160,6 @@ export default class Entity {
         this.is_grounded = false;
     }
 
-
     jump() {
         if (this.is_grounded || this.jumps_left > 0) {
             this.yVel = this.character_data["jump_force"] * -1;
@@ -202,7 +174,6 @@ export default class Entity {
         this.#updatePosition(deltaTime);
         this.#updateMovementState();
         this.#updateAnimation();
-        
     }
     
     fixedUpdate(fixedDeltaTime){
@@ -227,8 +198,6 @@ export default class Entity {
             this.y,
             this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
             this.stateFrameData["sheet_height"]
-                );
-           
-
+        );
     }
 };

@@ -40,4 +40,13 @@ export default class CollisionBox {
             y1 + height1 > y2
         );
     }
+
+    isInside(pos) {
+        return (
+            pos.x >= this.ld.x &&
+            pos.x <= this.ru.x &&
+            pos.y >= this.ru.y &&
+            pos.y <= this.ru.y
+        );
+    }
 }
