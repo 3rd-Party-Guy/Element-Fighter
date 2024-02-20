@@ -3,6 +3,7 @@
 
 import { clamp, lerp } from "./Math.js";
 import Vector2 from "./Vector2.js";
+import Line from "./Line.js";
 import CollisionBox from "./CollisionBox.js";
 import MapColliderManager from "./MapColliderManager.js";
 import InputManager from "./InputManager.js";
@@ -56,6 +57,8 @@ export default class Entity {
     stateFrameData = undefined;
     x_speed = 1;
 
+    ground_raycast = new Line(new Vector2(0, 0), new Vector2(0, 0));
+
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
         this.entity_name = name;
@@ -75,14 +78,21 @@ export default class Entity {
 
                 // set up all animation states
                 this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["idle"] || {}));
-                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "run.png",   result["spritesheets_info"]["run"]  || {}));
-                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "jump.png",  result["spritesheets_info"]["jump"] || {}));
+                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "idle.png",   result["spritesheets_info"]["run"]  || {}));
+                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["jump"] || {}));
                 
                 // get information about character
                 this.character_data = result["character_info"] || {};
                 this.maxXVel = this.character_data["max_x_velocity"] || 100;
             })
             .catch(err => console.error("Error getting frame data:\n", err));
+    }
+
+    get #center() {
+        return new Vector2(
+            this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] / 1.5,
+            this.y + this.stateFrameData["sheet_height"] / 2
+        );
     }
 
     #updateAnimation() {
@@ -131,9 +141,7 @@ export default class Entity {
         this.xVel = clamp(this.xVel, -this.maxXVel, this.maxXVel);
 
         if(Math.abs(this.xVel) < 10 && this.xVel != 0)
-        {
                 this.xVel = 0;
-        }
     }
     
     #updateMovementState()
@@ -146,17 +154,29 @@ export default class Entity {
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
     }
 
-    #setGrounded() {
+    #setGrounded(fixed_delta_time) {
+        if (!this.stateFrameData) return;
+        console.log(this.is_grounded);
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
+        
+        this.ground_raycast.ru.x = this.#center.x;
+        this.ground_raycast.ru.y = this.y + this.stateFrameData["sheet_height"];
+
+        this.ground_raycast.ld.x = this.#center.x;
+        this.ground_raycast.ld.y = this.y + this.stateFrameData["sheet_height"] + this.yVel * fixed_delta_time * 50;
 
         for (const col_box of col_boxes) {
-            if (this.collision_box.collidesWith(col_box)) {
-                this.is_grounded = true;
-                this.jumps_left = this.character_data["extra_jumps"];
-                return;
+            if (col_box.collidesWithLine(this.ground_raycast)) {
+                const ground_y = col_box.ru.y - this.stateFrameData["sheet_height"]; 
+                if (this.y + this.yVel > ground_y || Math.abs(ground_y - this.y) < this.stateFrameData["sheet_height"]) {
+                    this.y = ground_y;
+                    this.yVel = Math.min(this.yVel, 0);
+                    this.is_grounded = true;
+                    this.jumps_left = this.character_data["extra_jumps"];
+                    return;
+                }
             }
         }
-
         this.is_grounded = false;
     }
 
@@ -173,13 +193,13 @@ export default class Entity {
     update(deltaTime) {
         this.#updatePosition(deltaTime);
         this.#updateMovementState();
-        this.#updateAnimation();
+        // this.#updateAnimation();
     }
     
     fixedUpdate(fixedDeltaTime){
+        this.#setGrounded(fixedDeltaTime);
         this.#updateCollisionBox();
         this.#updateVelocities(fixedDeltaTime);
-        this.#setGrounded();
     }
 
     // This render function renders the instance's current animation frame
@@ -187,6 +207,11 @@ export default class Entity {
     render(ctx) {
         if (!this.stateFrameData) return;
         if (!this.collision_box) return;
+
+        // ctx.beginPath();
+        // ctx.moveTo(this.ground_raycast.ld.x, this.ground_raycast.ld.y);
+        // ctx.lineTo(this.ground_raycast.ru.x, this.ground_raycast.ru.y);
+        // ctx.stroke();
 
         ctx.drawImage(
             this.stateAnimation,

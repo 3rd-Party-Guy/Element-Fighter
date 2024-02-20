@@ -12,8 +12,8 @@ import MapColliderManager from "./MapColliderManager.js"
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
 
-// FixedUpdate should run at 240FPS
-const FIXED_DELTA_TIME = 1000 / 240;
+// FixedUpdate should run at 480FPS
+const FIXED_DELTA_TIME = 1000 / 480;
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
@@ -44,8 +44,8 @@ function SetupInputMaps() {
 
 function SetupMapCollisions() {
     mapColliderManager.addCollision(
-        new Vector2(64, 290),
-        new Vector2(580, 310)
+        new Vector2(64, 725),
+        new Vector2(1250, 700)
     );
 
     mapColliderManager.addBoxRenders(ctx);

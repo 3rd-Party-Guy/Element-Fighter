@@ -20,7 +20,7 @@ export default class CollisionBox {
     set ld(ld) { this.ld = ld; }
     set ru(ru) { this.ru = ru; }
 
-    collidesWith(other_box) {
+    collidesWithBox(other_box) {
         const x1 = this.ld.x;
         const x2 = other_box.ld.x;
 
@@ -41,12 +41,40 @@ export default class CollisionBox {
         );
     }
 
-    isInside(pos) {
+    collidesWithLine(line) {
+        const boxLDX = this.ld.x;
+        const boxLDY = this.ld.y;
+        const boxRUX = this.ru.x;
+        const boxRUY = this.ru.y;
+
+        const lineLDX = line.ld.x;
+        const lineLDY = line.ld.y;
+        const lineRUX = line.ru.x;
+        const lineRUY = line.ru.y;
+
+        if ((boxLDX <= lineLDX && lineRUX <= boxRUX &&
+            boxLDY <= lineLDY && lineRUY >= boxRUY) ||
+            (boxLDX <= lineRUX && lineRUX <= boxRUX &&
+            boxLDY <= lineRUY && lineRUY >= boxRUY))
+            return true;
+        
+        if ((lineLDX <= boxRUX && lineRUX >= boxLDX &&
+            lineRUY >= boxRUY && lineLDY <= boxLDY) ||
+            (lineLDY <= boxRUY && lineRUY >= boxLDY &&
+            lineRUX >= boxLDX && lineLDX <= boxRUX) ||
+            (lineLDX <= boxRUX && lineRUX >= boxLDX) &&
+            lineRUY <= boxRUY && lineLDY >= boxLDY)
+            return true;
+        
+        return false;
+    }
+
+    collidesWithPoint(pos) {
         return (
             pos.x >= this.ld.x &&
             pos.x <= this.ru.x &&
             pos.y >= this.ru.y &&
-            pos.y <= this.ru.y
+            pos.y <= this.ld.y
         );
     }
 }

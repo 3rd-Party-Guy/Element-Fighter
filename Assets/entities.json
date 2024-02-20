@@ -11,17 +11,17 @@
       "run": {
         "num_frames": 8,
         "sheet_width": 768,
-        "sheet_height": 60
+        "sheet_height": 64
       },
       "attack": {
         "num_frames": 22,
         "sheet_width": 3168,
-        "sheet_height": 60
+        "sheet_height": 64
       },
       "jump": {
         "num_frames": 10,
         "sheet_width": 494,
-        "sheet_height": 50
+        "sheet_height": 64
       },
       "roll": {
         "num_frames": 15,
@@ -33,10 +33,10 @@
       "x_friction": 0.055,
       "max_x_velocity": 500,
       "gravity": 3000,
-      "extra_jumps": 1,
+      "extra_jumps": 2,
       "jump_force": 750,
-      "fall_multiplier": 540,
-      "low_jump_multiplier": 9999
+      "fall_multiplier": 5400,
+      "low_jump_multiplier": 7000
     }
   }
 ]

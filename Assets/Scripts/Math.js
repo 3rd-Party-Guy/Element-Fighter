@@ -12,3 +12,7 @@ export function distance(x1, y1, x2, y2) {
 
   return Math.sqrt(dx * dx + dy * dy);
 }
+
+export function withinRange(x, min, max) {
+  
+}
