@@ -91,7 +91,7 @@ export default class Entity {
     get #center() {
         return new Vector2(
             this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] / 1.5,
-            this.y + this.stateFrameData["sheet_height"] / 2
+            this.y + this.character_data["height"] / 2
         );
     }
 
@@ -110,7 +110,7 @@ export default class Entity {
         this.collision_box.ld.y = this.y;
         
         this.collision_box.ru.x = this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
-        this.collision_box.ru.y = this.y + this.stateFrameData["sheet_height"];
+        this.collision_box.ru.y = this.y + this.character_data["height"];
     }
 
     #updatePosition(deltaTime) {
@@ -156,19 +156,18 @@ export default class Entity {
 
     #setGrounded(fixed_delta_time) {
         if (!this.stateFrameData) return;
-        console.log(this.is_grounded);
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
         this.ground_raycast.ru.x = this.#center.x;
-        this.ground_raycast.ru.y = this.y + this.stateFrameData["sheet_height"];
+        this.ground_raycast.ru.y = this.y + this.character_data["height"];
 
         this.ground_raycast.ld.x = this.#center.x;
-        this.ground_raycast.ld.y = this.y + this.stateFrameData["sheet_height"] + this.yVel * fixed_delta_time * 50;
+        this.ground_raycast.ld.y = this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 25;
 
         for (const col_box of col_boxes) {
             if (col_box.collidesWithLine(this.ground_raycast)) {
-                const ground_y = col_box.ru.y - this.stateFrameData["sheet_height"]; 
-                if (this.y + this.yVel > ground_y || Math.abs(ground_y - this.y) < this.stateFrameData["sheet_height"]) {
+                const ground_y = col_box.ru.y - this.character_data["height"]; 
+                if (this.y + this.yVel > ground_y || Math.abs(ground_y - this.y) < this.character_data["height"]) {
                     this.y = ground_y;
                     this.yVel = Math.min(this.yVel, 0);
                     this.is_grounded = true;
@@ -218,11 +217,11 @@ export default class Entity {
             this.frame_index * this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
             0,
             this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
-            this.stateFrameData["sheet_height"],
+            this.character_data["height"],
             this.x,
             this.y,
             this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
-            this.stateFrameData["sheet_height"]
+            this.character_data["height"]
         );
     }
 };

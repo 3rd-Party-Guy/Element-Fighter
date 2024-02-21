@@ -59,7 +59,7 @@ let accumulatedTime = 0;
 function EarlyUpdate() {
     // calculates deltaTime
     newFrameTime = performance.now();
-    deltaTime = newFrameTime-lastFrameTime;
+    deltaTime = newFrameTime - lastFrameTime;
     accumulatedTime += deltaTime;
     lastFrameTime = newFrameTime;
 

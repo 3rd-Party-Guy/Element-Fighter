@@ -5,33 +5,29 @@
     "spritesheets_info": {
       "idle": {
         "num_frames": 15,
-        "sheet_width": 960,
-        "sheet_height": 64
+        "sheet_width": 960
       },
       "run": {
         "num_frames": 8,
-        "sheet_width": 768,
-        "sheet_height": 64
+        "sheet_width": 768
       },
       "attack": {
         "num_frames": 22,
-        "sheet_width": 3168,
-        "sheet_height": 64
+        "sheet_width": 3168
       },
       "jump": {
         "num_frames": 10,
-        "sheet_width": 494,
-        "sheet_height": 64
+        "sheet_width": 494
       },
       "roll": {
         "num_frames": 15,
-        "sheet_width": 2700,
-        "sheet_height": 64
+        "sheet_width": 2700
       }
     },
     "character_info": {
-      "x_friction": 0.055,
-      "max_x_velocity": 500,
+      "height": 64,
+      "x_friction": 0.045,
+      "max_x_velocity": 1000,
       "gravity": 3000,
       "extra_jumps": 2,
       "jump_force": 750,
