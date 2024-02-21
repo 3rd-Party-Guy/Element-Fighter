@@ -1,33 +1,33 @@
 [
   {
-    "name": "Knight",
-    "spritesheets_path": "Assets/Sprites/Characters/Knight/",
+    "name": "Mermaid",
+    "spritesheets_path": "Assets/Sprites/Characters/Mermaid/",
     "spritesheets_info": {
       "idle": {
-        "num_frames": 15,
-        "sheet_width": 960
+        "num_frames": 6,
+        "sheet_width": 768
       },
       "run": {
-        "num_frames": 8,
+        "num_frames": 6,
         "sheet_width": 768
       },
       "attack": {
-        "num_frames": 22,
-        "sheet_width": 3168
+        "num_frames": 6,
+        "sheet_width": 768
       },
       "jump": {
-        "num_frames": 10,
-        "sheet_width": 494
+        "num_frames": 7,
+        "sheet_width": 840
       },
       "roll": {
-        "num_frames": 15,
-        "sheet_width": 2700
+        "num_frames": 6,
+        "sheet_width": 768
       }
     },
     "character_info": {
-      "height": 64,
+      "height": 148,
       "x_friction": 0.045,
-      "max_x_velocity": 1000,
+      "max_x_velocity": 750,
       "gravity": 3000,
       "extra_jumps": 2,
       "jump_force": 1000,

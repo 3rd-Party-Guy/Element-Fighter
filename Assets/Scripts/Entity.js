@@ -40,7 +40,7 @@ export default class Entity {
 
     frame_index = 0;
     last_update = Date.now();
-    update_speed = 60;
+    update_speed = 180;
 
     is_flipped = false;
     is_grounded = false;
@@ -78,8 +78,8 @@ export default class Entity {
 
                 // set up all animation states
                 this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["idle"] || {}));
-                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "idle.png",   result["spritesheets_info"]["run"]  || {}));
-                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["jump"] || {}));
+                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "attack.png",   result["spritesheets_info"]["run"]  || {}));
+                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "jump.png",  result["spritesheets_info"]["jump"] || {}));
                 
                 // get information about character
                 this.character_data = result["character_info"] || {};
@@ -205,12 +205,9 @@ export default class Entity {
                 if (overlapX >= overlapY) {
                     if (distanceY > 0)
                         this.y += overlapY;
-                    // else
-                    //     this.y -= overlapY;
                     this.yVel = 0;
                 } else {
                     (distanceX > 0) ? this.x -= overlapX : this.x += overlapX;
-                    
                     this.xVel = 0;
                 }  
             }
@@ -231,7 +228,7 @@ export default class Entity {
     update(deltaTime) {
         this.#updatePosition(deltaTime);
         this.#updateMovementState();
-        // this.#updateAnimation();
+        this.#updateAnimation();
     }
     
     fixedUpdate(fixedDeltaTime){

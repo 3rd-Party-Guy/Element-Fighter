@@ -28,7 +28,7 @@ let entities = [];
 
 async function Initialize() {
     // Add entities
-    entities.push(new Entity(75, 75, "Knight", canvas));
+    entities.push(new Entity(75, 75, "Mermaid", canvas));
     
     // INFO: not clean
     inputManager.givePlayer(entities[0]);
