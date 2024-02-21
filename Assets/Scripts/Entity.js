@@ -162,11 +162,16 @@ export default class Entity {
         if (!this.stateFrameData) return;
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
-        this.ground_raycast.p1.x = this.#center.x;
+        this.ground_raycast.p1.x = this.x + this.xVel * fixed_delta_time;
         this.ground_raycast.p1.y = this.y + this.character_data["height"];
 
-        this.ground_raycast.p2.x = this.#center.x;
-        this.ground_raycast.p2.y = Math.max(this.ground_raycast.p1.y, this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 50);
+        this.ground_raycast.p2.x = this.x + this.xVel * fixed_delta_time;
+        this.ground_raycast.p2.y = Math.max(this.ground_raycast.p1.y + 10, this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 50);
+
+        if (this.is_flipped) {
+            this.ground_raycast.p1.x += this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] - 2;
+            this.ground_raycast.p2.x += this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] - 2;
+        }
 
         for (const col_box of col_boxes) {
             if (col_box.ld.y < this.y) continue;

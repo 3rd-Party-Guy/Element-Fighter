@@ -26,7 +26,7 @@
     },
     "character_info": {
       "height": 148,
-      "x_friction": 0.045,
+      "x_friction": 0.1,
       "max_x_velocity": 750,
       "gravity": 3000,
       "extra_jumps": 2,
