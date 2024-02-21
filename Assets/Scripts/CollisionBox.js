@@ -1,4 +1,5 @@
 import Vector2 from "./Vector2.js";
+import { withinRange } from "./Math.js";
 
 export default class CollisionBox {
     ld = new Vector2(0, 0);
@@ -17,8 +18,13 @@ export default class CollisionBox {
     get height() { return this.ru.y - this.ld.y; }
     get width()  { return this.ru.x - this.ld.x; }
 
+    get center() {
+        return new Vector2(this.ld.x + this.width / 2, this.ld.y + this.height / 2)
+    }
+
     set ld(ld) { this.ld = ld; }
     set ru(ru) { this.ru = ru; }
+
 
     collidesWithBox(other_box) {
         const x1 = this.ld.x;
@@ -41,32 +47,16 @@ export default class CollisionBox {
         );
     }
 
-    collidesWithLine(line) {
-        const boxLDX = this.ld.x;
-        const boxLDY = this.ld.y;
-        const boxRUX = this.ru.x;
-        const boxRUY = this.ru.y;
+    collidesWithGroundcast(groundcast) {
+        const lowest_groundcast_point = Math.max(groundcast.p2.y, groundcast.p1.y);
+        const highest_groundcast_point = Math.min(groundcast.p2.y, groundcast.p1.y);
 
-        const lineLDX = line.ld.x;
-        const lineLDY = line.ld.y;
-        const lineRUX = line.ru.x;
-        const lineRUY = line.ru.y;
+        if (!(lowest_groundcast_point - this.ru.y > 0 || lowest_groundcast_point - this.ru.y > 0))
+            return false;
+        if (!withinRange(groundcast.p1.x, this.ld.x, this.ru.x))
+            return false;
 
-        if ((boxLDX <= lineLDX && lineRUX <= boxRUX &&
-            boxLDY <= lineLDY && lineRUY >= boxRUY) ||
-            (boxLDX <= lineRUX && lineRUX <= boxRUX &&
-            boxLDY <= lineRUY && lineRUY >= boxRUY))
-            return true;
-        
-        if ((lineLDX <= boxRUX && lineRUX >= boxLDX &&
-            lineRUY >= boxRUY && lineLDY <= boxLDY) ||
-            (lineLDY <= boxRUY && lineRUY >= boxLDY &&
-            lineRUX >= boxLDX && lineLDX <= boxRUX) ||
-            (lineLDX <= boxRUX && lineRUX >= boxLDX) &&
-            lineRUY <= boxRUY && lineLDY >= boxLDY)
-            return true;
-        
-        return false;
+        return true;
     }
 
     collidesWithPoint(pos) {

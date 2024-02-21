@@ -154,29 +154,67 @@ export default class Entity {
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
     }
 
-    #setGrounded(fixed_delta_time) {
+    #checkGrounded(fixed_delta_time) {
+        if (this.yVel < 0) {
+            this.is_grounded = false;
+            return;
+        }
         if (!this.stateFrameData) return;
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
-        this.ground_raycast.ru.x = this.#center.x;
-        this.ground_raycast.ru.y = this.y + this.character_data["height"];
+        this.ground_raycast.p1.x = this.#center.x;
+        this.ground_raycast.p1.y = this.y + this.character_data["height"];
 
-        this.ground_raycast.ld.x = this.#center.x;
-        this.ground_raycast.ld.y = this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 25;
+        this.ground_raycast.p2.x = this.#center.x;
+        this.ground_raycast.p2.y = Math.max(this.ground_raycast.p1.y, this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 50);
 
         for (const col_box of col_boxes) {
-            if (col_box.collidesWithLine(this.ground_raycast)) {
+            if (col_box.ld.y < this.y) continue;
+            if (col_box.collidesWithGroundcast(this.ground_raycast)) {
                 const ground_y = col_box.ru.y - this.character_data["height"]; 
                 if (this.y + this.yVel > ground_y || Math.abs(ground_y - this.y) < this.character_data["height"]) {
                     this.y = ground_y;
                     this.yVel = Math.min(this.yVel, 0);
-                    this.is_grounded = true;
                     this.jumps_left = this.character_data["extra_jumps"];
+                    this.is_grounded = true;
                     return;
                 }
             }
         }
+
         this.is_grounded = false;
+    }
+
+    #handleCollisions(fixed_delta_time) {
+        if (!this.stateFrameData) return;
+        if (!this.character_data) return;
+
+        const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
+        
+        for (const box of col_boxes) {
+            const distanceX = (this.#center.x + this.xVel * fixed_delta_time) - box.center.x;
+            const distanceY = (this.#center.y + this.yVel * fixed_delta_time) - box.center.y;
+
+            const maxDistX = this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] / 2 + box.width / 2;
+            const maxDistY = this.character_data["height"] / 2 + Math.abs(box.height) / 2;
+
+            if (Math.abs(distanceX) < maxDistX && Math.abs(distanceY) < maxDistY) {
+                const overlapX = maxDistX - Math.abs(distanceX);
+                const overlapY = maxDistY - Math.abs(distanceY);
+
+                if (overlapX >= overlapY) {
+                    if (distanceY > 0)
+                        this.y += overlapY;
+                    // else
+                    //     this.y -= overlapY;
+                    this.yVel = 0;
+                } else {
+                    (distanceX > 0) ? this.x -= overlapX : this.x += overlapX;
+                    
+                    this.xVel = 0;
+                }  
+            }
+        }
     }
 
     jump() {
@@ -184,6 +222,7 @@ export default class Entity {
             this.yVel = this.character_data["jump_force"] * -1;
             this.jumps_left--;
             this.movementState.nextState(MovementModes.Jumping);
+            this.is_grounded = false;
         }
     }
 
@@ -196,7 +235,8 @@ export default class Entity {
     }
     
     fixedUpdate(fixedDeltaTime){
-        this.#setGrounded(fixedDeltaTime);
+        this.#handleCollisions(fixedDeltaTime);
+        this.#checkGrounded(fixedDeltaTime);
         this.#updateCollisionBox();
         this.#updateVelocities(fixedDeltaTime);
     }
@@ -207,10 +247,12 @@ export default class Entity {
         if (!this.stateFrameData) return;
         if (!this.collision_box) return;
 
-        // ctx.beginPath();
-        // ctx.moveTo(this.ground_raycast.ld.x, this.ground_raycast.ld.y);
-        // ctx.lineTo(this.ground_raycast.ru.x, this.ground_raycast.ru.y);
-        // ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(this.ground_raycast.p1.x, this.ground_raycast.p1.y);
+        ctx.lineTo(this.ground_raycast.p2.x, this.ground_raycast.p2.y);
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 25;
+        ctx.stroke();
 
         ctx.drawImage(
             this.stateAnimation,

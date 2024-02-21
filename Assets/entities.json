@@ -1,7 +1,7 @@
 [
   {
     "name": "Knight",
-    "spritesheets_path": "Assets/Sprites/Knight/",
+    "spritesheets_path": "Assets/Sprites/Characters/Knight/",
     "spritesheets_info": {
       "idle": {
         "num_frames": 15,
@@ -30,7 +30,7 @@
       "max_x_velocity": 1000,
       "gravity": 3000,
       "extra_jumps": 2,
-      "jump_force": 750,
+      "jump_force": 1000,
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
     }

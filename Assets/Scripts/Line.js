@@ -1,17 +1,20 @@
 import Vector2 from "./Vector2.js";
 
 export default class Line {
-    ld;
-    ru;
+    p1;
+    p2;
     
-    constructor(ld, ru) {
-        this.ld = ld;
-        this.ru = ru;
+    constructor(p1, p2) {
+        this.p1 = p1;
+        this.p2 = p2;
     }
 
-    set ld(ld) { this.ld = ld }
-    set ru(ru) { this.ru = ru }
+    set p1(p1) { this.p1 = p1 }
+    set p2(p2) { this.p2 = p2 }
 
-    get ld() { return this.ld; }
-    get ru() { return this.ru; }
+    get p1() { return this.p1; }
+    get p2() { return this.p2; }
+    
+    set p1(p1) { this.p1 = p1; }
+    set p2(p2) { this.p2 = p2; }
 }

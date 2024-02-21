@@ -16,5 +16,14 @@ export default class MapColliderManager extends Singleton {
         }
     }
 
+    addBoxCenterRenders(ctx, size) {
+        for (const col_box of this.collision_boxes) {
+            const x = col_box.center.x;
+            const y = col_box.center.y;
+
+            ctx.rect(x - center, y - center, center, center);
+        }
+    }
+
     getBoxes = () => this.collision_boxes;
 }

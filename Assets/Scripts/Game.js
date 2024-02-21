@@ -18,9 +18,15 @@ const FIXED_DELTA_TIME = 1000 / 480;
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
 
+const cur_map_name = "Vulcano";
+const map_image = new Image();
+
+let maps_data;
+let characters_data;
+
 let entities = [];
 
-function Initialize() {
+async function Initialize() {
     // Add entities
     entities.push(new Entity(75, 75, "Knight", canvas));
     
@@ -30,9 +36,23 @@ function Initialize() {
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setInput(event));
     window.addEventListener('keyup', (event) => inputManager.setInput(event));
+    window.addEventListener('click', (event) => getMousePos(event));
 
+    maps_data = await ImportMaps();
+    characters_data = await ImportCharacters();
+
+    map_image.src = GetCurrentMap().image_path;
     SetupInputMaps();
     SetupMapCollisions();
+}
+
+function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    console.log("x: " + x);
+    console.log("y: " + y);
 }
 
 function SetupInputMaps() {
@@ -40,15 +60,40 @@ function SetupInputMaps() {
     inputManager.addInputActionLookup("KeyA", new MoveCommand(-140,0));
     inputManager.addInputActionLookup("KeyD", new MoveCommand(140,0));
     inputManager.addInputActionLookup("KeyW", new JumpCommand());
+    inputManager.addInputActionLookup("Space", new JumpCommand());
+}
+
+async function ImportMaps() {
+    const response = await fetch("Assets/maps.json");
+    return await response.json();
+}
+
+async function ImportCharacters() {
+    const response = await fetch("Assets/entities.json");
+    return await response.json();
 }
 
 function SetupMapCollisions() {
-    mapColliderManager.addCollision(
-        new Vector2(64, 725),
-        new Vector2(1250, 700)
-    );
+    const cur_map = GetCurrentMap();
+
+    for (const id in cur_map.hitboxes) {
+        const h = cur_map["hitboxes"][id];
+
+        mapColliderManager.addCollision(
+            new Vector2(h.ld.x, h.ld.y),
+            new Vector2(h.ru.x, h.ru.y)
+        );
+    }
 
     mapColliderManager.addBoxRenders(ctx);
+}
+
+function RenderMap() {
+    ctx.drawImage(map_image, 0, 0, 1280, 720, 0, 0, 1280, 720);
+}
+
+function GetCurrentMap() {
+    return maps_data.find(e => e.name === cur_map_name);
 }
 
 let newFrameTime = 0;
@@ -70,6 +115,8 @@ function EarlyUpdate() {
 function Update() {
     // Clear Canvas before rendering again
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    RenderMap();
 
     for(const ent of entities) {
         ent.update(deltaTime / 1000);

@@ -27,8 +27,6 @@ export default class InputManager extends Singleton {
         const is_active = event.type == 'keydown';
         const command = this.inputActionLookup.get(event.code);
 
-        console.log(event.code);
-
         this.activeInputLookup.set(event.code, is_active);
 
         if (is_active)
