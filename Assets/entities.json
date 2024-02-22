@@ -16,8 +16,12 @@
         "sheet_width": 768
       },
       "jump": {
-        "num_frames": 7,
-        "sheet_width": 840
+        "num_frames": 4,
+        "sheet_width": 576
+      },
+      "fall": {
+        "num_frames": 2,
+        "sheet_width": 240
       },
       "roll": {
         "num_frames": 6,

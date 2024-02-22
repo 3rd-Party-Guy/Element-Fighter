@@ -11,14 +11,17 @@ import MovementState from "./StateMachine.js";
 import { MovementModes } from "./StateMachine.js";
 
 class AnimationDataContext{
-    aImage = undefined;
-    aFrame_data = undefined;
+    image = undefined;
+    image_source_normal = undefined;
+    image_source_flipped = undefined;
+    frame_data = undefined;
 
-    constructor(imageSource, frame_data)
+    constructor(image_source_path, frame_data)
     {
-        this.aImage = new Image();
-        this.aImage.src = imageSource;
-        this.aFrame_data = frame_data;
+        this.image = new Image();
+        this.image_source_normal = image_source_path + ".png";
+        this.image_source_flipped = image_source_path + "_flipped.png";
+        this.frame_data = frame_data;
     }
 };
 
@@ -57,7 +60,8 @@ export default class Entity {
     stateFrameData = undefined;
     x_speed = 1;
 
-    ground_raycast = new Line(new Vector2(0, 0), new Vector2(0, 0));
+    groundcast_left = new Line(new Vector2(0, 0), new Vector2(0, 0));
+    groundcast_right = new Line(new Vector2(0, 0), new Vector2(0, 0));
 
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
@@ -77,10 +81,11 @@ export default class Entity {
                 const result = data.find(e => e.name === this.entity_name)
 
                 // set up all animation states
-                this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle.png",  result["spritesheets_info"]["idle"] || {}));
-                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "attack.png",   result["spritesheets_info"]["run"]  || {}));
-                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "jump.png",  result["spritesheets_info"]["jump"] || {}));
-                
+                this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle",  result["spritesheets_info"]["idle"]));
+                this.AnimationDataForState.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "run",   result["spritesheets_info"]["run"]));
+                this.AnimationDataForState.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "jump",  result["spritesheets_info"]["jump"]));
+                this.AnimationDataForState.set(MovementModes.Falling,   new AnimationDataContext(result["spritesheets_path"] + "fall",  result["spritesheets_info"]["fall"]));
+
                 // get information about character
                 this.character_data = result["character_info"] || {};
                 this.maxXVel = this.character_data["max_x_velocity"] || 100;
@@ -88,10 +93,18 @@ export default class Entity {
             .catch(err => console.error("Error getting frame data:\n", err));
     }
 
+    get #width() {
+        return this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
+    }
+    
+    get #height() {
+        return this.character_data["height"];
+    }
+
     get #center() {
         return new Vector2(
-            this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] / 1.5,
-            this.y + this.character_data["height"] / 2
+            this.x + this.width * 0.5,
+            this.y + this.height
         );
     }
 
@@ -109,8 +122,8 @@ export default class Entity {
         this.collision_box.ld.x = this.x;
         this.collision_box.ld.y = this.y;
         
-        this.collision_box.ru.x = this.x + this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
-        this.collision_box.ru.y = this.y + this.character_data["height"];
+        this.collision_box.ru.x = this.x + this.width;
+        this.collision_box.ru.y = this.y + this.#height;
     }
 
     #updatePosition(deltaTime) {
@@ -147,11 +160,13 @@ export default class Entity {
     #updateMovementState()
     {
         if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        if(this.movementState.nextState(this.xVel, this.is_grounded))
+        if(this.movementState.nextState(this.xVel, this.yVel, this.is_grounded))
             this.frame_index = 0;
         
-        this.stateAnimation = this.AnimationDataForState.get(this.movementState.currentState).aImage;
-        this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).aFrame_data;
+        let state_anim_data = this.AnimationDataForState.get(this.movementState.currentState);
+        this.stateAnimation = state_anim_data.image;
+        this.stateAnimation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
+        this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).frame_data;
     }
 
     #checkGrounded(fixed_delta_time) {
@@ -162,22 +177,25 @@ export default class Entity {
         if (!this.stateFrameData) return;
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
-        this.ground_raycast.p1.x = this.x + this.xVel * fixed_delta_time;
-        this.ground_raycast.p1.y = this.y + this.character_data["height"];
+        const player_bottom_y = this.y + this.#height;
+        const groundcast_left_x = this.x + this.xVel * fixed_delta_time;
+        const groundcast_right_x = this.x + this.xVel * fixed_delta_time + this.#width;
 
-        this.ground_raycast.p2.x = this.x + this.xVel * fixed_delta_time;
-        this.ground_raycast.p2.y = Math.max(this.ground_raycast.p1.y + 10, this.y + this.character_data["height"] + this.yVel * fixed_delta_time * 50);
+        this.groundcast_left = new Line(
+            new Vector2(groundcast_left_x, player_bottom_y),
+            new Vector2(groundcast_left_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time))
+        );
 
-        if (this.is_flipped) {
-            this.ground_raycast.p1.x += this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] - 2;
-            this.ground_raycast.p2.x += this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] - 2;
-        }
+        this.groundcast_right = new Line(
+            new Vector2(groundcast_right_x, player_bottom_y),
+            new Vector2(groundcast_right_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time))
+        );
 
         for (const col_box of col_boxes) {
             if (col_box.ld.y < this.y) continue;
-            if (col_box.collidesWithGroundcast(this.ground_raycast)) {
-                const ground_y = col_box.ru.y - this.character_data["height"]; 
-                if (this.y + this.yVel > ground_y || Math.abs(ground_y - this.y) < this.character_data["height"]) {
+            if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
+                const ground_y = col_box.ru.y - this.#height; 
+                if (this.y + this.yVel * fixed_delta_time > ground_y || Math.abs(ground_y - this.y) < this.#height) {
                     this.y = ground_y;
                     this.yVel = Math.min(this.yVel, 0);
                     this.jumps_left = this.character_data["extra_jumps"];
@@ -200,8 +218,8 @@ export default class Entity {
             const distanceX = (this.#center.x + this.xVel * fixed_delta_time) - box.center.x;
             const distanceY = (this.#center.y + this.yVel * fixed_delta_time) - box.center.y;
 
-            const maxDistX = this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"] / 2 + box.width / 2;
-            const maxDistY = this.character_data["height"] / 2 + Math.abs(box.height) / 2;
+            const maxDistX = this.width + box.width / 2;
+            const maxDistY = this.#height / 2 + Math.abs(box.height) / 2;
 
             if (Math.abs(distanceX) < maxDistX && Math.abs(distanceY) < maxDistY) {
                 const overlapX = maxDistX - Math.abs(distanceX);
@@ -223,7 +241,6 @@ export default class Entity {
         if (this.is_grounded || this.jumps_left > 0) {
             this.yVel = this.character_data["jump_force"] * -1;
             this.jumps_left--;
-            this.movementState.nextState(MovementModes.Jumping);
             this.is_grounded = false;
         }
     }
@@ -249,23 +266,26 @@ export default class Entity {
         if (!this.stateFrameData) return;
         if (!this.collision_box) return;
 
-        ctx.beginPath();
-        ctx.moveTo(this.ground_raycast.p1.x, this.ground_raycast.p1.y);
-        ctx.lineTo(this.ground_raycast.p2.x, this.ground_raycast.p2.y);
-        ctx.strokeStyle = "green";
-        ctx.lineWidth = 25;
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.moveTo(this.groundcast_left.p1.x, this.groundcast_left.p1.y);
+        // ctx.lineTo(this.groundcast_left.p2.x, this.groundcast_left.p2.y);
+
+        // ctx.moveTo(this.groundcast_right.p1.x, this.groundcast_right.p1.y);
+        // ctx.lineTo(this.groundcast_right.p2.x, this.groundcast_right.p2.y);
+        // ctx.strokeStyle = "green";
+        // ctx.lineWidth = 2;
+        // ctx.stroke();
 
         ctx.drawImage(
             this.stateAnimation,
-            this.frame_index * this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
+            this.frame_index * this.#width,
             0,
-            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
-            this.character_data["height"],
+            this.#width,
+            this.#height,
             this.x,
             this.y,
-            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
-            this.character_data["height"]
+            this.#width,
+            this.#height
         );
     }
 };

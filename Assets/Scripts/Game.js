@@ -85,7 +85,7 @@ function SetupMapCollisions() {
         );
     }
 
-    mapColliderManager.addBoxRenders(ctx);
+    // mapColliderManager.addBoxRenders(ctx);
 }
 
 function RenderMap() {

@@ -2,6 +2,7 @@ export const MovementModes = Object.freeze({
     Idle: 'idle',
     Running: 'running',
     Jumping: 'jumping',
+    Falling: 'falling'
 })
 
 export default class MovementState{
@@ -9,7 +10,7 @@ export default class MovementState{
 
     constructor() {}
 
-    nextState(xVel, grounded)
+    nextState(xVel, yVel, grounded)
     {
         switch (this.currentState) {
             case MovementModes.Idle:
@@ -21,7 +22,7 @@ export default class MovementState{
 
                 if(!grounded)
                 {
-                    this.currentState = MovementModes.Jumping;
+                    this.currentState = (this.yVel < 0) ? MovementModes.Falling : MovementModes.Jumping;
                     return true;
                 }
                 break;
@@ -35,12 +36,16 @@ export default class MovementState{
 
                 if(!grounded)
                 {
-                    this.currentState = MovementModes.Jumping;
+                    this.currentState = (yVel < -2) ? MovementModes.Falling : MovementModes.Jumping;
                     return true;
                 }
                 break;  
 
             case MovementModes.Jumping:
+                if (yVel > 0) {
+                    this.currentState = MovementModes.Falling;
+                    return true;
+                }
                 if(grounded && xVel == 0)
                 {
                     this.currentState = MovementModes.Idle;
@@ -49,6 +54,12 @@ export default class MovementState{
                 if(grounded && xVel != 0)
                 {
                     this.currentState = MovementModes.Running;
+                    return true;
+                }
+                break;
+            case MovementModes.Falling:
+                if(grounded) {
+                    this.currentState = (xVel == 0) ? MovementModes.Idle : MovementModes.Running;
                     return true;
                 }
                 break;
