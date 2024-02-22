@@ -39,10 +39,9 @@ export default class InputManager extends Singleton {
     // a key code that is held down
     handleInput()
     {
-        for (const [key, value] of this.activeInputLookup.entries()) {
+        for (const [key, value] of this.activeInputLookup.entries())
             if (value === true)
                 this.inputActionLookup.get(key)?.execute(this.player);
-        }
     }
 
     // Adds or changes an existing keyCode's Command

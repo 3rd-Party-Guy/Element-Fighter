@@ -31,8 +31,6 @@ export default class Entity {
     x = 0;
     y = 0;
 
-    collision_box = new CollisionBox(new Vector2(0, 0), new Vector2(0, 0));
-
     xVel = 0;
     yVel = 0;
 
@@ -92,9 +90,9 @@ export default class Entity {
             })
             .catch(err => console.error("Error getting frame data:\n", err));
     }
-
+    
     get #width() {
-        return this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"];
+        return this.character_data["width"];
     }
     
     get #height() {
@@ -103,8 +101,8 @@ export default class Entity {
 
     get #center() {
         return new Vector2(
-            this.x + this.width * 0.5,
-            this.y + this.height
+            this.x + this.character_data["width"] / 2,
+            this.y + this.character_data["height"] / 2
         );
     }
 
@@ -114,16 +112,6 @@ export default class Entity {
 
         this.frame_index = (this.frame_index + 1) % this.stateFrameData["num_frames"];
         this.last_update = Date.now();
-    }
-
-    #updateCollisionBox() {
-        if (!this.stateFrameData) return;
-
-        this.collision_box.ld.x = this.x;
-        this.collision_box.ld.y = this.y;
-        
-        this.collision_box.ru.x = this.x + this.width;
-        this.collision_box.ru.y = this.y + this.#height;
     }
 
     #updatePosition(deltaTime) {
@@ -159,8 +147,8 @@ export default class Entity {
     
     #updateMovementState()
     {
-        if(!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        if(this.movementState.nextState(this.xVel, this.yVel, this.is_grounded))
+        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
+        if (this.movementState.nextState(this.xVel, this.yVel, this.is_grounded))
             this.frame_index = 0;
         
         let state_anim_data = this.AnimationDataForState.get(this.movementState.currentState);
@@ -175,66 +163,42 @@ export default class Entity {
             return;
         }
         if (!this.stateFrameData) return;
+
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
-        const player_bottom_y = this.y + this.#height;
-        const groundcast_left_x = this.x + this.xVel * fixed_delta_time;
-        const groundcast_right_x = this.x + this.xVel * fixed_delta_time + this.#width;
+        // INFO: remove magic numbers
+        const groundcast_left_x = this.#center.x - this.#width / 2 + this.xVel * fixed_delta_time + 10;
+        const groundcast_right_x = this.#center.x + this.#width / 2 + this.xVel * fixed_delta_time + 30;
 
+        const player_bottom_y = this.y  + this.#height + this.yVel * fixed_delta_time;
+        
         this.groundcast_left = new Line(
             new Vector2(groundcast_left_x, player_bottom_y),
-            new Vector2(groundcast_left_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time))
+            new Vector2(groundcast_left_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time * 25))
         );
 
         this.groundcast_right = new Line(
             new Vector2(groundcast_right_x, player_bottom_y),
-            new Vector2(groundcast_right_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time))
+            new Vector2(groundcast_right_x, Math.max(player_bottom_y + 10, player_bottom_y + this.yVel * fixed_delta_time * 25))
         );
 
         for (const col_box of col_boxes) {
-            if (col_box.ld.y < this.y) continue;
+            if (col_box.ld.y < this.y + this.#height - 10) continue;
             if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
                 const ground_y = col_box.ru.y - this.#height; 
-                if (this.y + this.yVel * fixed_delta_time > ground_y || Math.abs(ground_y - this.y) < this.#height) {
+                if (this.y + this.yVel * fixed_delta_time > ground_y - this.#height / 2 || this.yVel <= 0) {
                     this.y = ground_y;
                     this.yVel = Math.min(this.yVel, 0);
-                    this.jumps_left = this.character_data["extra_jumps"];
+                    this.jumps_left = this.character_data["jumps"];
                     this.is_grounded = true;
                     return;
                 }
             }
         }
 
+        // character should have one more jump when jumping from ground
+        this.jumps_left = this.character_data["jumps"] - 1;
         this.is_grounded = false;
-    }
-
-    #handleCollisions(fixed_delta_time) {
-        if (!this.stateFrameData) return;
-        if (!this.character_data) return;
-
-        const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
-        
-        for (const box of col_boxes) {
-            const distanceX = (this.#center.x + this.xVel * fixed_delta_time) - box.center.x;
-            const distanceY = (this.#center.y + this.yVel * fixed_delta_time) - box.center.y;
-
-            const maxDistX = this.width + box.width / 2;
-            const maxDistY = this.#height / 2 + Math.abs(box.height) / 2;
-
-            if (Math.abs(distanceX) < maxDistX && Math.abs(distanceY) < maxDistY) {
-                const overlapX = maxDistX - Math.abs(distanceX);
-                const overlapY = maxDistY - Math.abs(distanceY);
-
-                if (overlapX >= overlapY) {
-                    if (distanceY > 0)
-                        this.y += overlapY;
-                    this.yVel = 0;
-                } else {
-                    (distanceX > 0) ? this.x -= overlapX : this.x += overlapX;
-                    this.xVel = 0;
-                }  
-            }
-        }
     }
 
     jump() {
@@ -254,9 +218,7 @@ export default class Entity {
     }
     
     fixedUpdate(fixedDeltaTime){
-        this.#handleCollisions(fixedDeltaTime);
         this.#checkGrounded(fixedDeltaTime);
-        this.#updateCollisionBox();
         this.#updateVelocities(fixedDeltaTime);
     }
 
@@ -264,28 +226,27 @@ export default class Entity {
     // at the instance's xy-coordinates
     render(ctx) {
         if (!this.stateFrameData) return;
-        if (!this.collision_box) return;
 
-        // ctx.beginPath();
-        // ctx.moveTo(this.groundcast_left.p1.x, this.groundcast_left.p1.y);
-        // ctx.lineTo(this.groundcast_left.p2.x, this.groundcast_left.p2.y);
+        ctx.beginPath();
+        ctx.moveTo(this.groundcast_left.p1.x, this.groundcast_left.p1.y);
+        ctx.lineTo(this.groundcast_left.p2.x, this.groundcast_left.p2.y);
 
-        // ctx.moveTo(this.groundcast_right.p1.x, this.groundcast_right.p1.y);
-        // ctx.lineTo(this.groundcast_right.p2.x, this.groundcast_right.p2.y);
-        // ctx.strokeStyle = "green";
-        // ctx.lineWidth = 2;
-        // ctx.stroke();
+        ctx.moveTo(this.groundcast_right.p1.x, this.groundcast_right.p1.y);
+        ctx.lineTo(this.groundcast_right.p2.x, this.groundcast_right.p2.y);
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 25;
+        ctx.stroke();
 
         ctx.drawImage(
             this.stateAnimation,
-            this.frame_index * this.#width,
+            this.frame_index * this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
             0,
-            this.#width,
-            this.#height,
+            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
+            this.stateFrameData["sheet_height"],
             this.x,
             this.y,
-            this.#width,
-            this.#height
+            this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
+            this.stateFrameData["sheet_height"]
         );
     }
 };
