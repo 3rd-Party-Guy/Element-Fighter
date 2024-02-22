@@ -61,6 +61,10 @@ export default class Entity {
     groundcast_left = new Line(new Vector2(0, 0), new Vector2(0, 0));
     groundcast_right = new Line(new Vector2(0, 0), new Vector2(0, 0));
 
+    is_ducking = false;
+    is_on_platform = false;
+    last_platform = undefined;
+
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
         this.entity_name = name;
@@ -184,21 +188,33 @@ export default class Entity {
 
         for (const col_box of col_boxes) {
             if (col_box.ld.y < this.y + this.#height - 10) continue;
+            if (col_box === this.last_platform && this.is_ducking) continue;
             if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
                 const ground_y = col_box.ru.y - this.#height; 
+                console.log(col_box.is_platform);
                 if (this.y + this.yVel * fixed_delta_time > ground_y - this.#height / 2 || this.yVel <= 0) {
                     this.y = ground_y;
                     this.yVel = Math.min(this.yVel, 0);
                     this.jumps_left = this.character_data["jumps"];
+
                     this.is_grounded = true;
+                    this.is_ducking = false;
+                    
+                    if (col_box.is_platform) {
+                        this.is_on_platform = true;
+                        this.last_platform = col_box;
+                    }
                     return;
                 }
             }
         }
 
         // character should have one more jump when jumping from ground
-        this.jumps_left = this.character_data["jumps"] - 1;
-        this.is_grounded = false;
+        if (this.is_grounded)
+            this.jumps_left = this.character_data["jumps"] - 1;
+        
+            this.is_grounded = false;
+        this.is_on_platform = false;
     }
 
     jump() {
@@ -206,6 +222,12 @@ export default class Entity {
             this.yVel = this.character_data["jump_force"] * -1;
             this.jumps_left--;
             this.is_grounded = false;
+        }
+    }
+
+    duck() {
+        if (this.is_grounded && this.is_on_platform) {
+            this.is_ducking = true;
         }
     }
 

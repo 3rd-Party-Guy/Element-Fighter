@@ -7,9 +7,13 @@ export default class CollisionBox {
 
     is_active = false;
 
-    constructor(left_down, right_up) {
+    is_platform = false;
+
+    constructor(left_down, right_up, is_platform) {
         this.ld = left_down;
         this.ru = right_up;
+
+        this.is_platform = is_platform;
     }
 
     get ld() { return this.ld; } 

@@ -4,8 +4,8 @@ import CollisionBox from "./CollisionBox.js";
 export default class MapColliderManager extends Singleton {
     collision_boxes = [];
 
-    addCollision = (left_down, right_up) =>
-        this.collision_boxes.push(new CollisionBox(left_down, right_up));;
+    addCollision = (left_down, right_up, is_platform) =>
+        this.collision_boxes.push(new CollisionBox(left_down, right_up, is_platform));
 
     addBoxRenders(ctx) {
         for (const col_box of this.collision_boxes) {

@@ -3,7 +3,7 @@
 
 import Vector2 from "./Vector2.js";
 
-import { MoveCommand, JumpCommand } from "./Command.js";
+import { MoveCommand, JumpCommand, DuckCommand } from "./Command.js";
 import Entity from "./Entity.js";
 
 import InputManager from "./InputManager.js";
@@ -61,6 +61,7 @@ function SetupInputMaps() {
     inputManager.addInputActionLookup("KeyD", new MoveCommand(140,0));
     inputManager.addInputActionLookup("KeyW", new JumpCommand());
     inputManager.addInputActionLookup("Space", new JumpCommand());
+    inputManager.addInputActionLookup("KeyS", new DuckCommand());
 }
 
 async function ImportMaps() {
@@ -81,7 +82,8 @@ function SetupMapCollisions() {
 
         mapColliderManager.addCollision(
             new Vector2(h.ld.x, h.ld.y),
-            new Vector2(h.ru.x, h.ru.y)
+            new Vector2(h.ru.x, h.ru.y),
+            h.is_platform
         );
     }
 

@@ -46,3 +46,16 @@ export class JumpCommand extends Command {
         super.execute();
     }
 }
+
+export class DuckCommand extends Command {
+    constructor() {
+        super();
+    }
+
+    execute(entity) {
+        if (this.first_call)
+            entity.duck();
+
+            super.execute();
+    }
+}
