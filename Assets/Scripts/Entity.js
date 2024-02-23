@@ -4,9 +4,10 @@
 import Vector2 from "./Vector2.js";
 import MovementState from "./StateMachine.js";
 import { MovementModes } from "./StateMachine.js";
-import { TransformComponent } from "./Component.js";
-import { PhysicsComponent } from "./Component.js";
 import Transform from "./Transform.js";
+import { TransformComponent } from "./Component.js";
+import { PhysicsComponent } from "./PhysicsComponent.js";
+
 
 
 
@@ -106,7 +107,7 @@ export default class Entity {
     }
     
     fixedUpdate(fixedDeltaTime){
-       
+    
         this.physics_component.fixedUpdate(this.transform_component.transform, fixedDeltaTime);
     }
 
