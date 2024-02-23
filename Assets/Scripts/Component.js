@@ -56,10 +56,3 @@ export class TransformComponent extends Component {
 
 }
 
-
-
-class RenderingComponent extends Component {
-
-    
-
-}
