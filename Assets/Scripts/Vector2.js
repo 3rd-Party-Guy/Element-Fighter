@@ -17,4 +17,9 @@ export default class Vector2 {
         this.x = value.x;
         this.y = value.y;
     }
+
+    add (vec2){
+        this.x += vec2.x;
+        this.y += vec2.y;
+    }
 }
