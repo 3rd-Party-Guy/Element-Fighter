@@ -71,9 +71,8 @@ export class PhysicsComponent extends Component {
     #updatePosition(transform, delta_time) {
         if (!this.physics_data) return;
 
-       
-        transform.position.x += this.vel.x * delta_time;
-        transform.position.y += this.vel.y * delta_time;
+        
+        transform.position.add(this.vel.scale(delta_time));
 
         if (this.vel.x < 0) this.is_flipped = true;
         else if (this.vel.x > 0) this.is_flipped = false;

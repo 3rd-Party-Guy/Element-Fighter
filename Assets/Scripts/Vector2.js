@@ -24,8 +24,8 @@ export default class Vector2 {
     }
 
     scale(scalar){
-        this.x *= scalar;
-        this.y *= scalar;
-        return this;
+       
+        //TODO: Can this be solved without creating a new vector?
+        return new Vector2(this.x * scalar, this.y * scalar);
     }
 }
