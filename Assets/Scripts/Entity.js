@@ -106,7 +106,7 @@ export default class Entity {
     }
     
     fixedUpdate(fixedDeltaTime){
-       console.log(this.transform_component.transform.position);
+       
         this.physics_component.fixedUpdate(this.transform_component.transform, fixedDeltaTime);
     }
 

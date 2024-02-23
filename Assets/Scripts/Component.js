@@ -90,8 +90,7 @@ export class PhysicsComponent extends Component {
     initComponent(physics_info)
     {
         this.physics_data = physics_info;
-        this.maxVel.x = this.physics_data["max"] || 100;
-        console.log(this.physics_data);
+        this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }
 
 
@@ -125,8 +124,10 @@ export class PhysicsComponent extends Component {
     #updatePosition(transform, delta_time) {
         if (!this.physics_data) return;
 
-        transform.position.y += this.vel.y * delta_time;
+       
         transform.position.x += this.vel.x * delta_time;
+        transform.position.y += this.vel.y * delta_time;
+
         if (this.vel.x < 0) this.is_flipped = true;
         else if (this.vel.x > 0) this.is_flipped = false;
 
@@ -148,12 +149,11 @@ export class PhysicsComponent extends Component {
         if (this.vel.y < 0 && !InputManager.getInstance(InputManager).isKeyActive("KeyW"))
             this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
 
+        
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
         if(Math.abs(this.vel.x) < 10 && this.vel.x != 0)
                 this.vel.x = 0;
-
-        
     }
 
 
