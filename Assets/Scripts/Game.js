@@ -8,6 +8,7 @@ import Entity from "./Entity.js";
 
 import InputManager from "./InputManager.js";
 import MapColliderManager from "./MapColliderManager.js"
+import PhysicsSystem from "./PhysicsSystem.js"
 
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
@@ -17,6 +18,7 @@ const FIXED_DELTA_TIME = 1000 / 480;
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
+const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
 
 const cur_map_name = "Vulcano";
 const map_image = new Image();
@@ -29,7 +31,9 @@ let entities = [];
 async function Initialize() {
     // Add entities
     entities.push(new Entity(75, 75, "Mermaid", canvas));
-    
+    //physics_system.addEntities(new Entity(75, 75, "Mermaid"));
+
+
     // INFO: not clean
     inputManager.givePlayer(entities[0]);
     
@@ -120,6 +124,9 @@ function Update() {
 
     RenderMap();
 
+
+    //physics_system.update(deltaTime/1000);
+
     for(const ent of entities) {
         ent.update(deltaTime / 1000);
         ent.render(ctx);
@@ -133,6 +140,7 @@ function FixedUpdate() {
         for (const ent of entities)
             ent.fixedUpdate(FIXED_DELTA_TIME / 1000);
     
+        // physics_system.fixedUpdate(FIXED_DELTA_TIME);
         accumulatedTime -= FIXED_DELTA_TIME;
     }
 }

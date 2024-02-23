@@ -2,8 +2,6 @@
 // Description:     Base Entity class
 
 import Vector2 from "./Vector2.js";
-import MovementState from "./StateMachine.js";
-import { MovementModes } from "./StateMachine.js";
 import Transform from "./Transform.js";
 import { TransformComponent } from "./Component.js";
 import { PhysicsComponent } from "./PhysicsComponent.js";
