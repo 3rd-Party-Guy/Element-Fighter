@@ -33,16 +33,8 @@ export default class Transform{
         this.scale += transform.scale;
     }
 
-    subtract(transform){
-        this.position -= transform.position;
-        this.rotation -= transform.rotation;
-        this.scale -= transform.scale;
-    }
+    
 
-    multiply(scalar){
-        this.position *= scalar;
-        this.rotation *= scalar;
-        this.scale *= scalar;
-    }
+    
 
 }

@@ -22,4 +22,9 @@ export default class Vector2 {
         this.x += vec2.x;
         this.y += vec2.y;
     }
+
+    scale(scalar){
+        this.x *= scalar;
+        this.y *= scalar;
+    }
 }
