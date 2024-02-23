@@ -1,3 +1,6 @@
+/// Author:         Nikolay Hadzhiev, Leon Enders
+/// Description:    This is the statemachine a class handling states for entitys
+
 export const MovementModes = Object.freeze({
     Idle: 'idle',
     Running: 'running',
