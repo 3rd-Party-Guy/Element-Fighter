@@ -12,38 +12,10 @@ import { RenderingComponent} from "./RenderingComponent.js";
 
 
 
-class AnimationDataContext{
-    image = undefined;
-    image_source_normal = undefined;
-    image_source_flipped = undefined;
-    frame_data = undefined;
-
-    constructor(image_source_path, frame_data)
-    {
-        this.image = new Image();
-        this.image_source_normal = image_source_path + ".png";
-        this.image_source_flipped = image_source_path + "_flipped.png";
-        this.frame_data = frame_data;
-    }
-};
-
 export default class Entity {
     entity_name = "Knight";
 
-    frame_index = 0;
-    last_update = Date.now();
-    update_speed = 180;
-
-
-    //MovementState variable
-    movementState = new MovementState();
-
-    //Mapping Animation Data to State
-    AnimationDataForState = new Map();
-
-    stateAnimation = undefined;
-    stateFrameData = undefined;
-
+    // Creating Components
     transform_component = new TransformComponent();
     physics_component = new PhysicsComponent();
     rendering_component = new RenderingComponent();
@@ -53,10 +25,10 @@ export default class Entity {
         this.entity_name = name;
 
         this.transform_component.initComponent(new Transform(new Vector2(startX, startY)));
-        this.#setSpritesheetData();
+        this.#setEntityData();
     }
 
-    #setSpritesheetData() {
+    #setEntityData() {
         fetch('Assets/entities.json')
             .then(res => res.json())
             .then(data => {
@@ -72,7 +44,6 @@ export default class Entity {
             .catch(err => console.error("Error getting frame data:\n", err));
     }
     
-   
 
 
     // This update function updates the instance's animation frame based

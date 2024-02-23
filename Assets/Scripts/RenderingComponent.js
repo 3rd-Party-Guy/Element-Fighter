@@ -1,3 +1,8 @@
+/// Author:         Leon Enders
+/// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
+
+
+
 import { Component } from "./Component.js";
 import MovementState from "./StateMachine.js";
 import { MovementModes } from "./StateMachine.js";
