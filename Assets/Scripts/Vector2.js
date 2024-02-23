@@ -26,5 +26,6 @@ export default class Vector2 {
     scale(scalar){
         this.x *= scalar;
         this.y *= scalar;
+        return this;
     }
 }

@@ -27,8 +27,8 @@ export class MoveCommand extends Command {
     }
 
     execute(entity) {
-        entity.xVel += this.xVel;
-        entity.yVel += this.yVel;
+        entity.physics_component.vel.x += this.xVel;
+        entity.physics_component.vel.y += this.yVel;
 
         super.execute();
     }
@@ -41,7 +41,7 @@ export class JumpCommand extends Command {
 
     execute(entity) {
         if (this.first_call)
-            entity.jump();
+            entity.physics_component.jump();
 
         super.execute();
     }
@@ -54,7 +54,7 @@ export class DuckCommand extends Command {
 
     execute(entity) {
         if (this.first_call)
-            entity.duck();
+            entity.physics_component.duck();
 
             super.execute();
     }

@@ -1,15 +1,14 @@
+import Vector2 from "./Vector2.js";
 export default class Transform{
 
     position = new Vector2(0,0);
     rotation = new Vector2(0,0);
     scale = new Vector2(0,0);
 
-    constructor(position, rotation, scale)
+    constructor(position)
     {
         
         this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
     }
 
 
@@ -27,11 +26,7 @@ export default class Transform{
         this.scale = transform.scale;
     }
 
-    add (transform){
-        this.position += transform.position;
-        this.rotation += transform.rotation;
-        this.scale += transform.scale;
-    }
+   
 
     
 

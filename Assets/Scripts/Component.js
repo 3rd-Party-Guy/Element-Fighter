@@ -1,9 +1,13 @@
 /// Author:         Leon Enders
 /// Description:    An abstract class for the Components in the Entity Component System followed by concrete classes of inerhiting from component afterwards. These are used to manage behaviour of entities, for different game domains.
 
-import Transform from "./Transform";
-import Vector2 from "./Vector2";
+import { clamp, lerp } from "./Math.js";
+import Vector2 from "./Vector2.js";
 import MapColliderManager from "./MapColliderManager.js";
+import InputManager from "./InputManager.js";
+import Line from "./Line.js";
+
+
 
 // Base Class for Components, shared behaviour for all components will be implemented here
 // implements behaviour for a specific domain to decouple from entity
@@ -46,7 +50,7 @@ export class Component {
 
 
 
-class TransformComponent extends Component {
+export class TransformComponent extends Component {
 
     transform = undefined;
 
@@ -58,7 +62,7 @@ class TransformComponent extends Component {
 
 }
 
-class PhysicsComponent extends Component {
+export class PhysicsComponent extends Component {
 
 
     // Property to hold all relevant physics data for an entity
@@ -87,6 +91,7 @@ class PhysicsComponent extends Component {
     {
         this.physics_data = physics_info;
         this.maxVel.x = this.physics_data["max"] || 100;
+        console.log(this.physics_data);
     }
 
 
@@ -120,8 +125,7 @@ class PhysicsComponent extends Component {
     #updatePosition(transform, delta_time) {
         if (!this.physics_data) return;
 
-        transform.position.add(this.vel.scale(delta_time));
-        
+        transform.position.add(this.vel.scale(delta_time));    
         if (this.vel.x < 0) this.is_flipped = true;
         else if (this.vel.x > 0) this.is_flipped = false;
 
@@ -132,8 +136,9 @@ class PhysicsComponent extends Component {
     #updateVelocities(fixed_delta_time) {
         if (!this.physics_data) return;
         
-        if (!this.is_grounded)
-            this.vel.y += this.physics_data["gravity"] * fixed_delta_time; 
+        if (!this.is_grounded){
+            this.vel.y += this.physics_data["gravity"] * fixed_delta_time;
+            }
         else
             this.vel.y = Math.min(0, this.vel.y);
 
@@ -146,6 +151,8 @@ class PhysicsComponent extends Component {
 
         if(Math.abs(this.vel.x) < 10 && this.vel.x != 0)
                 this.vel.x = 0;
+
+        
     }
 
 
@@ -154,7 +161,7 @@ class PhysicsComponent extends Component {
             this.is_grounded = false;
             return;
         }
-
+        if(!this.physics_data) return;
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
         // INFO: remove magic numbers
