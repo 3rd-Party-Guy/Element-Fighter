@@ -4,7 +4,6 @@
 import Singleton from "../../Singleton.js";
 import RenderingComponent from "../../Components/RenderingComponent.js";
 import EntityManager from "../EntityManager.js";
-import Entity from "../../Entity.js";
 import PhysicsComponent from "../../Components/PhysicsComponent.js";
 import TransformComponent from "../../Components/TransformComponent.js";
 

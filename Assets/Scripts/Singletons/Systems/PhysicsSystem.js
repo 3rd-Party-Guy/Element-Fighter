@@ -3,7 +3,6 @@
 ///                 This way the data from the transform component is still divided from that of the physics component.
 
 import Singleton from "../../Singleton.js"
-import Entity from "../../Entity.js";
 import PhysicsComponent from "../../Components/PhysicsComponent.js";
 import TransformComponent from "../../Components/TransformComponent.js";
 import EntityManager from "../EntityManager.js";
