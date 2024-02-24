@@ -42,6 +42,13 @@ async function Initialize() {
     window.addEventListener('keyup', (event) => inputManager.setInput(event));
     window.addEventListener('click', (event) => getMousePos(event));
 
+    window.addEventListener('gamepadconnected', (e) => {
+        console.log("Gamepad detected.");
+        
+        const gp = navigator.getGamepads();
+        console.log(gp);
+    })
+
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
 
