@@ -6,9 +6,9 @@ import Vector2 from "./Vector2.js";
 import { MoveCommand, JumpCommand, DuckCommand } from "./Command.js";
 import Entity from "./Entity.js";
 
-import InputManager from "./InputManager.js";
-import MapColliderManager from "./MapColliderManager.js"
-import PhysicsSystem from "./PhysicsSystem.js"
+import InputManager from "./Singletons/InputManager.js";
+import MapColliderManager from "./Singletons/MapColliderManager.js"
+import PhysicsSystem from "./Singletons/PhysicsSystem.js"
 
 const canvas = document.getElementById('game-window');
 const ctx = canvas.getContext('2d');
@@ -57,6 +57,7 @@ async function Initialize() {
     SetupMapCollisions();
 }
 
+// INFO: Only for debugging purposes
 function getMousePos(e) {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;

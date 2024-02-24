@@ -6,8 +6,8 @@ import { clamp, lerp } from "../Math.js";
 import Vector2 from "../Vector2.js";
 import Line from "../Line.js";
 import Component from "./Component.js";
-import MapColliderManager from "../MapColliderManager.js";
-import InputManager from "../InputManager.js";
+import MapColliderManager from "../Singletons/MapColliderManager.js";
+import InputManager from "../Singletons/InputManager.js";
 
 export default class PhysicsComponent extends Component {
     // Property to hold all relevant physics data for an entity
@@ -33,7 +33,7 @@ export default class PhysicsComponent extends Component {
 
     constructor(physics_info) {
         super();
-        
+
         this.physics_data = physics_info;
         this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }

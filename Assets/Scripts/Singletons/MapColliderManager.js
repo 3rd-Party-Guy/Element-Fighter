@@ -1,5 +1,5 @@
-import Singleton from "./Singleton.js";
-import CollisionBox from "./CollisionBox.js";
+import Singleton from "../Singleton.js";
+import CollisionBox from "../CollisionBox.js";
 
 export default class MapColliderManager extends Singleton {
     collision_boxes = [];

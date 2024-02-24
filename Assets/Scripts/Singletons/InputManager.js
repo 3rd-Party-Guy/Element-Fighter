@@ -1,7 +1,7 @@
 /// Author:         Nikolay Hadzhiev, Leon Enders
 /// Description:    This is the InputManager Singleton
-import Singleton from "./Singleton.js";
-import { Command } from "./Command.js"
+import Singleton from "../Singleton.js";
+import { Command } from "../Command.js"
 
 export default class InputManager extends Singleton {
     // Player, needed for Commands
