@@ -1,11 +1,9 @@
-/// Author:         Leon Enders
+/// Author:         Nikolay Hadzhiev, Leon Enders
 /// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
 
-
-
-import { Component } from "./Component.js";
-import MovementState from "./StateMachine.js";
-import { MovementModes } from "./StateMachine.js";
+import Component from "./Component.js";
+import MovementState from "../StateMachine.js";
+import { MovementModes } from "../StateMachine.js";
 
 class AnimationDataContext{
     image = undefined;
@@ -22,10 +20,7 @@ class AnimationDataContext{
     }
 };
 
-
-
-
-export class RenderingComponent extends Component {
+export default class RenderingComponent extends Component {
     frame_index = 0;
     last_update = Date.now();
     update_speed = 180;
@@ -39,8 +34,6 @@ export class RenderingComponent extends Component {
     stateAnimation = undefined;
     stateFrameData = undefined;
     
-
-
     initComponent(result){
 
                 this.AnimationDataForState.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "idle",  result["spritesheets_info"]["idle"]));
@@ -50,13 +43,11 @@ export class RenderingComponent extends Component {
 
     }
 
-
     update(physics_component)
     {
         this.#updateMovementState(physics_component);
         this.#updateAnimation()
     }
-
 
     #updateAnimation() {
         if(!this.stateFrameData) return;
@@ -77,7 +68,6 @@ export class RenderingComponent extends Component {
         this.stateAnimation.src = (physics_component.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).frame_data;
     }
-
 
     render(transform,physics_component,ctx) {
         if (!this.stateFrameData) return;

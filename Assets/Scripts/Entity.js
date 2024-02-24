@@ -3,9 +3,9 @@
 
 import Vector2 from "./Vector2.js";
 import Transform from "./Transform.js";
-import { TransformComponent } from "./Component.js";
-import { PhysicsComponent } from "./PhysicsComponent.js";
-import { RenderingComponent} from "./RenderingComponent.js";
+import TransformComponent from "./Components/TransformComponent.js";
+import PhysicsComponent from "./Components/PhysicsComponent.js";
+import RenderingComponent from "./Components/RenderingComponent.js";
 
 export default class Entity {
     entity_name = "Knight";

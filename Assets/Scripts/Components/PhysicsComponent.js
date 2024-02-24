@@ -2,16 +2,14 @@
 /// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
 
 
-import { clamp, lerp } from "./Math.js";
-import Vector2 from "./Vector2.js";
-import { Component } from "./Component.js";
-import MapColliderManager from "./MapColliderManager.js";
-import InputManager from "./InputManager.js";
-import Line from "./Line.js";
+import { clamp, lerp } from "../Math.js";
+import Vector2 from "../Vector2.js";
+import Line from "../Line.js";
+import Component from "./Component.js";
+import MapColliderManager from "../MapColliderManager.js";
+import InputManager from "../InputManager.js";
 
-export class PhysicsComponent extends Component {
-
-
+export default class PhysicsComponent extends Component {
     // Property to hold all relevant physics data for an entity
     physics_data = undefined;
 
