@@ -8,17 +8,22 @@ import Entity from "./Entity.js";
 
 import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
-import PhysicsSystem from "./Singletons/PhysicsSystem.js"
+import EntityManager from "./Singletons/EntityManager.js";
+import CanvasManager from "./Singletons/CanvasManager.js";
 
-const canvas = document.getElementById('game-window');
-const ctx = canvas.getContext('2d');
+import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
+import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
 
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
+const canvas_manager = CanvasManager.getInstance(CanvasManager);
+const entity_manager = EntityManager.getInstance(EntityManager);
+
 const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
+const render_system = RenderingSystem.getInstance(RenderingSystem);
 
 const cur_map_name = "Vulcano";
 const map_image = new Image();
@@ -26,17 +31,10 @@ const map_image = new Image();
 let maps_data;
 let characters_data;
 
-let entities = [];
-
 async function Initialize() {
     // Add entities
-    entities.push(new Entity(75, 75, "Mermaid", canvas));
-    //physics_system.addEntities(new Entity(75, 75, "Mermaid"));
+    new Entity(75, 75, "Mermaid");
 
-
-    // INFO: not clean
-    inputManager.givePlayer(entities[0]);
-    
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setInput(event));
     window.addEventListener('keyup', (event) => inputManager.setInput(event));
@@ -59,7 +57,7 @@ async function Initialize() {
 
 // INFO: Only for debugging purposes
 function getMousePos(e) {
-    const rect = canvas.getBoundingClientRect();
+    const rect = canvas_manager.clientRect;
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -103,7 +101,7 @@ function SetupMapCollisions() {
 }
 
 function RenderMap() {
-    ctx.drawImage(map_image, 0, 0, 1280, 720, 0, 0, 1280, 720);
+    canvas_manager.gameplayContext.drawImage(map_image, 0, 0, 1280, 720, 0, 0, 1280, 720);
 }
 
 function GetCurrentMap() {
@@ -127,28 +125,26 @@ function EarlyUpdate() {
 }
 
 function Update() {
+
     // Clear Canvas before rendering again
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    canvas_manager.clearGameplayCanvas();
 
     RenderMap();
 
+    physics_system.update(deltaTime/1000);
+    render_system.update(deltaTime / 1000);
 
-    //physics_system.update(deltaTime/1000);
+    // for(const e of entity_manager.entities) {
+    //     e.render(ctx);
+    // }
 
-    for(const ent of entities) {
-        ent.update(deltaTime / 1000);
-        ent.render(ctx);
-    }
-
-    ctx.fill();
+    canvas_manager.gameplayContext.fill();
 }
 
 function FixedUpdate() {
     while (accumulatedTime >= FIXED_DELTA_TIME) {
-        for (const ent of entities)
-            ent.fixedUpdate(FIXED_DELTA_TIME / 1000);
-    
-        // physics_system.fixedUpdate(FIXED_DELTA_TIME);
+        physics_system.fixedUpdate(FIXED_DELTA_TIME / 1000);
+
         accumulatedTime -= FIXED_DELTA_TIME;
     }
 }

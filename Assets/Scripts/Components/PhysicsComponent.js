@@ -18,7 +18,6 @@ export default class PhysicsComponent extends Component {
     maxVel = new Vector2(100,0);
     x_speed = 1;
     
-
     //Properties for states
     is_flipped = false;
     jumps_left = 0;
@@ -65,21 +64,12 @@ export default class PhysicsComponent extends Component {
     }
     
     #updatePosition(transform, delta_time) {
-        if (!this.physics_data) return;
-
-        
         transform.position.add(this.vel.scale(delta_time));
-
-        if (this.vel.x < 0) this.is_flipped = true;
-        else if (this.vel.x > 0) this.is_flipped = false;
-
         this.vel.x = lerp(this.vel.x, 0, this.physics_data["x_friction"]);
     }
 
 
     #updateVelocities(fixed_delta_time) {
-        if (!this.physics_data) return;
-        
         if (!this.is_grounded){
             this.vel.y += this.physics_data["gravity"] * fixed_delta_time;
             }
@@ -94,8 +84,8 @@ export default class PhysicsComponent extends Component {
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
-        if(Math.abs(this.vel.x) < 10 && this.vel.x != 0)
-                this.vel.x = 0;
+        if (Math.abs(this.vel.x) < 10 && this.vel.x != 0)
+            this.vel.x = 0;
     }
 
 

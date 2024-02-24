@@ -4,6 +4,7 @@
 import Component from "./Component.js";
 import MovementState from "../StateMachine.js";
 import { MovementModes } from "../StateMachine.js";
+import CanvasManager from "../Singletons/CanvasManager.js";
 
 class AnimationDataContext{
     image = undefined;
@@ -34,6 +35,8 @@ export default class RenderingComponent extends Component {
     stateAnimation = undefined;
     stateFrameData = undefined;
     
+    is_flipped = false;
+
     constructor(result) {
         super();
         
@@ -43,46 +46,36 @@ export default class RenderingComponent extends Component {
         this.AnimationDataForState.set(MovementModes.Falling,   new AnimationDataContext(result["spritesheets_path"] + "fall",  result["spritesheets_info"]["fall"]));
     }
 
-    update(physics_component)
+    update(transform, vel_x, vel_y, is_grounded)
     {
-        this.#updateMovementState(physics_component);
-        this.#updateAnimation()
+        this.#updateMovementState(vel_x, vel_y, is_grounded);
+        this.#updateAnimation();
+        this.#render(transform);
     }
 
     #updateAnimation() {
-        if(!this.stateFrameData) return;
         if ((Date.now() - this.last_update) < this.update_speed) return;
 
         this.frame_index = (this.frame_index + 1) % this.stateFrameData["num_frames"];
         this.last_update = Date.now();
     }
 
-    #updateMovementState(physics_component)
+    #updateMovementState(vel_x, vel_y, is_grounded)
     {
-        if (!this.AnimationDataForState.get(this.movementState.currentState)) return;
-        if (this.movementState.nextState(physics_component.vel.x, physics_component.vel.y, physics_component.is_grounded))
+        if (this.movementState.nextState(vel_x, vel_y, is_grounded))
             this.frame_index = 0;
-        
+
+        if (vel_x < 0)      this.is_flipped = true;
+        else if (vel_x > 0) this.is_flipped = false;
+
         let state_anim_data = this.AnimationDataForState.get(this.movementState.currentState);
         this.stateAnimation = state_anim_data.image;
-        this.stateAnimation.src = (physics_component.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
+        this.stateAnimation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
         this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).frame_data;
     }
 
-    render(transform,physics_component,ctx) {
-        if (!this.stateFrameData) return;
-
-        ctx.beginPath();
-        ctx.moveTo(physics_component.groundcast_left.p1.x, physics_component.groundcast_left.p1.y);
-        ctx.lineTo(physics_component.groundcast_left.p2.x, physics_component.groundcast_left.p2.y);
-
-        ctx.moveTo(physics_component.groundcast_right.p1.x, physics_component.groundcast_right.p1.y);
-        ctx.lineTo(physics_component.groundcast_right.p2.x, physics_component.groundcast_right.p2.y);
-        ctx.strokeStyle = "green";
-        ctx.lineWidth = 25;
-        ctx.stroke();
-
-        ctx.drawImage(
+    #render(transform) {
+        CanvasManager.getInstance(CanvasManager).gameplayContext.drawImage(
             this.stateAnimation,
             this.frame_index * this.stateFrameData["sheet_width"] / this.stateFrameData["num_frames"],
             0,

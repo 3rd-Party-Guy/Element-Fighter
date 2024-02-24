@@ -6,6 +6,7 @@ import Transform from "./Transform.js";
 import TransformComponent from "./Components/TransformComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
+import EntityManager from "./Singletons/EntityManager.js";
 
 export default class Entity {
     entity_name = "Knight";
@@ -32,6 +33,9 @@ export default class Entity {
                 // Initialize Rendering and Physics Components with entity data
                 this.components.push(new RenderingComponent(result));
                 this.components.push(new PhysicsComponent(result["character_info"]));
+
+                // entities only add themselves to the game once they have fetched all their data
+                EntityManager.getInstance(EntityManager).addEntity(this);
             })
             .catch(err => console.error("Error getting frame data:\n", err));
     }
@@ -46,19 +50,19 @@ export default class Entity {
 
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
-    update(deltaTime) {
-        this.getComponentOfType(PhysicsComponent)?.update(this.getComponentOfType(TransformComponent).transform, deltaTime);
-        this.getComponentOfType(RenderingComponent)?.update(this.getComponentOfType(PhysicsComponent));
-    }
+    // update(deltaTime) {
+    //     this.getComponentOfType(PhysicsComponent)?.update(this.getComponentOfType(TransformComponent).transform, deltaTime);
+    //     this.getComponentOfType(RenderingComponent)?.update(this.getComponentOfType(PhysicsComponent));
+    // }
     
     // The FixedUpdate function run withing a fixed and constant interval, resulting in FPS-independent logic
-    fixedUpdate(fixedDeltaTime) {
-        this.getComponentOfType(PhysicsComponent)?.fixedUpdate(this.getComponentOfType(TransformComponent).transform, fixedDeltaTime);
-    }
+    // fixedUpdate(fixedDeltaTime) {
+    //     this.getComponentOfType(PhysicsComponent)?.fixedUpdate(this.getComponentOfType(TransformComponent).transform, fixedDeltaTime);
+    // }
 
     // This render function renders the instance's current animation frame
     // at the instance's xy-coordinates
-    render(ctx) {
-        this.getComponentOfType(RenderingComponent)?.render(this.transform, this.getComponentOfType(PhysicsComponent), ctx);
-    }
+    // render(ctx) {
+    //     this.getComponentOfType(RenderingComponent).render(this.transform, this.getComponentOfType(PhysicsComponent), ctx);
+    // }
 };

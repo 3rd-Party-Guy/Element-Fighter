@@ -1,22 +1,19 @@
 /// Author:         Nikolay Hadzhiev, Leon Enders
 /// Description:    This is the InputManager Singleton
 import Singleton from "../Singleton.js";
-import { Command } from "../Command.js"
+import Command from "../Command.js"
+import EntityManager from "./EntityManager.js";
+import Entity from "../Entity.js";
 
 export default class InputManager extends Singleton {
-    // Player, needed for Commands
-    player = undefined;
-
     // Lookup Table for input codes and Commands
     inputActionLookUp = undefined;
     
     activeInputLookup = undefined;
 
-    constructor(player) {
+    constructor() {
         super();
 
-        this.player = player;
-        
         this.inputActionLookup = new Map();
         this.activeInputLookup = new Map();
     }
@@ -41,15 +38,12 @@ export default class InputManager extends Singleton {
     {
         for (const [key, value] of this.activeInputLookup.entries())
             if (value === true)
-                this.inputActionLookup.get(key)?.execute(this.player);
+                this.inputActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).playerOne);
     }
 
     // Adds or changes an existing keyCode's Command
     addInputActionLookup = (keyCode, Command) =>
         this.inputActionLookup.set(keyCode, Command);
-    
-    givePlayer = (player) =>
-        this.player = player;
     
     isKeyActive = (keyCode) => {
         return this.activeInputLookup.get(keyCode) ? true : false;

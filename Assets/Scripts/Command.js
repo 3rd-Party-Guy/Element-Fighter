@@ -4,7 +4,7 @@
 import Entity from "./Entity.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 
-export class Command {
+export default class Command {
     // some commands cannot be held down and should only function when pressed instead
     first_call = true;
 
@@ -30,7 +30,6 @@ export class MoveCommand extends Command {
     }
 
     execute(entity) {
-       
         entity.getComponentOfType(PhysicsComponent).vel.x += this.xVel;
         entity.getComponentOfType(PhysicsComponent).vel.y += this.yVel;
         super.execute();
