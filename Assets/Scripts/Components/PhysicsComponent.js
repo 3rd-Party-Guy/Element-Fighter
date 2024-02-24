@@ -38,7 +38,6 @@ export default class PhysicsComponent extends Component {
         this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }
 
-
     get #width() {
         return this.physics_data["width"];
     }
@@ -53,7 +52,6 @@ export default class PhysicsComponent extends Component {
             transform.position.y + this.physics_data["height"] / 2
         );
     }
-
 
     fixedUpdate(transform, fixed_delta_time)
     {
