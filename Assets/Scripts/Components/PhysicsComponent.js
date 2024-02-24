@@ -31,9 +31,9 @@ export default class PhysicsComponent extends Component {
     is_on_platform = false;
     last_platform = undefined;
 
-    // called to initialize component
-    initComponent(physics_info)
-    {
+    constructor(physics_info) {
+        super();
+        
         this.physics_data = physics_info;
         this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }

@@ -6,6 +6,9 @@ import Component from "./Component.js";
 export default class TransformComponent extends Component {
     transform = undefined;
 
-    initComponent = (start_transform) =>
+    constructor(start_transform) {
+        super();
+        
         this.transform = start_transform;
+    }
 }

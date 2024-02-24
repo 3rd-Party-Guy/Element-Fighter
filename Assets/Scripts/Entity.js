@@ -10,18 +10,17 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 export default class Entity {
     entity_name = "Knight";
 
-    // Creating Components
-    transform_component = new TransformComponent();
-    physics_component = new PhysicsComponent();
-    rendering_component = new RenderingComponent();
+    components = [];
 
     // This contructor constructs the class instance!
     constructor(startX, startY, name) {
         this.entity_name = name;
 
-        this.transform_component.initComponent(new Transform(new Vector2(startX, startY)));
+        this.components.push(new TransformComponent(new Transform(new Vector2(startX, startY))));
         this.#setEntityData();
     }
+
+    get transform() { return this.getComponentOfType(TransformComponent).transform; }
 
     #setEntityData() {
         fetch('Assets/entities.json')
@@ -29,32 +28,37 @@ export default class Entity {
             .then(data => {
                 // find the right json data for this entity based on the name
                 const result = data.find(e => e.name === this.entity_name)
-
-                // Initialize Rendering Component with entity data
-                this.rendering_component.initComponent(result);
-
-                // Initialize Physics Component with entity data
-                this.physics_component.initComponent(result["character_info"] || {});
+                
+                // Initialize Rendering and Physics Components with entity data
+                this.components.push(new RenderingComponent(result));
+                this.components.push(new PhysicsComponent(result["character_info"]));
             })
             .catch(err => console.error("Error getting frame data:\n", err));
     }
     
+    getComponentOfType(type) {
+        for (const c of this.components)
+            if (c.constructor === type)
+                return c;
+
+        return null;
+    }
+
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update(deltaTime) {
-        this.physics_component.update(this.transform_component.transform, deltaTime);
-        this.rendering_component.update(this.physics_component);
+        this.getComponentOfType(PhysicsComponent)?.update(this.getComponentOfType(TransformComponent).transform, deltaTime);
+        this.getComponentOfType(RenderingComponent)?.update(this.getComponentOfType(PhysicsComponent));
     }
     
     // The FixedUpdate function run withing a fixed and constant interval, resulting in FPS-independent logic
-    fixedUpdate(fixedDeltaTime){
-    
-        this.physics_component.fixedUpdate(this.transform_component.transform, fixedDeltaTime);
+    fixedUpdate(fixedDeltaTime) {
+        this.getComponentOfType(PhysicsComponent)?.fixedUpdate(this.getComponentOfType(TransformComponent).transform, fixedDeltaTime);
     }
 
     // This render function renders the instance's current animation frame
     // at the instance's xy-coordinates
     render(ctx) {
-       this.rendering_component.render(this.transform_component.transform, this.physics_component, ctx);
+        this.getComponentOfType(RenderingComponent)?.render(this.transform, this.getComponentOfType(PhysicsComponent), ctx);
     }
 };
