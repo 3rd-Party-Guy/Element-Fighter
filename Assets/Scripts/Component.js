@@ -7,11 +7,7 @@
 // implements behaviour for a specific domain to decouple from entity
 // Create Child classes for each domains behaviour, to decouple most of the behaviour from entity (Currently: Transform Component, Physics Component, Rendering Component)
 
-
-
 export class Component {
-
-
     constructor()
     {
         if(this.constructor == Component)
@@ -20,34 +16,15 @@ export class Component {
         }
     }
 
-   
-    initComponent()
-    {
-        throw new Error("Method \'initComponent()\' must be implemented")
-    }
-
-    
-    fixedUpdate()
-    {
-        
-        throw new Error("Method \'fixedUpdate()\' must be implemented");
-        
-    }
-
-  
-    update()
-    {
-        throw new Error("Method \'update()\' must be implemented");
-    }
-
+    initComponent() {}
+    fixedUpdate() {}
+    update() {}
 }
 
 
 
 export class TransformComponent extends Component {
-
     transform = undefined;
-
 
     initComponent(start_transform)
     {

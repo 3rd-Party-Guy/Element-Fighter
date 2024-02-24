@@ -7,9 +7,6 @@ import { TransformComponent } from "./Component.js";
 import { PhysicsComponent } from "./PhysicsComponent.js";
 import { RenderingComponent} from "./RenderingComponent.js";
 
-
-
-
 export default class Entity {
     entity_name = "Knight";
 
@@ -42,8 +39,6 @@ export default class Entity {
             .catch(err => console.error("Error getting frame data:\n", err));
     }
     
-
-
     // This update function updates the instance's animation frame based
     // on the time passed since the last call
     update(deltaTime) {
@@ -51,6 +46,7 @@ export default class Entity {
         this.rendering_component.update(this.physics_component);
     }
     
+    // The FixedUpdate function run withing a fixed and constant interval, resulting in FPS-independent logic
     fixedUpdate(fixedDeltaTime){
     
         this.physics_component.fixedUpdate(this.transform_component.transform, fixedDeltaTime);
