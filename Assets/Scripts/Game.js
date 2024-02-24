@@ -96,8 +96,6 @@ function SetupMapCollisions() {
             h.is_platform
         );
     }
-
-    // mapColliderManager.addBoxRenders(ctx);
 }
 
 function RenderMap() {
@@ -125,7 +123,6 @@ function EarlyUpdate() {
 }
 
 function Update() {
-
     // Clear Canvas before rendering again
     canvas_manager.clearGameplayCanvas();
 
@@ -133,10 +130,6 @@ function Update() {
 
     physics_system.update(deltaTime/1000);
     render_system.update(deltaTime / 1000);
-
-    // for(const e of entity_manager.entities) {
-    //     e.render(ctx);
-    // }
 
     canvas_manager.gameplayContext.fill();
 }

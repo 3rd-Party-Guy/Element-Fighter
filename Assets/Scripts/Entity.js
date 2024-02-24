@@ -47,22 +47,4 @@ export default class Entity {
 
         return null;
     }
-
-    // This update function updates the instance's animation frame based
-    // on the time passed since the last call
-    // update(deltaTime) {
-    //     this.getComponentOfType(PhysicsComponent)?.update(this.getComponentOfType(TransformComponent).transform, deltaTime);
-    //     this.getComponentOfType(RenderingComponent)?.update(this.getComponentOfType(PhysicsComponent));
-    // }
-    
-    // The FixedUpdate function run withing a fixed and constant interval, resulting in FPS-independent logic
-    // fixedUpdate(fixedDeltaTime) {
-    //     this.getComponentOfType(PhysicsComponent)?.fixedUpdate(this.getComponentOfType(TransformComponent).transform, fixedDeltaTime);
-    // }
-
-    // This render function renders the instance's current animation frame
-    // at the instance's xy-coordinates
-    // render(ctx) {
-    //     this.getComponentOfType(RenderingComponent).render(this.transform, this.getComponentOfType(PhysicsComponent), ctx);
-    // }
 };
