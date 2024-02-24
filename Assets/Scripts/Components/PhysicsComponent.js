@@ -1,6 +1,5 @@
-/// Author:         Leon Enders
+/// Author:         Leon Enders, Nikolay Hadzhiev
 /// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
-
 
 import { clamp, lerp } from "../Math.js";
 import Vector2 from "../Vector2.js";

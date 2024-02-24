@@ -1,5 +1,5 @@
 // Author:          Nikolay Hadzhiev
-// Description:     This singleton holds and keeps track of all entities
+// Description:     Holds and keeps track of all entities
 
 import Singleton from "../Singleton.js";
 

@@ -1,5 +1,5 @@
-// Author: Nikolay Hadzhiev, Leon Enders
-// Description: The Transform component is responsible for stashing and controlling an entity's position
+// Author:          Nikolay Hadzhiev, Leon Enders
+// Description:     The Transform component is responsible for stashing and controlling an entity's position
 
 import Component from "./Component.js";
 

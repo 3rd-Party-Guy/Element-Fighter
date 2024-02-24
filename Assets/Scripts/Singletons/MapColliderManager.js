@@ -1,3 +1,6 @@
+// Author:          Nikolay Hadzhiev
+// Description:     Keeps track of collision boxes for the map
+
 import Singleton from "../Singleton.js";
 import CollisionBox from "../CollisionBox.js";
 

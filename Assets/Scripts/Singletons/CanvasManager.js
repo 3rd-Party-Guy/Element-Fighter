@@ -1,3 +1,6 @@
+// Author:          Nikolay Hadzhiev
+// Description:     Keeps track of all canvases, provides the needed canvas
+
 import Singleton from "../Singleton.js";
 
 export default class CanvasManager extends Singleton {

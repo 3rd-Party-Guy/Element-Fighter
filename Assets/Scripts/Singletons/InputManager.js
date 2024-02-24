@@ -1,5 +1,6 @@
 /// Author:         Nikolay Hadzhiev, Leon Enders
-/// Description:    This is the InputManager Singleton
+/// Description:    Keeps track of button presses, routes Commands every frame
+
 import Singleton from "../Singleton.js";
 import Command from "../Command.js"
 import EntityManager from "./EntityManager.js";

@@ -1,3 +1,6 @@
+// Author:          Nikolay Hadzhiev
+// Description:     Used for maps. Calculates collisions for box area
+
 import Vector2 from "./Vector2.js";
 import { withinRange } from "./Math.js";
 
@@ -28,7 +31,6 @@ export default class CollisionBox {
 
     set ld(ld) { this.ld = ld; }
     set ru(ru) { this.ru = ru; }
-
 
     collidesWithBox(other_box) {
         const x1 = this.ld.x;
