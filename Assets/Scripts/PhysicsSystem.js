@@ -14,12 +14,8 @@ export default class PhysicsSystem extends Singleton{
         update(delta_Time)
         {   
             for (let entity of this.entities)
-            {
                 if(entity.hasOwnProperty('physics_component') && entity.hasOwnProperty('transform_component'))
-                {
                     entity.physics_component.update(entity.transform_component.transform, delta_Time);
-                }
-            }
         }
 
         fixedUpdate(fixed_delta_time)
