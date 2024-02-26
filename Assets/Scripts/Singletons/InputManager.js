@@ -1,7 +1,7 @@
 /// Author:         Nikolay Hadzhiev, Leon Enders
 /// Description:    Keeps track of button presses, routes Commands every frame
 
-import Singleton from "../Singleton.js";
+import Singleton from "./Singleton.js";
 import Command from "../Command.js"
 import EntityManager from "./EntityManager.js";
 import Entity from "../Entity.js";

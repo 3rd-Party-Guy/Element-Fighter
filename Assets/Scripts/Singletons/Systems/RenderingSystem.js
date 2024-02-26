@@ -1,13 +1,13 @@
 // Author:          Nikolay Hadzhiev, Leon Enders
 // Description:     Renders all entities with the desired information
 
-import Singleton from "../../Singleton.js";
+import System from "./System.js";
 import RenderingComponent from "../../Components/RenderingComponent.js";
 import EntityManager from "../EntityManager.js";
 import PhysicsComponent from "../../Components/PhysicsComponent.js";
 import TransformComponent from "../../Components/TransformComponent.js";
 
-export default class RenderingSystem extends Singleton {
+export default class RenderingSystem extends System {
     update(delta) {
         for (const e of EntityManager.getInstance(EntityManager).entities) {
             const physics_component = e.getComponentOfType(PhysicsComponent);

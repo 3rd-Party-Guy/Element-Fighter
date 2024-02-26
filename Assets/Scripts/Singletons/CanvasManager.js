@@ -1,7 +1,7 @@
 // Author:          Nikolay Hadzhiev
 // Description:     Keeps track of all canvases, provides the needed canvas
 
-import Singleton from "../Singleton.js";
+import Singleton from "./Singleton.js";
 
 export default class CanvasManager extends Singleton {
     gameplay_canvas = document.getElementById('game-window');

@@ -1,7 +1,7 @@
 // Author:          Nikolay Hadzhiev
 // Description:     Holds and keeps track of all entities
 
-import Singleton from "../Singleton.js";
+import Singleton from "./Singleton.js";
 
 export default class EntityManager extends Singleton {
     entities = [];

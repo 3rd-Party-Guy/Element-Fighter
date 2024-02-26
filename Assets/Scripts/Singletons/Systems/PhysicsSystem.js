@@ -2,12 +2,12 @@
 /// Description:    Updates all physics components of all entities with their required information.
 ///                 This way the data from the transform component is still divided from that of the physics component.
 
-import Singleton from "../../Singleton.js"
+import System from "./System.js";
 import PhysicsComponent from "../../Components/PhysicsComponent.js";
 import TransformComponent from "../../Components/TransformComponent.js";
 import EntityManager from "../EntityManager.js";
 
-export default class PhysicsSystem extends Singleton {
+export default class PhysicsSystem extends System {
         update(delta_Time)
         {   
             for (const e of EntityManager.getInstance(EntityManager).entities) {
