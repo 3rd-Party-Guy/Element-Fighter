@@ -6,40 +6,103 @@
       "idle": {
         "num_frames": 6,
         "sheet_width": 768,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
       },
       "run": {
         "num_frames": 6,
         "sheet_width": 768,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
 
       },
       "attack": {
         "num_frames": 6,
         "sheet_width": 768,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
 
       },
       "jump": {
         "num_frames": 4,
         "sheet_width": 576,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
 
       },
       "fall": {
         "num_frames": 2,
         "sheet_width": 240,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
       },
       "roll": {
         "num_frames": 6,
         "sheet_width": 768,
-        "sheet_height": 148
+        "sheet_height": 148,
+        "animation_scale": 1
       }
     },
     "character_info": {
       "width": 64,
       "height": 148,
+      "x_friction": 0.1,
+      "max_x_velocity": 750,
+      "gravity": 3000,
+      "jumps": 2,
+      "jump_force": 1000,
+      "fall_multiplier": 5400,
+      "low_jump_multiplier": 7000
+    }
+  },
+  {
+    "name": "Minotaurus",
+    "spritesheets_path": "Assets/Sprites/Characters/Minotaurus/",
+    "spritesheets_info": {
+      "idle": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 160,
+        "animation_scale": 1
+      },
+      "run": {
+        "num_frames": 6,
+        "sheet_width": 1512,
+        "sheet_height": 160,
+        "animation_scale": 0.4
+
+
+      },
+      "attack": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "jump": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "fall": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+      },
+      "roll": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+      }
+    },
+    "character_info": {
+      "width": 64,
+      "height": 150,
       "x_friction": 0.1,
       "max_x_velocity": 750,
       "gravity": 3000,

@@ -24,14 +24,13 @@ class AnimationDataContext{
 export default class RenderingComponent extends Component {
     frame_index = 0;
     last_update = Date.now();
-    update_speed = 180;
+    update_speed = 240;
 
     //MovementState variable
     movementState = new MovementState();
 
     //Mapping Animation Data to State
     AnimationDataForState = new Map();
-
     stateAnimation = undefined;
     stateFrameData = undefined;
     
@@ -54,7 +53,7 @@ export default class RenderingComponent extends Component {
     }
 
     #updateAnimation() {
-        if ((Date.now() - this.last_update) < this.update_speed) return;
+        if ((Date.now() - this.last_update) < this.update_speed * this.stateFrameData["animation_scale"]) return;
 
         this.frame_index = (this.frame_index + 1) % this.stateFrameData["num_frames"];
         this.last_update = Date.now();

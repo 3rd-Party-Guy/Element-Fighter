@@ -33,8 +33,8 @@ let characters_data;
 
 async function Initialize() {
     // Add entities
-    new Entity(75, 75, "Mermaid");
-
+    //new Entity(75, 75, "Mermaid");
+    new Entity(240,245, "Minotaurus");   
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setInput(event));
     window.addEventListener('keyup', (event) => inputManager.setInput(event));
@@ -120,6 +120,7 @@ function EarlyUpdate() {
 
     // handles input
     inputManager.handleInput();
+    //inputManager.handleInputPlayerTwo();
 }
 
 function Update() {
