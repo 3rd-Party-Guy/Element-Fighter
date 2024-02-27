@@ -112,7 +112,7 @@ function SpawnPlayer(index) {
 
     const name = (index == 1) ? "Mermaid" : "Minotaurus"
 
-    let player = new Player(spawn_pos_x, spawn_pos_y, name);
+    new Player(spawn_pos_x, spawn_pos_y, name);
 }
 
 function RenderMap() {

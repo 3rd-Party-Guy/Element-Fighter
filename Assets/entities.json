@@ -45,8 +45,8 @@
     },
     "character_info": {
       "width": 64,
-      "height": 148,
-      "x_friction": 0.1,
+      "height": 137,
+      "x_friction": 0.1125,
       "max_x_velocity": 750,
       "gravity": 3000,
       "jumps": 2,
@@ -67,7 +67,7 @@
       },
       "run": {
         "num_frames": 6,
-        "sheet_width": 1512,
+        "sheet_width": 768,
         "sheet_height": 160,
         "animation_scale": 0.4
 
@@ -103,7 +103,7 @@
     "character_info": {
       "width": 64,
       "height": 150,
-      "x_friction": 0.1,
+      "x_friction": 0.1125,
       "max_x_velocity": 750,
       "gravity": 3000,
       "jumps": 2,

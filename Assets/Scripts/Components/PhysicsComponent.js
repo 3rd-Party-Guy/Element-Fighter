@@ -104,12 +104,12 @@ export default class PhysicsComponent extends Component {
         
         this.groundcast_left = new Line(
             new Vector2(groundcast_left_x, player_bottom_y),
-            new Vector2(groundcast_left_x, Math.max(player_bottom_y + 10, player_bottom_y + this.vel.y * fixed_delta_time * 25))
+            new Vector2(groundcast_left_x, Math.max(player_bottom_y + 10, player_bottom_y + this.vel.y * fixed_delta_time * 15))
         );
 
         this.groundcast_right = new Line(
             new Vector2(groundcast_right_x, player_bottom_y),
-            new Vector2(groundcast_right_x, Math.max(player_bottom_y + 10, player_bottom_y + this.vel.y * fixed_delta_time * 25))
+            new Vector2(groundcast_right_x, Math.max(player_bottom_y + 10, player_bottom_y + this.vel.y * fixed_delta_time * 15))
         );
 
         for (const col_box of col_boxes) {
