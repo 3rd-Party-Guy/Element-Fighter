@@ -33,8 +33,7 @@ export default class Entity {
                 this.components.push(new RenderingComponent(result));
                 this.components.push(new PhysicsComponent(result["character_info"]));
 
-                // entities only add themselves to the game once they have fetched all their data
-                EntityManager.getInstance(EntityManager).addEntity(this);
+                this.onLoaded();
             })
             .catch(err => console.error("Error getting frame data:\n", err));
     }
@@ -45,5 +44,10 @@ export default class Entity {
                 return c;
 
         return null;
+    }
+
+    // entities only add themselves to the game once they have fetched all their data
+    onLoaded() {
+        EntityManager.getInstance(EntityManager).addEntity(this);
     }
 };

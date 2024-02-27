@@ -4,7 +4,7 @@
 import Vector2 from "./Vector2.js";
 
 import { MoveCommand, JumpCommand, DuckCommand } from "./Command.js";
-import Entity from "./Entity.js";
+import Player from "../Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
@@ -13,6 +13,7 @@ import CanvasManager from "./Singletons/CanvasManager.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
+import RenderingComponent from "./Components/RenderingComponent.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
@@ -34,7 +35,7 @@ let characters_data;
 async function Initialize() {
     // Add entities
     //new Entity(75, 75, "Mermaid");
-    new Entity(240,245, "Minotaurus");   
+    
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
@@ -50,7 +51,11 @@ async function Initialize() {
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
 
-    map_image.src = GetCurrentMap().image_path;
+    map_image.src = GetCurrentMapData().image_path;
+
+    SpawnPlayer(1);
+    SpawnPlayer(2);
+
     SetupInputMaps();
     SetupMapCollisions();
 }
@@ -85,10 +90,10 @@ async function ImportCharacters() {
 }
 
 function SetupMapCollisions() {
-    const cur_map = GetCurrentMap();
+    const cur_map_data = GetCurrentMapData();
 
-    for (const id in cur_map.hitboxes) {
-        const h = cur_map["hitboxes"][id];
+    for (const id in cur_map_data.hitboxes) {
+        const h = cur_map_data["hitboxes"][id];
 
         mapColliderManager.addCollision(
             new Vector2(h.ld.x, h.ld.y),
@@ -98,11 +103,23 @@ function SetupMapCollisions() {
     }
 }
 
+// index is player number (1 or 2)
+function SpawnPlayer(index) {
+    const cur_map_data = GetCurrentMapData();
+
+    const spawn_pos_x = cur_map_data["spawn_positions"][index]["x"];
+    const spawn_pos_y = cur_map_data["spawn_positions"][index]["y"];
+
+    const name = (index == 1) ? "Mermaid" : "Minotaurus"
+
+    let player = new Player(spawn_pos_x, spawn_pos_y, name);
+}
+
 function RenderMap() {
     canvas_manager.gameplayContext.drawImage(map_image, 0, 0, 1280, 720, 0, 0, 1280, 720);
 }
 
-function GetCurrentMap() {
+function GetCurrentMapData() {
     return maps_data.find(e => e.name === cur_map_name);
 }
 

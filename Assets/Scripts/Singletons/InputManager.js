@@ -4,6 +4,7 @@
 import Singleton from "./Singleton.js";
 import EntityManager from "./EntityManager.js";
 import { GamepadMoveHorizontalCommand, GamepadJumpCommand, GamepadDuckCommand } from "../CommandGamepad.js";
+import PhysicsComponent from "../Components/PhysicsComponent.js";
 
 export default class InputManager extends Singleton {
     // Lookup Table for input codes and Commands
@@ -41,30 +42,40 @@ export default class InputManager extends Singleton {
     {
         for (const [key, value] of this.activeKeyboardInputLookup.entries())
             if (value === true)
-                this.inputKeyboardActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).playerOne);
+                this.inputKeyboardActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).playerTwo);
     }
 
     // Adds or changes an existing keyCode's Command
     addKeyboardInputActionLookup = (keyCode, command) =>
         this.inputKeyboardActionLookup.set(keyCode, command);
     
-    isKeyActive = (keyCode) => {
-        return this.activeKeyboardInputLookup.get(keyCode) ? true : false;
-    }
-    /// ----    KEYBOARD INPUT END  ----
+    isKeyActive = (keyCode) =>
+        this.activeKeyboardInputLookup.get(keyCode) ? true : false;
+    /// ----    KEYBOARD INPUT END      ----
 
     handleGamepadInput() {
         const gp1 = navigator.getGamepads()[0];
-        if (!gp1) return;
-        const playerOne = EntityManager.getInstance(EntityManager).playerOne;
+        const gp2 = navigator.getGamepads()[1];
 
-        this.gamepad_horizontal_command.execute(playerOne, gp1["axes"][0])
+        if (gp1) {
+            const playerOne = EntityManager.getInstance(EntityManager).playerOne;
+            this.#handleGamepadInputForPlayer(gp1, playerOne);
+        }
+        if (gp2) {
+            const playerTwo = EntityManager.getInstance(EntityManager).playerTwo;
+            this.#handleGamepadInputForPlayer(gp2, playerTwo);
+        }
 
-        this.handleGamepadJump(gp1, playerOne);
-        this.handleGamepadDuck(gp1, playerOne);
     }
 
-    handleGamepadJump(gamepad, player) {
+    #handleGamepadInputForPlayer(gp, player) {
+        this.gamepad_horizontal_command.execute(player, gp["axes"][0])
+    
+        this.#handleGamepadJump(gp, player);
+        this.#handleGamepadDuck(gp, player);
+    }
+
+    #handleGamepadJump(gamepad, player) {
         if (gamepad["buttons"][3].pressed) {
             if (!this.gamepad_holding_jump) {
                 this.gamepad_jump_command.execute(player);
@@ -74,14 +85,15 @@ export default class InputManager extends Singleton {
             this.gamepad_holding_jump = false;
     }
 
-    handleGamepadDuck(gamepad, player) {
-        if (gamepad["buttons"][2].pressed) {
+    #handleGamepadDuck(gamepad, player) {
+        if (!player.getComponentOfType(PhysicsComponent).is_grounded) return;
+
+        if (gamepad["axes"][1] > 0.7 || gamepad["buttons"][2].pressed) {
             if (!this.gamepad_holding_duck) {
                 this.gamepad_duck_command.execute(player);
                 this.gamepad_holding_duck = true;
             }
         } else 
             this.gamepad_holding_duck = false;
-
     }
 }
