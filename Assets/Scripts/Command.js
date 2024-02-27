@@ -30,8 +30,12 @@ export class MoveCommand extends Command {
     }
 
     execute(entity) {
-        entity.getComponentOfType(PhysicsComponent).vel.x += this.xVel;
-        entity.getComponentOfType(PhysicsComponent).vel.y += this.yVel;
+        const physics_component = entity.getComponentOfType(PhysicsComponent);
+        if (!physics_component) return;
+
+        physics_component.vel.x += this.xVel;
+        physics_component.vel.y += this.yVel;
+        
         super.execute();
     }
 };
@@ -43,7 +47,7 @@ export class JumpCommand extends Command {
 
     execute(entity) {
         if (this.first_call)
-            entity.getComponentOfType(PhysicsComponent).jump();
+            entity.getComponentOfType(PhysicsComponent)?.jump();
 
         super.execute();
     }
@@ -56,7 +60,7 @@ export class DuckCommand extends Command {
 
     execute(entity) {
         if (this.first_call)
-            entity.getComponentOfType(PhysicsComponent).duck();
+            entity.getComponentOfType(PhysicsComponent)?.duck();
 
             super.execute();
     }

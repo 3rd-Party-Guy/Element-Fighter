@@ -77,7 +77,7 @@ export default class PhysicsComponent extends Component {
 
         if (this.vel.y > 0)
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time;
-        if (this.vel.y < 0 && !InputManager.getInstance(InputManager).isKeyActive("KeyW"))
+        if (this.vel.y < 0 && (!InputManager.getInstance(InputManager).isKeyActive("KeyW") && !InputManager.getInstance(InputManager).gamepad_holding_jump))
             this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
 
         
@@ -117,7 +117,7 @@ export default class PhysicsComponent extends Component {
             if (col_box === this.last_platform && this.is_ducking) continue;
             if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
                 const ground_y = col_box.ru.y - this.#height; 
-                console.log(col_box.is_platform);
+                
                 if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - this.#height / 2 || this.vel.y <= 0) {
                     transform.position.y = ground_y;
                     this.vel.y = Math.min(this.vel.y, 0);
@@ -130,6 +130,7 @@ export default class PhysicsComponent extends Component {
                         this.is_on_platform = true;
                         this.last_platform = col_box;
                     }
+
                     return;
                 }
             }
@@ -139,13 +140,13 @@ export default class PhysicsComponent extends Component {
         if (this.is_grounded)
             this.jumps_left = this.physics_data["jumps"] - 1;
         
-            this.is_grounded = false;
+        this.is_grounded = false;
         this.is_on_platform = false;
     }
 
 
     jump() {
-        if (this.is_grounded || this.jumps_left > 0) {
+        if (this.jumps_left > 0) {
             this.vel.y = this.physics_data["jump_force"] * -1;
             this.jumps_left--;
             this.is_grounded = false;
@@ -153,8 +154,7 @@ export default class PhysicsComponent extends Component {
     }
 
     duck() {
-        if (this.is_grounded && this.is_on_platform) {
+        if (this.is_grounded && this.is_on_platform)
             this.is_ducking = true;
-        }
     }
 }

@@ -36,8 +36,8 @@ async function Initialize() {
     //new Entity(75, 75, "Mermaid");
     new Entity(240,245, "Minotaurus");   
     // Setup Event Callbacks
-    window.addEventListener('keydown', (event) => inputManager.setInput(event));
-    window.addEventListener('keyup', (event) => inputManager.setInput(event));
+    window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
+    window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('click', (event) => getMousePos(event));
 
     window.addEventListener('gamepadconnected', (e) => {
@@ -67,11 +67,11 @@ function getMousePos(e) {
 
 function SetupInputMaps() {
     // Add initial KeyCodes and Commands
-    inputManager.addInputActionLookup("KeyA", new MoveCommand(-140,0));
-    inputManager.addInputActionLookup("KeyD", new MoveCommand(140,0));
-    inputManager.addInputActionLookup("KeyW", new JumpCommand());
-    inputManager.addInputActionLookup("Space", new JumpCommand());
-    inputManager.addInputActionLookup("KeyS", new DuckCommand());
+    inputManager.addKeyboardInputActionLookup("KeyA", new MoveCommand(-140, 0));
+    inputManager.addKeyboardInputActionLookup("KeyD", new MoveCommand(140, 0));
+    inputManager.addKeyboardInputActionLookup("KeyW", new JumpCommand());
+    inputManager.addKeyboardInputActionLookup("Space", new JumpCommand());
+    inputManager.addKeyboardInputActionLookup("KeyS", new DuckCommand());
 }
 
 async function ImportMaps() {
@@ -119,8 +119,8 @@ function EarlyUpdate() {
     lastFrameTime = newFrameTime;
 
     // handles input
-    inputManager.handleInput();
-    //inputManager.handleInputPlayerTwo();
+    inputManager.handleGamepadInput();
+    inputManager.handleKeyboardInput();
 }
 
 function Update() {

@@ -10,7 +10,6 @@ import EntityManager from "./Singletons/EntityManager.js";
 
 export default class Entity {
     entity_name = "Knight";
-
     components = [];
 
     // This contructor constructs the class instance!
