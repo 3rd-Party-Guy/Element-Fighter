@@ -81,16 +81,16 @@
 
       },
       "jump": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 3,
+        "sheet_width": 480,
+        "sheet_height": 160,
         "animation_scale": 1
 
       },
       "fall": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 3,
+        "sheet_width": 480,
+        "sheet_height": 160,
         "animation_scale": 1
       },
       "roll": {

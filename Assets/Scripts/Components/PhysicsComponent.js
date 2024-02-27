@@ -83,7 +83,7 @@ export default class PhysicsComponent extends Component {
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
-        if (Math.abs(this.vel.x) < 10 && this.vel.x != 0)
+        if (Math.abs(this.vel.x) < 50 && this.vel.x != 0)
             this.vel.x = 0;
     }
 
