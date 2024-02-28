@@ -2,24 +2,10 @@
 /// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
 
 import Component from "./Component.js";
-import MovementState from "../StateMachine.js";
+import { MovementState } from "../StateMachine.js";
 import { MovementModes } from "../StateMachine.js";
 import CanvasManager from "../Singletons/CanvasManager.js";
-
-class AnimationDataContext{
-    image = undefined;
-    image_source_normal = undefined;
-    image_source_flipped = undefined;
-    frame_data = undefined;
-
-    constructor(image_source_path, frame_data)
-    {
-        this.image = new Image();
-        this.image_source_normal = image_source_path + ".png";
-        this.image_source_flipped = image_source_path + "_flipped.png";
-        this.frame_data = frame_data;
-    }
-};
+import AnimationDataContext from "../AnimationDataContext.js";
 
 export default class RenderingComponent extends Component {
     frame_index = 0;
@@ -27,7 +13,7 @@ export default class RenderingComponent extends Component {
     update_speed = 240;
 
     //MovementState variable
-    movementState = new MovementState();
+    state = new MovementState();
 
     //Mapping Animation Data to State
     AnimationDataForState = new Map();
@@ -61,16 +47,16 @@ export default class RenderingComponent extends Component {
 
     #updateMovementState(vel_x, vel_y, is_grounded)
     {
-        if (this.movementState.nextState(vel_x, vel_y, is_grounded))
+        if (this.state.nextState(vel_x, vel_y, is_grounded))
             this.frame_index = 0;
 
         if (vel_x < 0)      this.is_flipped = true;
         else if (vel_x > 0) this.is_flipped = false;
 
-        let state_anim_data = this.AnimationDataForState.get(this.movementState.currentState);
+        let state_anim_data = this.AnimationDataForState.get(this.state.current_state);
         this.stateAnimation = state_anim_data.image;
         this.stateAnimation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
-        this.stateFrameData = this.AnimationDataForState.get(this.movementState.currentState).frame_data;
+        this.stateFrameData = this.AnimationDataForState.get(this.state.current_state).frame_data;
     }
 
     #render(transform) {

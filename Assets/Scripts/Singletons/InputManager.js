@@ -12,7 +12,6 @@ export default class InputManager extends Singleton {
     inputKeyboardActionLookup = undefined;
     activeKeyboardInputLookup = undefined;
 
-    connected_gamepads_amount = undefined;
     connected_gamepads = undefined;
 
     constructor() {
@@ -21,7 +20,6 @@ export default class InputManager extends Singleton {
         this.inputKeyboardActionLookup = new Map();
         this.activeKeyboardInputLookup = new Map();
 
-        this.connected_gamepads_amount = 0;
         this.connected_gamepads = [];
     }
 
@@ -60,8 +58,7 @@ export default class InputManager extends Singleton {
     /// ----    KEYBOARD INPUT END      ----
 
     connectGamepad(index) {
-        if (this.connected_gamepads_amount == 0)
-            this.connected_gamepads.push(new GamepadHandler(index))
+        this.connected_gamepads.push(new GamepadHandler(index))
     }
 
     #handleGamepadInput() {
