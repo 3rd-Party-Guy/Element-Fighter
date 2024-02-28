@@ -4,7 +4,7 @@
 import Vector2 from "./Vector2.js";
 
 import { MoveCommand, JumpCommand, DuckCommand } from "./Command.js";
-import Player from "../Player.js";
+import Player from "./Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
@@ -33,20 +33,11 @@ let maps_data;
 let characters_data;
 
 async function Initialize() {
-    // Add entities
-    //new Entity(75, 75, "Mermaid");
-    
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('click', (event) => getMousePos(event));
-
-    window.addEventListener('gamepadconnected', (e) => {
-        console.log("Gamepad detected.");
-        
-        const gp = navigator.getGamepads();
-        console.log(gp);
-    })
+    window.addEventListener('gamepadconnected', (e) => inputManager.connectGamepad(e.gamepad.index));
 
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
@@ -136,8 +127,8 @@ function EarlyUpdate() {
     lastFrameTime = newFrameTime;
 
     // handles input
-    inputManager.handleGamepadInput();
-    inputManager.handleKeyboardInput();
+    // inputManager.handleGamepadInput();
+    inputManager.handleInput();
 }
 
 function Update() {

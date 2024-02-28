@@ -29,6 +29,8 @@ export default class PhysicsComponent extends Component {
     is_on_platform = false;
     last_platform = undefined;
 
+    should_apply_low_jump_multiplier = false;
+
     constructor(physics_info) {
         super();
 
@@ -77,7 +79,7 @@ export default class PhysicsComponent extends Component {
 
         if (this.vel.y > 0)
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time;
-        if (this.vel.y < 0 && (!InputManager.getInstance(InputManager).isKeyActive("KeyW") && !InputManager.getInstance(InputManager).gamepad_holding_jump))
+        if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
             this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
 
         
@@ -86,7 +88,6 @@ export default class PhysicsComponent extends Component {
         if (Math.abs(this.vel.x) < 50 && this.vel.x != 0)
             this.vel.x = 0;
     }
-
 
     #checkGrounded(transform,fixed_delta_time) {
         if (this.vel.y < 0) {

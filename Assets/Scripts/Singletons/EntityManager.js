@@ -5,9 +5,7 @@ import Singleton from "./Singleton.js";
 
 export default class EntityManager extends Singleton {
     entities = [];
-
-    playerOne = undefined;
-    playerTwo = undefined;
+    players = [];
 
     // Add a new entity to the entity manager
     addEntity(entity) {
@@ -16,5 +14,13 @@ export default class EntityManager extends Singleton {
             if (e === entity) return;
 
         this.entities.push(entity);
+    }
+
+    addPlayer(player_entity) {
+        for (const e of this.players)
+            if (e === player_entity) return;
+
+        this.players.push(player_entity);
+        this.entities.push(player_entity);
     }
 }
