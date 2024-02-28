@@ -38,7 +38,7 @@ export class MovementState{
                 break;
 
             case MovementModes.Running:
-                if(xVel == 0 && grounded) {
+                if(Math.abs(xVel) < 50 && grounded) {
                     this.current_state = MovementModes.Idle;
                     return true;
                 }
