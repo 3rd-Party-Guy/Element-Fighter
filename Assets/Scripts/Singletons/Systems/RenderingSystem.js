@@ -11,7 +11,6 @@ import AnimationDataComponent from "../../Components/AnimationDataComponent.js";
 export default class RenderingSystem extends System {
     update(delta) {
         for (const e of EntityManager.getInstance(EntityManager).entities) {
-            const physics_component = e.getComponentOfType(PhysicsComponent);
             const animation_data_component = e.getComponentOfType(AnimationDataComponent);
             const transfrom_component = e.getComponentOfType(TransformComponent);
 
