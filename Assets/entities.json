@@ -17,29 +17,29 @@
 
       },
       "light_attack": {
-        "num_frames": 2,
-        "sheet_width": 296,
+        "num_frames": 5,
+        "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 1
 
       },
       "heavy_attack": {
-        "num_frames": 2,
-        "sheet_width": 296,
+        "num_frames": 5,
+        "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 1
 
       },
       "ability1": {
-        "num_frames": 2,
-        "sheet_width": 296,
+        "num_frames": 5,
+        "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 1
 
       },
       "ability2": {
-        "num_frames": 2,
-        "sheet_width": 296,
+        "num_frames": 5,
+        "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 1
 
@@ -95,30 +95,30 @@
 
       },
       "light_attack": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 3,
+        "sheet_width": 480,
+        "sheet_height": 160,
         "animation_scale": 1
 
       },
       "heavy_attack": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 6,
+        "sheet_width": 960,
+        "sheet_height": 160,
         "animation_scale": 1
 
       },
       "ability1": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 8,
+        "sheet_width": 1280,
+        "sheet_height": 160,
         "animation_scale": 1
 
       },
       "ability2": {
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
+        "num_frames": 8,
+        "sheet_width": 1280,
+        "sheet_height": 160,
         "animation_scale": 1
 
       },
