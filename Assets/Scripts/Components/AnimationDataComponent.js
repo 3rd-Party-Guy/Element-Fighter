@@ -16,13 +16,6 @@ export default class AnimationDataComponent extends Component {
     state_animation = undefined;
     state_frame_data = undefined;
 
-    //Properties to update attackstate
-    is_attacking = false;
-    attacking_light = false;
-    attacking_heavy = false;
-    using_ability_one = false;
-    using_ability_two = false;
-
     //Boolean to pass to rendering component to reset frame index
     state_changed = false;
 
@@ -53,7 +46,7 @@ export default class AnimationDataComponent extends Component {
         this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
     }
 
-    #updateMovementState(vel_x, vel_y, is_grounded)
+    #updateMovementState(vel_x, vel_y, is_grounded, is_attacking, attacking_light, attacking_heavy, using_ability_one, using_ability_two)
     {
         if(this.attack_state.current_state != AttackModes.None) return;
      
