@@ -41,7 +41,7 @@ export default class InputManager extends Singleton {
     {
         for (const [key, value] of this.activeKeyboardInputLookup.entries())
             if (value === true)
-                this.inputKeyboardActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).playerTwo);
+                this.inputKeyboardActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).players[0]);
     }
 
     handleInput() {
@@ -69,6 +69,7 @@ export default class InputManager extends Singleton {
     isPlayerHoldingJump(player) {
         const gp = this.connected_gamepads.find(e => e.player === player);
 
+        if (this.isKeyActive("KeyW")) return true;
         if (!gp) return false;
         return gp.is_holding_jump;
     }
@@ -76,6 +77,7 @@ export default class InputManager extends Singleton {
     isPlayerHoldingDuck(player) {
         const gp = this.connected_gamepads.find(e => e.player === player);
 
+        if (this.isKeyActive("KeyS")) return true;
         if (!gp) return false;
         return gp.is_holding_duck;
     }

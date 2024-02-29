@@ -17,12 +17,6 @@ export default class RenderingSystem extends System {
 
             const transform = transfrom_component.transform;
 
-            const vel_x = physics_component.vel.x;
-            const vel_y = physics_component.vel.y;
-            const is_grounded = physics_component.is_grounded;
-
-            animation_data_component.update(vel_x, vel_y, is_grounded);
-
             const state_animation = animation_data_component.state_animation;
             const state_frame_data = animation_data_component.state_frame_data;
             const state_changed =  animation_data_component.state_changed;

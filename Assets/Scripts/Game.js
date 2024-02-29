@@ -8,12 +8,11 @@ import Player from "./Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
-import EntityManager from "./Singletons/EntityManager.js";
 import CanvasManager from "./Singletons/CanvasManager.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
-import RenderingComponent from "./Components/RenderingComponent.js";
+import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
@@ -21,9 +20,9 @@ const FIXED_DELTA_TIME = 1000 / 480;
 const inputManager = InputManager.getInstance(InputManager);
 const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
-const entity_manager = EntityManager.getInstance(EntityManager);
 
 const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
+const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 
 const cur_map_name = "Vulcano";
@@ -132,13 +131,16 @@ function EarlyUpdate() {
 }
 
 function Update() {
+    const delta = deltaTime / 1000;
+
     // Clear Canvas before rendering again
     canvas_manager.clearGameplayCanvas();
 
     RenderMap();
 
-    physics_system.update(deltaTime/1000);
-    render_system.update(deltaTime / 1000);
+    physics_system.update(delta);
+    animation_system.update(delta);
+    render_system.update(delta);
 
     canvas_manager.gameplayContext.fill();
 }
