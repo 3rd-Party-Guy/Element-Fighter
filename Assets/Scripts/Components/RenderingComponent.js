@@ -9,27 +9,26 @@ export default class RenderingComponent extends Component {
     last_update = Date.now();
     update_speed = 240;
 
-
     constructor() {
         super();
-        
        }
 
-    update(transform, state_animation, state_frame_data,state_changed)
+    update(transform, state_animation, state_frame_data, state_changed)
     {
         this.#updateAnimation(state_frame_data, state_changed);
         this.#render(transform, state_animation, state_frame_data);
     }
 
     #updateAnimation(state_frame_data, state_changed) {
-        if(state_changed) this.frame_index = 0;
+        if(state_changed) {
+            this.frame_index = 0;
+            state_changed = false;
+        } 
         if ((Date.now() - this.last_update) < this.update_speed * state_frame_data["animation_scale"]) return;
 
         this.frame_index = (this.frame_index + 1) % state_frame_data["num_frames"];
         this.last_update = Date.now();
     }
-
-    
 
     #render(transform, state_animation, state_frame_data) {
         CanvasManager.getInstance(CanvasManager).gameplayContext.drawImage(

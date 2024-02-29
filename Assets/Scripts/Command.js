@@ -3,6 +3,7 @@
 
 import Entity from "./Entity.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
+import { AttackModes } from "./StateMachine.js";
 
 export default class Command {
     // some commands cannot be held down and should only function when pressed instead
@@ -62,6 +63,58 @@ export class DuckCommand extends Command {
         if (this.first_call)
             entity.getComponentOfType(PhysicsComponent)?.duck();
 
-            super.execute();
+        super.execute();
+    }
+}
+
+export class AttackLightCommand extends Command {
+    constructor() {
+        super();
+    }
+
+    execute(player) {
+        if (this.first_call && player.attackState == AttackModes.None)
+            player.AttackLight();
+        
+        super.execute();
+    }
+}
+
+export class AttackHeavyCommand extends Command {
+    constructor() {
+        super();
+    }
+
+    execute(player) {
+        if (this.first_call && player.attackState == AttackModes.None)
+            player.AttackHeavy();
+
+        super.execute();
+    }
+}
+
+export class AbilityOneCommand extends Command {
+    constructor() {
+        super();
+    }
+
+    execute(player) {
+        if (this.first_call && player.attackState == AttackModes.None)
+            player.AbilityOne();
+
+        super.execute();
+    }
+}
+
+export class AbilityTwoCommand extends Command {
+    constructor() {
+        super();
+    }
+
+    execute(player) {
+        if (this.first_call && player.attackState == AttackModes.None)
+            player.AbilityTwo();
+
+        super.execute();
     }
 }
