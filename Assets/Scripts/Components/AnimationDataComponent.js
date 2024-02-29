@@ -33,8 +33,8 @@ export default class AnimationDataComponent extends Component {
         this.animation_data_attack_state.set(AttackModes.None,      new AnimationDataContext());
         this.animation_data_attack_state.set(AttackModes.AttackLight,   new AnimationDataContext(result["spritesheets_path"] + "Attack/light_attack",   result["spritesheets_info"]["light_attack"]));
         this.animation_data_attack_state.set(AttackModes.AttackHeavy,   new AnimationDataContext(result["spritesheets_path"] + "Attack/heavy_attack",  result["spritesheets_info"]["heavy_attack"]));
-        this.animation_data_attack_state.set(AttackModes.AbilityOne,   new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
-        this.animation_data_attack_state.set(AttackModes.AbilityTwo,   new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability2",  result["spritesheets_info"]["ability2"]));
+        this.animation_data_attack_state.set(AttackModes.AbilityOne,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
+        this.animation_data_attack_state.set(AttackModes.AbilityTwo,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability2",  result["spritesheets_info"]["ability2"]));
     }
 
     update(vel_x, vel_y, is_grounded)
@@ -45,7 +45,7 @@ export default class AnimationDataComponent extends Component {
         this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
     }
 
-    #updateMovementState(vel_x, vel_y, is_grounded, is_attacking, attacking_light, attacking_heavy, using_ability_one, using_ability_two)
+    #updateMovementState(vel_x, vel_y, is_grounded)
     {
         if(this.attack_state.current_state != AttackModes.None) return;
      
