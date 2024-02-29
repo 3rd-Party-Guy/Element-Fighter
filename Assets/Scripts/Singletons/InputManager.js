@@ -23,7 +23,6 @@ export default class InputManager extends Singleton {
         this.connected_gamepads = [];
     }
 
-    /// ----    KEYBOARD INPUT BEGIN    ----
     // Set Input is called every time there is an input event.
     // This is used to keep track of all keys that are currently down.
     setKeyboardInput(event) {
@@ -55,7 +54,6 @@ export default class InputManager extends Singleton {
     
     isKeyActive = (keyCode) =>
         this.activeKeyboardInputLookup.get(keyCode) ? true : false;
-    /// ----    KEYBOARD INPUT END      ----
 
     connectGamepad(index) {
         this.connected_gamepads.push(new GamepadHandler(index))
