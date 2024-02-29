@@ -1,5 +1,4 @@
-import { AttackState, MovementState } from "../StateMachine.js";
-import { AttackModes, MovementModes } from "../StateMachine.js";
+import State, { MovementModes, MovementState, AttackModes, AttackState } from "../StateMachine.js";
 import AnimationDataContext from "../AnimationDataContext.js";
 import Component from "./Component.js";
 
@@ -9,12 +8,13 @@ export default class AnimationDataComponent extends Component {
     movement_state = new MovementState();
     attack_state = new AttackState();
 
+    final_state = new State();
+
     animation_data_movement_state = new Map();
     animation_data_attack_state = new Map();
 
     state_animation = undefined;
     state_frame_data = undefined;
-
 
     //Properties to update attackstate
     is_attacking = false;
@@ -47,15 +47,21 @@ export default class AnimationDataComponent extends Component {
 
     update(vel_x, vel_y, is_grounded)
     {
-        //this.#updateAttackState();
+        this.#updateAttackState();
         this.#updateMovementState(vel_x, vel_y, is_grounded);
+
+        this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
     }
 
     #updateMovementState(vel_x, vel_y, is_grounded)
     {
-        //if(this.attack_state.current_state == AttackModes.None) return;
+        if(this.attack_state.current_state != AttackModes.None) return;
      
-        if (this.movement_state.nextState(vel_x, vel_y, is_grounded))
+        if (this.movement_state.nextState({ 
+            xVel: vel_x,
+            yVel: vel_y,
+            grounded: is_grounded
+        }))
             this.state_changed = true;
 
         if (vel_x < 0)      this.is_flipped = true;
@@ -69,13 +75,20 @@ export default class AnimationDataComponent extends Component {
 
     #updateAttackState()
     {
-        if (this.attack_state.nextState(this.is_attacking, this.attacking_light, this.attacking_heavy, this.using_ability_one, this.using_ability_two))
+        if (this.attack_state.nextState({
+            is_attacking: this.is_attacking,
+            attacking_light: this.attacking_light,
+            attacking_heavy: this.attacking_heavy,
+            using_ability_one: this.using_ability_one,
+            using_ability_two: this.using_ability_two
+        }))
             this.state_changed = true;
+
+            if (this.attack_state.current_state == 'none') return;
 
             let state_anim_data = this.animation_data_attack_state.get(this.attack_state.current_state);
             this.state_animation = state_anim_data.image;
             this.state_animation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
             this.state_frame_data = this.animation_data_attack_state.get(this.attack_state.current_state).frame_data;
-       
     }
 }

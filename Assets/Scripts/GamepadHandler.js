@@ -2,15 +2,23 @@
 // Description:     Instances of this class are responsible for reading input and executing the respective commands.
 
 import GamepadCommand, { GamepadMoveHorizontalCommand, GamepadDuckCommand, GamepadJumpCommand } from "./CommandGamepad.js";
+import Command, { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand } from "./Command.js";
+
 import EntityManager from "./Singletons/EntityManager.js";
 
 export default class GamepadHandler {
     index = undefined;
     player = undefined;
 
+    // INFO: Do this in Constructor
     gamepad_horizontal_command = new GamepadMoveHorizontalCommand();
     gamepad_jump_command = new GamepadJumpCommand();
     gamepad_duck_command = new GamepadDuckCommand();
+
+    attack_light_command = new AttackLightCommand();
+    attack_heavy_command = new AttackHeavyCommand();
+    ability_one_command = new AbilityOneCommand();
+    ability_two_command = new AbilityTwoCommand();
 
     is_holding_jump = false;
     is_holding_duck = false;
@@ -32,10 +40,27 @@ export default class GamepadHandler {
         return this.gamepad["buttons"][2];
     }
 
+    get lightAttackButton() {
+        return this.gamepad["buttons"][0];
+    }
+
+    get heavyAttackButton() {
+        return this.gamepad["buttons"][1];
+    }
+
+    get abilityOneButton() {
+        return this.gamepad["buttons"][4];
+    }
+
+    get abilityTwoButton() {
+        return this.gamepad["buttons"][5];
+    }
+
     handleInput() {
         this.#moveHorizontal();
         this.#handleJump();
         this.#handleDuck();
+        this.#handleAttacks();
     }
 
     #moveHorizontal() {
@@ -62,5 +87,16 @@ export default class GamepadHandler {
             }
         } else
             this.is_holding_duck = false;
+    }
+
+    #handleAttacks() {
+        if (this.lightAttackButton.pressed)
+            this.attack_light_command.execute(this.player);
+        else if (this.heavyAttackButton.pressed)
+            this.attack_heavy_command.execute(this.player);
+        else if (this.abilityOneButton.pressed)
+            this.ability_one_command.execute(this.player);
+        else if (this.abilityTwoButton.pressed)
+            this.ability_two_command.execute(this.player);
     }
 }
