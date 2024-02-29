@@ -16,9 +16,30 @@
         "animation_scale": 1
 
       },
-      "attack": {
-        "num_frames": 6,
-        "sheet_width": 768,
+      "light_attack": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "heavy_attack": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "ability1": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "ability2": {
+        "num_frames": 2,
+        "sheet_width": 296,
         "sheet_height": 148,
         "animation_scale": 1
 
@@ -73,7 +94,28 @@
 
 
       },
-      "attack": {
+      "light_attack": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "heavy_attack": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "ability1": {
+        "num_frames": 2,
+        "sheet_width": 296,
+        "sheet_height": 148,
+        "animation_scale": 1
+
+      },
+      "ability2": {
         "num_frames": 2,
         "sheet_width": 296,
         "sheet_height": 148,

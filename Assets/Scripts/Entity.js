@@ -7,6 +7,7 @@ import TransformComponent from "./Components/TransformComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
 import EntityManager from "./Singletons/EntityManager.js";
+import AnimationDataComponent from "./Components/AnimationDataComponent.js";
 
 export default class Entity {
     entity_name = "Knight";
@@ -30,9 +31,10 @@ export default class Entity {
                 const result = data.find(e => e.name === this.entity_name)
                 
                 // Initialize Rendering and Physics Components with entity data
-                this.components.push(new RenderingComponent(result));
+                this.components.push(new AnimationDataComponent(result));
+                this.components.push(new RenderingComponent());
                 this.components.push(new PhysicsComponent(result["character_info"]));
-
+                
                 this.onLoaded();
             })
             .catch(err => console.error("Error getting frame data:\n", err));
