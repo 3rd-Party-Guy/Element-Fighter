@@ -35,7 +35,6 @@ export default class AnimationDataComponent extends Component {
         this.animation_data_attack_state.set(AttackModes.AttackHeavy,   new AnimationDataContext(result["spritesheets_path"] + "Attack/heavy_attack",  result["spritesheets_info"]["heavy_attack"]));
         this.animation_data_attack_state.set(AttackModes.AbilityOne,   new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
         this.animation_data_attack_state.set(AttackModes.AbilityTwo,   new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability2",  result["spritesheets_info"]["ability2"]));
-        
     }
 
     update(vel_x, vel_y, is_grounded)

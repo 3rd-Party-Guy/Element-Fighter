@@ -10,14 +10,14 @@ import EntityManager from "./Singletons/EntityManager.js";
 import AnimationDataComponent from "./Components/AnimationDataComponent.js";
 
 export default class Entity {
-    entity_name = "Knight";
+    entity_name = "";
     components = [];
 
     // This contructor constructs the class instance!
-    constructor(startX, startY, name) {
+    constructor(start_x, start_y, name) {
         this.entity_name = name;
 
-        this.components.push(new TransformComponent(new Transform(new Vector2(startX, startY))));
+        this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y))));
         this.#setEntityData();
     }
 
