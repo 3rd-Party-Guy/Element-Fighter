@@ -138,11 +138,9 @@ function Update() {
 
     RenderMap();
 
-    physics_system.update(delta);
     animation_system.update(delta);
+    physics_system.update(delta);
     render_system.update(delta);
-
-    canvas_manager.gameplayContext.fill();
 }
 
 function FixedUpdate() {

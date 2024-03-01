@@ -2,7 +2,7 @@ import State, { MovementModes, MovementState, AttackModes, AttackState } from ".
 import AnimationDataContext from "../AnimationDataContext.js";
 import Component from "./Component.js";
 
-export default class AnimationDataComponent extends Component {
+export default class AnimationComponent extends Component {
     
     // New empty animation data for movement and attack animations
     movement_state = new MovementState();
@@ -13,11 +13,9 @@ export default class AnimationDataComponent extends Component {
     animation_data_movement_state = new Map();
     animation_data_attack_state = new Map();
 
-    // state_animation = undefined;
-    // state_frame_data = undefined;
-
-    //Boolean to pass to rendering component to reset frame index
-    state_changed = false;
+    update_speed = 240;
+    last_update = 0;
+    frame_index = 0;
 
     constructor(result)
     {
@@ -35,15 +33,8 @@ export default class AnimationDataComponent extends Component {
         this.animation_data_attack_state.set(AttackModes.AttackHeavy,   new AnimationDataContext(result["spritesheets_path"] + "Attack/heavy_attack",  result["spritesheets_info"]["heavy_attack"]));
         this.animation_data_attack_state.set(AttackModes.AbilityOne,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
         this.animation_data_attack_state.set(AttackModes.AbilityTwo,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability2",  result["spritesheets_info"]["ability2"]));
-    }
-
-    update(vel_x, vel_y, is_grounded)
-    {
-        this.state_changed = false;
-        this.#updateAttackState();
-        this.#updateMovementState(vel_x, vel_y, is_grounded);
-
-        this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
+    
+        this.last_update = Date.now();
     }
 
     get anim_data() {
@@ -65,16 +56,41 @@ export default class AnimationDataComponent extends Component {
         return this.anim_data.frame_data;
     }
 
+    update(vel_x, vel_y, is_grounded)
+    {
+        this.#updateAttackState();
+        this.#updateMovementState(vel_x, vel_y, is_grounded);
+        
+        this.#updateAnimation();
+        
+        this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
+    }
+
+    #updateAnimation() {
+        if ((Date.now() - this.last_update) < this.update_speed * this.frame_data["animation_scale"])
+            return;
+
+        let new_frame_index = this.frame_index + 1;
+
+        if (new_frame_index >= this.frame_data["num_frames"]) {
+            this.attack_state.current_state = AttackModes.None;
+            new_frame_index = 0;
+        }
+        this.frame_index = new_frame_index;
+        this.last_update = Date.now();
+    }
+
     #updateMovementState(vel_x, vel_y, is_grounded)
     {
         if(this.attack_state.current_state != AttackModes.None) return;
 
+        // When the state changes, we run the animation from the beginning
         if (this.movement_state.nextState({ 
             xVel: vel_x,
             yVel: vel_y,
             grounded: is_grounded
         }))
-            this.state_changed = true;
+            this.#onStateChange();
 
         if (vel_x < 0)      this.is_flipped = true;
         else if (vel_x > 0) this.is_flipped = false;
@@ -82,6 +98,7 @@ export default class AnimationDataComponent extends Component {
 
     #updateAttackState()
     {
+        // When the state changes, we run the animation from the beginning
         if (this.attack_state.nextState({
             is_attacking: this.is_attacking,
             attacking_light: this.attacking_light,
@@ -89,8 +106,12 @@ export default class AnimationDataComponent extends Component {
             using_ability_one: this.using_ability_one,
             using_ability_two: this.using_ability_two
         }))
-            this.state_changed = true;
+            this.#onStateChange();
 
         if (this.attack_state.current_state == 'none') return;
+    }
+
+    #onStateChange() {
+        this.frame_index = 0;
     }
 }
