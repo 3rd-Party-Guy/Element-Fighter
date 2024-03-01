@@ -13,8 +13,8 @@ export default class AnimationDataComponent extends Component {
     animation_data_movement_state = new Map();
     animation_data_attack_state = new Map();
 
-    state_animation = undefined;
-    state_frame_data = undefined;
+    // state_animation = undefined;
+    // state_frame_data = undefined;
 
     //Boolean to pass to rendering component to reset frame index
     state_changed = false;
@@ -46,6 +46,25 @@ export default class AnimationDataComponent extends Component {
         this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
     }
 
+    get anim_data() {
+        return (this.attack_state.current_state == AttackModes.None) ?
+            this.animation_data_movement_state.get(this.movement_state.current_state) :
+            this.animation_data_attack_state.get(this.attack_state.current_state);
+    }
+
+    get image_source() {
+        return (this.is_flipped) ? this.anim_data.image_source_flipped : this.anim_data.image_source_normal;
+    }
+
+    get animation() {
+        this.anim_data.image.src = this.image_source;
+        return this.anim_data.image;
+    }
+
+    get frame_data() {
+        return this.anim_data.frame_data;
+    }
+
     #updateMovementState(vel_x, vel_y, is_grounded)
     {
         if(this.attack_state.current_state != AttackModes.None) return;
@@ -59,11 +78,6 @@ export default class AnimationDataComponent extends Component {
 
         if (vel_x < 0)      this.is_flipped = true;
         else if (vel_x > 0) this.is_flipped = false;
-
-        let state_anim_data = this.animation_data_movement_state.get(this.movement_state.current_state);
-        this.state_animation = state_anim_data.image;
-        this.state_animation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
-        this.state_frame_data = this.animation_data_movement_state.get(this.movement_state.current_state).frame_data;
     }
 
     #updateAttackState()
@@ -78,10 +92,5 @@ export default class AnimationDataComponent extends Component {
             this.state_changed = true;
 
         if (this.attack_state.current_state == 'none') return;
-
-        let state_anim_data = this.animation_data_attack_state.get(this.attack_state.current_state);
-        this.state_animation = state_anim_data.image;
-        this.state_animation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
-        this.state_frame_data = this.animation_data_attack_state.get(this.attack_state.current_state).frame_data;
     }
 }
