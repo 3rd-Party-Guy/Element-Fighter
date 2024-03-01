@@ -11,7 +11,7 @@ export default class RenderingComponent extends Component {
 
     constructor() {
         super();
-       }
+    }
 
     update(transform, state_animation, state_frame_data, state_changed)
     {

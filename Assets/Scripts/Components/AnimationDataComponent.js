@@ -30,7 +30,7 @@ export default class AnimationDataComponent extends Component {
         this.animation_data_movement_state.set(MovementModes.Falling,   new AnimationDataContext(result["spritesheets_path"] + "Movement/fall",  result["spritesheets_info"]["fall"]));
         
         //set animation data for attack states
-        this.animation_data_attack_state.set(AttackModes.None,      new AnimationDataContext());
+        this.animation_data_attack_state.set(AttackModes.None,          undefined);
         this.animation_data_attack_state.set(AttackModes.AttackLight,   new AnimationDataContext(result["spritesheets_path"] + "Attack/light_attack",   result["spritesheets_info"]["light_attack"]));
         this.animation_data_attack_state.set(AttackModes.AttackHeavy,   new AnimationDataContext(result["spritesheets_path"] + "Attack/heavy_attack",  result["spritesheets_info"]["heavy_attack"]));
         this.animation_data_attack_state.set(AttackModes.AbilityOne,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
@@ -39,6 +39,7 @@ export default class AnimationDataComponent extends Component {
 
     update(vel_x, vel_y, is_grounded)
     {
+        this.state_changed = false;
         this.#updateAttackState();
         this.#updateMovementState(vel_x, vel_y, is_grounded);
 
@@ -48,7 +49,7 @@ export default class AnimationDataComponent extends Component {
     #updateMovementState(vel_x, vel_y, is_grounded)
     {
         if(this.attack_state.current_state != AttackModes.None) return;
-     
+
         if (this.movement_state.nextState({ 
             xVel: vel_x,
             yVel: vel_y,
@@ -76,11 +77,11 @@ export default class AnimationDataComponent extends Component {
         }))
             this.state_changed = true;
 
-            if (this.attack_state.current_state == 'none') return;
+        if (this.attack_state.current_state == 'none') return;
 
-            let state_anim_data = this.animation_data_attack_state.get(this.attack_state.current_state);
-            this.state_animation = state_anim_data.image;
-            this.state_animation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
-            this.state_frame_data = this.animation_data_attack_state.get(this.attack_state.current_state).frame_data;
+        let state_anim_data = this.animation_data_attack_state.get(this.attack_state.current_state);
+        this.state_animation = state_anim_data.image;
+        this.state_animation.src = (this.is_flipped) ? state_anim_data.image_source_flipped : state_anim_data.image_source_normal;
+        this.state_frame_data = this.animation_data_attack_state.get(this.attack_state.current_state).frame_data;
     }
 }
