@@ -3,7 +3,7 @@
 
 import Vector2 from "./Vector2.js";
 
-import { MoveCommand, JumpCommand, DuckCommand } from "./Command.js";
+import { MoveCommand, JumpCommand, DuckCommand, AttackLightCommand, AttackHeavyCommand } from "./Command.js";
 import Player from "./Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
@@ -69,6 +69,9 @@ function SetupInputMaps() {
     inputManager.addKeyboardInputActionLookup("KeyW", new JumpCommand());
     inputManager.addKeyboardInputActionLookup("Space", new JumpCommand());
     inputManager.addKeyboardInputActionLookup("KeyS", new DuckCommand());
+
+    inputManager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand());
+    inputManager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand());
 }
 
 async function ImportMaps() {
