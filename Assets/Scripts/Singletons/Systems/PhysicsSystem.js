@@ -23,10 +23,12 @@ export default class PhysicsSystem extends System {
             for (const e of EntityManager.getInstance(EntityManager).entities) {
                 const transfrom_component = e.getComponentOfType(TransformComponent);
                 const physics_component = e.getComponentOfType(PhysicsComponent);
-                
+                const input_manager = InputManager.getInstance(InputManager);
+
                 if (!physics_component) return;
 
-                physics_component.should_apply_low_jump_multiplier = !InputManager.getInstance(InputManager).isPlayerHoldingJump(e);
+                physics_component.should_apply_low_jump_multiplier = !input_manager.isPlayerHoldingJump(e);
+                physics_component.should_apply_duck_fall_multiplier = input_manager.isPlayerHoldingDuck(e);
                 e.getComponentOfType(PhysicsComponent)?.fixedUpdate(transfrom_component.transform, fixed_delta_time);
             }
         }

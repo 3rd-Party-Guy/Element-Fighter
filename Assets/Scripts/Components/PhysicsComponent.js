@@ -29,6 +29,7 @@ export default class PhysicsComponent extends Component {
     is_on_platform = false;
     last_platform = undefined;
 
+    should_apply_duck_fall_multiplier = false;
     should_apply_low_jump_multiplier = false;
 
     constructor(physics_info) {
@@ -77,11 +78,14 @@ export default class PhysicsComponent extends Component {
         else
             this.vel.y = Math.min(0, this.vel.y);
 
-        if (this.vel.y > 0)
+        if (this.vel.y > 0) {
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time;
-        if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
-            this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
 
+            if (this.should_apply_duck_fall_multiplier)
+                this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time * 0.7;
+        }
+        else if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
+            this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
