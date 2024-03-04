@@ -73,9 +73,8 @@ export default class PhysicsComponent extends Component {
 
 
     #updateVelocities(fixed_delta_time) {
-        if (!this.is_grounded){
+        if (!this.is_grounded)
             this.vel.y += this.physics_data["gravity"] * fixed_delta_time;
-            }
         else
             this.vel.y = Math.min(0, this.vel.y);
 
