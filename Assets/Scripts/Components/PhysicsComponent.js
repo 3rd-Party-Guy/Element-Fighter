@@ -6,7 +6,6 @@ import Vector2 from "../Vector2.js";
 import Line from "../Line.js";
 import Component from "./Component.js";
 import MapColliderManager from "../Singletons/MapColliderManager.js";
-import InputManager from "../Singletons/InputManager.js";
 
 export default class PhysicsComponent extends Component {
     // Property to hold all relevant physics data for an entity
@@ -28,6 +27,8 @@ export default class PhysicsComponent extends Component {
     is_ducking = false;
     is_on_platform = false;
     last_platform = undefined;
+
+    duck_fall_multiplier = 0.9;
 
     should_apply_duck_fall_multiplier = false;
     should_apply_low_jump_multiplier = false;
@@ -82,7 +83,7 @@ export default class PhysicsComponent extends Component {
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time;
 
             if (this.should_apply_duck_fall_multiplier)
-                this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time * 0.7;
+                this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time * this.duck_fall_multiplier;
         }
         else if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
             this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;

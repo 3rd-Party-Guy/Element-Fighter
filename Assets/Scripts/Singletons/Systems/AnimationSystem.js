@@ -14,8 +14,9 @@ export default class AnimationSystem extends System {
             const vel_x = physics_component.vel.x;
             const vel_y = physics_component.vel.y;
             const is_grounded = physics_component.is_grounded;
+            const attacking_data = e.attackingData;
 
-            animation_data_component.update(vel_x, vel_y, is_grounded);
+            animation_data_component.update(vel_x, vel_y, is_grounded, attacking_data);
         }
     }
 }

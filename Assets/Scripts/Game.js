@@ -9,6 +9,7 @@ import Player from "./Player.js";
 import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
+import EntityManager from "./Singletons/EntityManager.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
@@ -18,8 +19,9 @@ import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 const FIXED_DELTA_TIME = 1000 / 480;
 
 const inputManager = InputManager.getInstance(InputManager);
-const mapColliderManager = MapColliderManager.getInstance(MapColliderManager);
+const map_collider_manager = MapColliderManager.getInstance(MapColliderManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
+const entity_manager = EntityManager.getInstance(EntityManager);
 
 const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
 const animation_system = AnimationSystem.getInstance(AnimationSystem);
@@ -85,7 +87,7 @@ function SetupMapCollisions() {
     for (const id in cur_map_data.hitboxes) {
         const h = cur_map_data["hitboxes"][id];
 
-        mapColliderManager.addCollision(
+        map_collider_manager.addCollision(
             new Vector2(h.ld.x, h.ld.y),
             new Vector2(h.ru.x, h.ru.y),
             h.is_platform
@@ -125,8 +127,11 @@ function EarlyUpdate() {
     accumulatedTime += deltaTime;
     lastFrameTime = newFrameTime;
 
+    // clears attack signals from previous frame
+    for (const p of entity_manager.players)
+        p.clearAttackSignals();
+
     // handles input
-    // inputManager.handleGamepadInput();
     inputManager.handleInput();
 }
 

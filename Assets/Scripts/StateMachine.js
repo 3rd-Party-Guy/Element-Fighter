@@ -24,10 +24,9 @@ export default class State {
     }
 }
 
-export class MovementState {
-    current_state = undefined;
-
+export class MovementState extends State {
     constructor() {
+        super();
         this.current_state = MovementModes.Idle;
     }
 
@@ -85,22 +84,19 @@ export class MovementState {
     }
 };
 
-export class AttackState {
-    current_state = undefined;
-
+export class AttackState extends State {
     constructor() {
+        super();
         this.current_state = AttackModes.None;
     }
 
     nextState(data) {
-        if (data.is_attacking) return;
-        
-        if (data.attacking_light && this.current_state != AttackModes.AttackLight) {
+        if (data.attacking_light && this.current_state != 'attack light') {
             this.current_state = AttackModes.AttackLight;
             return true;
         }
 
-        if (data.attacking_heavy && this.current_state != AttackModes.AttackHeavy) {
+        if (data.attacking_heavy && this.current_state != 'attack heavy') {
             this.current_state = AttackModes.AttackHeavy;
             return true;
         }
@@ -112,11 +108,6 @@ export class AttackState {
 
         if (data.using_ability_two && this.current_state != AttackModes.AbilityTwo) {
             this.current_state = AttackModes.AbilityTwo;
-            return true;
-        }
-
-        if (this.current_state != AttackModes.None) {
-            this.current_state = AttackModes.None;
             return true;
         }
 

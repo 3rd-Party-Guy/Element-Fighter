@@ -73,7 +73,7 @@ export class AttackLightCommand extends Command {
     }
 
     execute(player) {
-        if (this.first_call && player.attackState == AttackModes.None)
+        if (this.first_call && player.attackState == 'none')
             player.attackLight();
         
         super.execute();
@@ -86,7 +86,7 @@ export class AttackHeavyCommand extends Command {
     }
 
     execute(player) {
-        if (this.first_call && player.attackState == AttackModes.None)
+        if (this.first_call && player.attackState == 'none')
             player.attackHeavy();
 
         super.execute();
@@ -99,7 +99,7 @@ export class AbilityOneCommand extends Command {
     }
 
     execute(player) {
-        if (this.first_call && player.attackState == AttackModes.None)
+        if (this.first_call && player.attackState == 'none')
             player.abilityOne();
 
         super.execute();
@@ -112,7 +112,7 @@ export class AbilityTwoCommand extends Command {
     }
 
     execute(player) {
-        if (this.first_call && player.attackState == AttackModes.None)
+        if (this.first_call && player.attackState == 'none')
             player.abilityTwo();
 
         super.execute();

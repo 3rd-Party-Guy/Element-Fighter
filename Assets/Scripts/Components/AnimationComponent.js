@@ -38,7 +38,7 @@ export default class AnimationComponent extends Component {
     }
 
     get anim_data() {
-        return (this.attack_state.current_state == AttackModes.None) ?
+        return (this.attack_state.current_state == 'none') ?
             this.animation_data_movement_state.get(this.movement_state.current_state) :
             this.animation_data_attack_state.get(this.attack_state.current_state);
     }
@@ -56,14 +56,20 @@ export default class AnimationComponent extends Component {
         return this.anim_data.frame_data;
     }
 
-    update(vel_x, vel_y, is_grounded)
+    update(vel_x, vel_y, is_grounded, attacking_data)
     {
-        this.#updateAttackState();
+        this.#updateIsFlipped(vel_x);
+        this.#updateAttackState(attacking_data);
         this.#updateMovementState(vel_x, vel_y, is_grounded);
         
         this.#updateAnimation();
         
         this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
+    }
+
+    #updateIsFlipped(vel_x) {
+        if (vel_x < 0)      this.is_flipped = true;
+        else if (vel_x > 0) this.is_flipped = false;
     }
 
     #updateAnimation() {
@@ -91,24 +97,13 @@ export default class AnimationComponent extends Component {
             grounded: is_grounded
         }))
             this.#onStateChange();
-
-        if (vel_x < 0)      this.is_flipped = true;
-        else if (vel_x > 0) this.is_flipped = false;
     }
 
-    #updateAttackState()
+    #updateAttackState(attacking_data)
     {
         // When the state changes, we run the animation from the beginning
-        if (this.attack_state.nextState({
-            is_attacking: this.is_attacking,
-            attacking_light: this.attacking_light,
-            attacking_heavy: this.attacking_heavy,
-            using_ability_one: this.using_ability_one,
-            using_ability_two: this.using_ability_two
-        }))
+        if (this.attack_state.nextState(attacking_data))
             this.#onStateChange();
-
-        if (this.attack_state.current_state == 'none') return;
     }
 
     #onStateChange() {
