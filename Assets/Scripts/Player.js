@@ -1,5 +1,4 @@
 import AnimationComponent from "./Components/AnimationComponent.js";
-import PhysicsComponent from "./Components/PhysicsComponent.js";
 import Entity from "./Entity.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
@@ -15,7 +14,7 @@ export default class Player extends Entity {
     }
 
     get isAttacking() {
-        return (this.is_attacking_light || this.is_attacking_heavy || this.is_ability_one || this.is_ability_two);
+        return (this.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None);
     }
 
     get attackState() {

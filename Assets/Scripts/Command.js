@@ -1,16 +1,13 @@
 /// Author:         Nikolay Hadzhiev
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
-import Entity from "./Entity.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
-import AnimationComponent from "./Components/AnimationComponent.js";
-import { AttackModes } from "./StateMachine.js";
 
 export default class Command {
     // some commands cannot be held down and should only function when pressed instead
     first_call = true;
 
-    execute(entity) {
+    execute(player) {
         this.first_call = false;
     }
 
@@ -34,8 +31,7 @@ export class MoveCommand extends Command {
     execute(player) {
         const physics_component = player.getComponentOfType(PhysicsComponent);
         if (!physics_component) return;
-        if (player.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None)
-            return;
+        if (player.isAttacking) return;
 
         physics_component.vel.x += this.xVel;
         physics_component.vel.y += this.yVel;
@@ -49,9 +45,12 @@ export class JumpCommand extends Command {
         super();
     }
 
-    execute(entity) {
+    execute(player) {
+        if (player.isAttacking)
+            return;
+
         if (this.first_call)
-            entity.getComponentOfType(PhysicsComponent)?.jump();
+            player.getComponentOfType(PhysicsComponent)?.jump();
 
         super.execute();
     }
@@ -62,9 +61,10 @@ export class DuckCommand extends Command {
         super();
     }
 
-    execute(entity) {
+    execute(player) {
+        if (player.isAttacking) return;
         if (this.first_call)
-            entity.getComponentOfType(PhysicsComponent)?.duck();
+            player.getComponentOfType(PhysicsComponent)?.duck();
 
         super.execute();
     }
