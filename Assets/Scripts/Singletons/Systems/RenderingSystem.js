@@ -15,7 +15,6 @@ export default class RenderingSystem extends System {
             const transform = e.getComponentOfType(TransformComponent).transform;
             const state_animation = animation_data.animation;
             const state_frame_data = animation_data.frame_data;
-            const state_changed =  animation_data.state_changed;
             const frame_index = animation_data.frame_index;
 
             e.getComponentOfType(RenderingComponent).update(transform, state_animation, state_frame_data, frame_index);
