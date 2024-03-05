@@ -149,7 +149,6 @@ function Update() {
     animation_system.update(delta);
     physics_system.update(delta);
     render_system.update(delta);
-
     entity_manager.updateEntities(delta);
 }
 

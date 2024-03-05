@@ -58,5 +58,21 @@
                 "y": 521
             }
         }
+    },
+    {
+        "name": "Colosseum",
+        "image_path": "Assets/Sprites/Maps/colosseum.png",
+        "hitboxes": {
+            "1": {
+                "ld": {
+                    "x": 0,
+                    "y": 720
+                },
+                "ru": {
+                    "x": 1280,
+                    "y": 700
+                }
+            }
+        }
     }
 ]
