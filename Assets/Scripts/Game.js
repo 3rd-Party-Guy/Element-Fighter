@@ -14,6 +14,7 @@ import EntityManager from "./Singletons/EntityManager.js";
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
+import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
@@ -26,6 +27,7 @@ const entity_manager = EntityManager.getInstance(EntityManager);
 const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
 const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
+const collision_system = ColissionSystem.getInstance(ColissionSystem);
 
 const cur_map_name = "Vulcano";
 const map_image = new Image();
@@ -50,6 +52,10 @@ async function Initialize() {
 
     SetupInputMaps();
     SetupMapCollisions();
+
+    // Setup Collision Canvas
+    canvas_manager.collisionContext.fillStyle = "black";
+    canvas_manager.collisionContext.globalCompositeOperation = "xor";
 }
 
 // INFO: Only for debugging purposes
@@ -111,7 +117,7 @@ function SpawnPlayer(index) {
 }
 
 function RenderMap() {
-    canvas_manager.gameplayContext.drawImage(map_image, 0, 0, 1280, 720, 0, 0, 1280, 720);
+    canvas_manager.gameplayContext.drawImage(map_image, 0, 0, 1280, 720, 0, 0, canvas_manager.width, canvas_manager.height);
 }
 
 function GetCurrentMapData() {
@@ -142,13 +148,15 @@ function Update() {
     const delta = deltaTime / 1000;
 
     // Clear Canvas before rendering again
-    canvas_manager.clearGameplayCanvas();
+    canvas_manager.clearCanvases();
 
     RenderMap();
 
     animation_system.update(delta);
     physics_system.update(delta);
     render_system.update(delta);
+    collision_system.update(delta);
+
     entity_manager.updateEntities(delta);
 }
 

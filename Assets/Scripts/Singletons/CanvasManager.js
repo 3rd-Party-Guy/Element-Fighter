@@ -5,18 +5,50 @@ import Singleton from "./Singleton.js";
 
 export default class CanvasManager extends Singleton {
     gameplay_canvas = document.getElementById('game-window');
+    collision_canvas = document.getElementById('collision-window');
 
     get gameplayContext() { return this.gameplay_canvas.getContext('2d'); }
+    get collisionContext() { return this.collision_canvas.getContext('2d'); }
+    
+    get width() { return this.gameplay_canvas.width; }
+    get height() { return this.gameplay_canvas.height; }
+
+    get clientWidth() { return this.gameplay_canvas.clientWidth; }
+    get clientHeight() { return this.gameplay_canvas.clientHeight; }
+
+    // TODO: OPTIMIZE by only getting only characters snippet
+    get collisionImage() { 
+        return this.collisionContext.getImageData(
+            0,
+            0,
+            this.width,
+            this.height
+        );
+    }
 
     // INFO: Debug Only
     get clientRect() { return this.gameplay_canvas.getBoundingClientRect(); }
 
-    clearGameplayCanvas() {
+    clearCanvases() {
         this.gameplayContext.clearRect(
             0,
             0,
             this.gameplay_canvas.clientWidth,
             this.gameplay_canvas.clientHeight
+        );
+
+        this.collisionContext.clearRect(
+            0,
+            0,
+            this.collision_canvas.clientWidth,
+            this.collision_canvas.clientHeight
+        );
+
+        this.collisionContext.fillRect(
+            0,
+            0,
+            this.collision_canvas.clientWidth,
+            this.collision_canvas.clientHeight
         );
     }
 }
