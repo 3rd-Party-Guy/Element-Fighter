@@ -14,7 +14,9 @@ export default class PhysicsComponent extends Component {
     // Properties for calculating physics
     vel = new Vector2(0,0);
     maxVel = new Vector2(100,0);
-    x_speed = 1;
+
+    x_friction = 0;
+    y_friction = 0;
     
     //Properties for states
     is_flipped = false;
@@ -129,7 +131,7 @@ export default class PhysicsComponent extends Component {
                 if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - this.#height / 2 || this.vel.y <= 0) {
                     transform.position.y = ground_y;
                     this.vel.y = Math.min(this.vel.y, 0);
-                    this.jumps_left = this.physics_data["jumps"];
+                    this.jumps_left = this.physics_data["jumps"] || 0;
 
                     this.is_grounded = true;
                     this.is_ducking = false;
@@ -146,7 +148,7 @@ export default class PhysicsComponent extends Component {
 
         // character should have one more jump when jumping from ground
         if (this.is_grounded)
-            this.jumps_left = this.physics_data["jumps"] - 1;
+            this.jumps_left = this.physics_data["jumps"] - 1 || 0;
         
         this.is_grounded = false;
         this.is_on_platform = false;
@@ -155,7 +157,7 @@ export default class PhysicsComponent extends Component {
 
     jump() {
         if (this.jumps_left > 0) {
-            this.vel.y = this.physics_data["jump_force"] * -1;
+            this.vel.y = this.physics_data["jump_force"] * -1 || 0;
             this.jumps_left--;
             this.is_grounded = false;
         }
