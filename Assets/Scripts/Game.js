@@ -149,11 +149,14 @@ function Update() {
     animation_system.update(delta);
     physics_system.update(delta);
     render_system.update(delta);
+
+    entity_manager.updateEntities(delta);
 }
 
 function FixedUpdate() {
     while (accumulatedTime >= FIXED_DELTA_TIME) {
         physics_system.fixedUpdate(FIXED_DELTA_TIME / 1000);
+        entity_manager.fixedUpdateEntities(FIXED_DELTA_TIME / 1000);
 
         accumulatedTime -= FIXED_DELTA_TIME;
     }

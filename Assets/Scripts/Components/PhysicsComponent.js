@@ -30,6 +30,8 @@ export default class PhysicsComponent extends Component {
 
     duck_fall_multiplier = 0.9;
 
+    should_move = true;
+
     should_apply_duck_fall_multiplier = false;
     should_apply_low_jump_multiplier = false;
 
@@ -63,7 +65,8 @@ export default class PhysicsComponent extends Component {
 
     update(transform, delta_time)
     {
-        this.#updatePosition(transform, delta_time);
+        if (this.should_move)
+            this.#updatePosition(transform, delta_time);
     }
     
     #updatePosition(transform, delta_time) {

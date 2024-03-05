@@ -1,26 +1,29 @@
+import AnimationComponent from "./Components/AnimationComponent.js";
+import { AttackModes } from "./StateMachine.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 
 export default class GamepadCommand {
-    execute(entity, data) {}
+    execute(player, data) {}
 }
 
 export class GamepadMoveHorizontalCommand {
-    execute(entity, data) {
-        const physics_component = entity.getComponentOfType(PhysicsComponent);
+    execute(player, data) {
+        const physics_component = player.getComponentOfType(PhysicsComponent);
         if (!physics_component) return;
+        if (player.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None) return;
 
         physics_component.vel.x += data * 150;
     }
 }
 
 export class GamepadJumpCommand {
-    execute(entity, data) {
-        entity.getComponentOfType(PhysicsComponent)?.jump();
+    execute(player, data) {
+        player.getComponentOfType(PhysicsComponent)?.jump();
     }
 }
 
 export class GamepadDuckCommand {
-    execute(entity, data) {
-        entity.getComponentOfType(PhysicsComponent)?.duck();
+    execute(player, data) {
+        player.getComponentOfType(PhysicsComponent)?.duck();
     }
 }

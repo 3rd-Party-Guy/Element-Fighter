@@ -3,6 +3,7 @@
 
 import Entity from "./Entity.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
+import AnimationComponent from "./Components/AnimationComponent.js";
 import { AttackModes } from "./StateMachine.js";
 
 export default class Command {
@@ -30,9 +31,11 @@ export class MoveCommand extends Command {
         this.yVel = yVel;
     }
 
-    execute(entity) {
-        const physics_component = entity.getComponentOfType(PhysicsComponent);
+    execute(player) {
+        const physics_component = player.getComponentOfType(PhysicsComponent);
         if (!physics_component) return;
+        if (player.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None)
+            return;
 
         physics_component.vel.x += this.xVel;
         physics_component.vel.y += this.yVel;

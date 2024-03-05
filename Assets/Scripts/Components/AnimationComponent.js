@@ -8,8 +8,6 @@ export default class AnimationComponent extends Component {
     movement_state = new MovementState();
     attack_state = new AttackState();
 
-    final_state = new State();
-
     animation_data_movement_state = new Map();
     animation_data_attack_state = new Map();
 
@@ -63,8 +61,6 @@ export default class AnimationComponent extends Component {
         this.#updateMovementState(vel_x, vel_y, is_grounded);
         
         this.#updateAnimation();
-        
-        this.final_state = (this.attack_state == AttackModes.None) ? this.movement_state : this.attack_state;
     }
 
     #updateIsFlipped(vel_x) {

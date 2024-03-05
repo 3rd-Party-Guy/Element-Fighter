@@ -20,14 +20,14 @@
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
-        "animation_scale": 1
+        "animation_scale": 0.3
 
       },
       "heavy_attack": {
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
-        "animation_scale": 1
+        "animation_scale": 0.5
 
       },
       "ability1": {
@@ -98,21 +98,21 @@
         "num_frames": 3,
         "sheet_width": 480,
         "sheet_height": 160,
-        "animation_scale": 1
+        "animation_scale": 0.32
 
       },
       "heavy_attack": {
         "num_frames": 6,
         "sheet_width": 960,
         "sheet_height": 160,
-        "animation_scale": 1
+        "animation_scale": 0.5
 
       },
       "ability1": {
         "num_frames": 8,
         "sheet_width": 1280,
         "sheet_height": 160,
-        "animation_scale": 1
+        "animation_scale": 0.7
 
       },
       "ability2": {

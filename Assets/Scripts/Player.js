@@ -1,6 +1,8 @@
 import AnimationComponent from "./Components/AnimationComponent.js";
+import PhysicsComponent from "./Components/PhysicsComponent.js";
 import Entity from "./Entity.js";
 import EntityManager from "./Singletons/EntityManager.js";
+import { AttackModes } from "./StateMachine.js";
 
 export default class Player extends Entity {
     is_attacking_light = false;

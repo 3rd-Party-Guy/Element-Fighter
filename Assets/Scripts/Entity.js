@@ -48,6 +48,9 @@ export default class Entity {
         return null;
     }
 
+    update() {}
+    fixedUpdate() {}
+
     // entities only add themselves to the game once they have fetched all their data
     onLoaded() {
         EntityManager.getInstance(EntityManager).addEntity(this);
