@@ -5,7 +5,7 @@ import PhysicsComponent from "../../Components/PhysicsComponent.js";
 
 export default class AnimationSystem extends System {
     update(delta) {
-        for (const e of EntityManager.getInstance(EntityManager).entities) {
+        for (const e of EntityManager.getInstance(EntityManager).all) {
             const animation_data_component = e.getComponentOfType(AnimationComponent);
             if (!animation_data_component) return;
 

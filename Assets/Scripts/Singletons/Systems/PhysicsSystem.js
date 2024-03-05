@@ -11,7 +11,7 @@ import InputManager from "../InputManager.js";
 export default class PhysicsSystem extends System {
         update(delta_Time)
         {   
-            for (const e of EntityManager.getInstance(EntityManager).entities) {
+            for (const e of EntityManager.getInstance(EntityManager).all) {
                 const transfrom_component = e.getComponentOfType(TransformComponent);
 
                 e.getComponentOfType(PhysicsComponent)?.update(transfrom_component.transform, delta_Time);
@@ -20,7 +20,7 @@ export default class PhysicsSystem extends System {
 
         fixedUpdate(fixed_delta_time)
         {
-            for (const e of EntityManager.getInstance(EntityManager).entities) {
+            for (const e of EntityManager.getInstance(EntityManager).all) {
                 const transfrom_component = e.getComponentOfType(TransformComponent);
                 const physics_component = e.getComponentOfType(PhysicsComponent);
                 const input_manager = InputManager.getInstance(InputManager);

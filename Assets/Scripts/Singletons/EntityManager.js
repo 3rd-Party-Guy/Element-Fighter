@@ -21,7 +21,10 @@ export default class EntityManager extends Singleton {
             if (e === player_entity) return;
 
         this.players.push(player_entity);
-        this.entities.push(player_entity);
+    }
+
+    get all() {
+        return this.entities.concat(this.players);
     }
 
     updateEntities() {
