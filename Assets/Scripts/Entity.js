@@ -24,7 +24,7 @@ export default class Entity {
     get transform() { return this.getComponentOfType(TransformComponent).transform; }
 
     #setEntityData() {
-        fetch('Assets/entities.json')
+        fetch('Assets/players.json')
             .then(res => res.json())
             .then(data => {
                 // find the right json data for this entity based on the name

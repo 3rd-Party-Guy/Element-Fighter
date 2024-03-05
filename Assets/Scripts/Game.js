@@ -80,7 +80,7 @@ async function ImportMaps() {
 }
 
 async function ImportCharacters() {
-    const response = await fetch("Assets/entities.json");
+    const response = await fetch("Assets/players.json");
     return await response.json();
 }
 

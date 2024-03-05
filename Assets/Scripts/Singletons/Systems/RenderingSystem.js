@@ -4,7 +4,6 @@
 import System from "./System.js";
 import RenderingComponent from "../../Components/RenderingComponent.js";
 import EntityManager from "../EntityManager.js";
-import PhysicsComponent from "../../Components/PhysicsComponent.js";
 import TransformComponent from "../../Components/TransformComponent.js";
 import AnimationComponent from "../../Components/AnimationComponent.js";
 
