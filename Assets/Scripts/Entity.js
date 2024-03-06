@@ -33,7 +33,7 @@ export default class Entity {
                 // Initialize Rendering and Physics Components with entity data
                 this.components.push(new AnimationComponent(result));
                 this.components.push(new RenderingComponent());
-                this.components.push(new PhysicsComponent(result["character_info"]));
+                this.components.push(new PhysicsComponent(result["entity_info"]));
                 
                 this.onLoaded();
             })

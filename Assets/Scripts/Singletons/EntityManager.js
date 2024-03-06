@@ -6,6 +6,7 @@ import Singleton from "./Singleton.js";
 export default class EntityManager extends Singleton {
     entities = [];
     players = [];
+    projectiles = [];
 
     // Add a new entity to the entity manager
     addEntity(entity) {
@@ -23,19 +24,41 @@ export default class EntityManager extends Singleton {
         this.players.push(player_entity);
     }
 
+    addProjectile(projectile_entity)
+    {
+        for (const e of this.projectiles)
+        if(e===projectile_entity) return;
+
+        this.projectiles.push(projectile_entity);
+    }
+
+    removeProjectile(projectile_entity)
+    {
+        for(const e of this.projectiles)
+        if(e===projectile_entity) this.projectiles.splice(projectile_entity);
+    }
+
     get all() {
-        return this.entities.concat(this.players);
+        this.entities.concat(this.players)
+        return this.entities.concat(this.projectiles);
     }
 
     updateEntities() {
+        for (const pr of this.projectiles)
+            pr.update();   
+
         for (const p of this.players)
             p.update();
 
         for (const e of this.entities)
             e.update()
+
     }
 
     fixedUpdateEntities() {
+        for (const pr of this.projectiles)
+        pr.fixedUpdate();  
+
         for (const p of this.players)
             p.fixedUpdate();
         

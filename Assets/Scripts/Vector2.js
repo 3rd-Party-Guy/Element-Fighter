@@ -7,6 +7,15 @@ export default class Vector2 {
         this.y = y;
     }
 
+    // factory method to instantiate new vector with json data
+    static fromJSON(data)
+    {
+        let x = data[0];
+        let y = data[1];
+
+        return new Vector2(x,y);
+    }
+
     get x() { return this.x; }
     get y() { return this.y; }
 

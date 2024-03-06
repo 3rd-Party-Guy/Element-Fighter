@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Bubble",
+        "spritesheets_path": "Assets/Sprites/Characters/Mermaid/Abilities",
+        "spritesheets_info": {
+            "bubble": {
+                "num_frames": 5,
+                "sheet_width": 640,
+                "sheet_height": 148,
+                "animation_scale": 1
+        }
+        },
+        "entity_info": {
+        "width": 64,
+        "height": 64,
+        "velocity": [10,0],
+        "max_x_velocity": 750,
+        "x_friction": 0,
+        "gravity": 0
+        }
+      }
+]
