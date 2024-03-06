@@ -29,7 +29,7 @@ const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 const collision_system = ColissionSystem.getInstance(ColissionSystem);
 
-const cur_map_name = "Vulcano";
+const cur_map_name = "Atlantis";
 const map_image = new Image();
 
 let maps_data;

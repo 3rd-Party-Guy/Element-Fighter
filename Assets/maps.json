@@ -61,7 +61,7 @@
     },
     {
         "name": "Colosseum",
-        "image_path": "Assets/Sprites/Maps/colosseum.png",
+        "image_path": "Assets/Sprites/Maps/colosseum.webp",
         "hitboxes": {
             "1": {
                 "ld": {
@@ -70,8 +70,58 @@
                 },
                 "ru": {
                     "x": 1280,
-                    "y": 700
-                }
+                    "y": 675
+                },
+                "is_platform": false
+            }
+        },
+
+        "spawn_positions": {
+            "1": {
+                "x": 185,
+                "y": 520
+            },
+            "2": {
+                "x": 1000,
+                "y": 520
+            }
+        }
+    },
+    {
+        "name": "Atlantis",
+        "image_path": "Assets/Sprites/Maps/atlantis.png",
+        "hitboxes": {
+            "1": {
+                "ld": {
+                    "x": 99,
+                    "y": 640
+                },
+                "ru": {
+                    "x": 1223,
+                    "y": 630
+                },
+                "is_platform": false
+            },
+            "2": {
+                "ld": {
+                    "x": 875,
+                    "y": 370
+                },
+                "ru": {
+                    "x": 1250,
+                    "y": 340
+                },
+                "is_platform": true
+            }
+        },
+        "spawn_positions": {
+            "1": {
+                "x": 202,
+                "y": 450
+            },
+            "2": {
+                "x": 1045,
+                "y": 450
             }
         }
     }
