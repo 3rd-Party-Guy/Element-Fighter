@@ -196,7 +196,7 @@
         "spritesheets_path": "Assets/Sprites/Projectiles/",
         "spritesheets_info": {
             "bubble": {
-                "state_info": "Running",
+                "state_info": "Idle",
                 "animation_path": "bubble",
                 "num_frames": 5,
                 "sheet_width": 640,

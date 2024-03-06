@@ -13,6 +13,7 @@ export default class Player extends Entity {
 
     constructor(start_x, start_y, name) {
         super(start_x, start_y, name);
+        this.onLoaded();
     }
     
     get isAttacking() {
@@ -34,8 +35,8 @@ export default class Player extends Entity {
     }
     
     onLoaded() {
-        EntityManager.getInstance(EntityManager).addPlayer(this);
         this.getComponentOfType(RenderingComponent).render_collision = true;
+        EntityManager.getInstance(EntityManager).addPlayer(this);
     }
 
     clearAttackSignals() {

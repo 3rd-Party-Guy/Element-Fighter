@@ -35,13 +35,9 @@ export default class Entity {
             this.components.push(new AnimationComponent(result));
             this.components.push(new RenderingComponent());
             this.components.push(new PhysicsComponent(result["entity_info"]));
-            
-            this.onLoaded();
         })
         .catch(err => console.error("Error getting frame data:\n", err));
     }
-
-    get transform() { return this.getComponentOfType(TransformComponent).transform; }
     
     getComponentOfType(type) {
         for (const c of this.components)
@@ -50,6 +46,8 @@ export default class Entity {
 
         return null;
     }
+
+    get transform() { return this.getComponentOfType(TransformComponent).transform; }
 
     update() {}
     fixedUpdate() {}

@@ -12,7 +12,7 @@ export default class Projectile extends Entity{
     constructor(start_x, start_y, name, lifetime){
         super(start_x, start_y, name);
         this.projectile_lifetime = lifetime;
-        
+        this.onLoaded();
     }
 
     
@@ -28,8 +28,8 @@ export default class Projectile extends Entity{
     }
 
     onLoaded() {
-        EntityManager.getInstance(EntityManager).addProjectile(this);
         this.#setInitialData();
+        EntityManager.getInstance(EntityManager).addProjectile(this);
     }
 
     #setInitialData()

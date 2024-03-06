@@ -47,6 +47,7 @@ export default class AnimationComponent extends Component {
             }
             
          }
+         else this.attack_state = AttackModes.None;
         
     
        
