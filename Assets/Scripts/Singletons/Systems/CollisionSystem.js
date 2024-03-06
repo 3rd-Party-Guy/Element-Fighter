@@ -6,6 +6,13 @@ export default class ColissionSystem extends System {
         const canvas_manager = CanvasManager.getInstance(CanvasManager);
         const data = canvas_manager.collisionImage.data;
 
+        // INFO: DEBUG
+        // canvas_manager.gameplayContext.putImageData(
+        //     canvas_manager.collisionImage,
+        //     0,
+        //     0
+        // );
+
         for (let i = 0; i < data.length; i += 4) {
             const sumRGB = data[i] + data[i+1] + data[1+2];
 

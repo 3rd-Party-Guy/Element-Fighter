@@ -65,8 +65,7 @@ function getMousePos(e) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    console.log("x: " + x);
-    console.log("y: " + y);
+    console.log(`${x}, ${y}`);
 }
 
 function SetupInputMaps() {
