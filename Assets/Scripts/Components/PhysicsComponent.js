@@ -44,14 +44,6 @@ export default class PhysicsComponent extends Component {
         this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }
 
-    get #width() {
-        return this.physics_data["width"];
-    }
-    
-    get #height() {
-        return this.physics_data["height"];
-    }
-
     getCenter(transform) {
         return new Vector2(
             transform.position.x + this.physics_data["width"] / 2,
@@ -59,9 +51,9 @@ export default class PhysicsComponent extends Component {
         );
     }
 
-    fixedUpdate(transform, fixed_delta_time)
+    fixedUpdate(transform, width, height, fixed_delta_time)
     {
-        this.#checkGrounded(transform, fixed_delta_time);
+        this.#checkGrounded(transform, width, height, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }
 
@@ -98,7 +90,7 @@ export default class PhysicsComponent extends Component {
             this.vel.x = 0;
     }
 
-    #checkGrounded(transform,fixed_delta_time) {
+    #checkGrounded(transform, width, height, fixed_delta_time) {
         if (this.vel.y < 0) {
             this.is_grounded = false;
             return;
@@ -107,10 +99,10 @@ export default class PhysicsComponent extends Component {
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
         // INFO: remove magic numbers
-        const groundcast_left_x = this.getCenter(transform).x - this.#width / 2 + this.vel.x * fixed_delta_time + 10;
-        const groundcast_right_x = this.getCenter(transform).x + this.#width / 2 + this.vel.x * fixed_delta_time + 30;
+        const groundcast_left_x = this.getCenter(transform).x - width / 2 + this.vel.x * fixed_delta_time + 10;
+        const groundcast_right_x = this.getCenter(transform).x + width / 2 + this.vel.x * fixed_delta_time + 30;
 
-        const player_bottom_y = transform.position.y  + this.#height + this.vel.y * fixed_delta_time;
+        const player_bottom_y = transform.position.y  + height + this.vel.y * fixed_delta_time;
         
         this.groundcast_left = new Line(
             new Vector2(groundcast_left_x, player_bottom_y),
@@ -123,12 +115,12 @@ export default class PhysicsComponent extends Component {
         );
 
         for (const col_box of col_boxes) {
-            if (col_box.ld.y < transform.position.y + this.#height - 10) continue;
+            if (col_box.ld.y < transform.position.y + height - 10) continue;
             if (col_box === this.last_platform && this.is_ducking) continue;
             if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
-                const ground_y = col_box.ru.y - this.#height; 
+                const ground_y = col_box.ru.y - height; 
                 
-                if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - this.#height / 2 || this.vel.y <= 0) {
+                if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - height / 2 || this.vel.y <= 0) {
                     transform.position.y = ground_y;
                     this.vel.y = Math.min(this.vel.y, 0);
                     this.jumps_left = this.physics_data["jumps"] || 0;

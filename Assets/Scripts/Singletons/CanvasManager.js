@@ -2,6 +2,7 @@
 // Description:     Keeps track of all canvases, provides the needed canvas
 
 import Singleton from "./Singleton.js";
+import EntityManager from "./EntityManager.js"
 
 export default class CanvasManager extends Singleton {
     gameplay_canvas = document.getElementById('game-window');
@@ -17,7 +18,16 @@ export default class CanvasManager extends Singleton {
     get clientHeight() { return this.gameplay_canvas.clientHeight; }
 
     // TODO: OPTIMIZE by only getting only characters snippet
-    get collisionImage() { 
+    get collisionImage() {
+        let x_start = 0;
+        let y_start = 0;
+        let x_end = 0;
+        let y_end = 0;
+
+        for (const e of EntityManager.getInstance(EntityManager).combatEntities) {
+            
+        }
+        
         return this.collisionContext.getImageData(
             0,
             0,

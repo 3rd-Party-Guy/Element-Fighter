@@ -17,28 +17,31 @@ export default class Entity {
     constructor(start_x, start_y, name) {
         this.entity_name = name;
 
-        this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y))));
-        this.#setEntityData();
+        this.#setEntityData(start_x, start_y);
+    }
+    
+    #setEntityData(start_x, start_y) {
+        fetch('Assets/players.json')
+        .then(res => res.json())
+        .then(data => {
+            // find the right json data for this entity based on the name
+            const result = data.find(e => e.name === this.entity_name)
+            
+            const width = result["entity_info"]["width"];
+            const height = result["entity_info"]["height"];
+            
+            // Initialize Rendering and Physics Components with entity data
+            this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
+            this.components.push(new AnimationComponent(result));
+            this.components.push(new RenderingComponent());
+            this.components.push(new PhysicsComponent(result["entity_info"]));
+            
+            this.onLoaded();
+        })
+        .catch(err => console.error("Error getting frame data:\n", err));
     }
 
     get transform() { return this.getComponentOfType(TransformComponent).transform; }
-
-    #setEntityData() {
-        fetch('Assets/players.json')
-            .then(res => res.json())
-            .then(data => {
-                // find the right json data for this entity based on the name
-                const result = data.find(e => e.name === this.entity_name)
-                
-                // Initialize Rendering and Physics Components with entity data
-                this.components.push(new AnimationComponent(result));
-                this.components.push(new RenderingComponent());
-                this.components.push(new PhysicsComponent(result["entity_info"]));
-                
-                this.onLoaded();
-            })
-            .catch(err => console.error("Error getting frame data:\n", err));
-    }
     
     getComponentOfType(type) {
         for (const c of this.components)

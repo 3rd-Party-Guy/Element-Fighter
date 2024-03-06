@@ -29,7 +29,7 @@ export default class PhysicsSystem extends System {
 
                 physics_component.should_apply_low_jump_multiplier = !input_manager.isPlayerHoldingJump(e);
                 physics_component.should_apply_duck_fall_multiplier = input_manager.isPlayerHoldingDuck(e);
-                e.getComponentOfType(PhysicsComponent)?.fixedUpdate(transfrom_component.transform, fixed_delta_time);
+                e.getComponentOfType(PhysicsComponent)?.fixedUpdate(transfrom_component.transform, transfrom_component.width, transfrom_component.height, fixed_delta_time);
             }
         }
 }

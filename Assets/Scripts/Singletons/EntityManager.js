@@ -47,25 +47,12 @@ export default class EntityManager extends Singleton {
     }
 
     updateEntities() {
-        for (const pr of this.projectiles)
-            pr.update();   
-
-        for (const p of this.players)
-            p.update();
-
-        for (const e of this.entities)
-            e.update()
-
+        for (const e of this.all)
+            e.update();   
     }
 
     fixedUpdateEntities() {
-        for (const pr of this.projectiles)
-        pr.fixedUpdate();  
-
-        for (const p of this.players)
-            p.fixedUpdate();
-        
-        for (const e of this.entities)
-            e.fixedUpdate()
+        for (const e of this.all)
+            e.fixedUpdate();  
     }
 }
