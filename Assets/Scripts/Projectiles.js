@@ -9,13 +9,13 @@ export default class Projectile extends Entity{
     projectile_lifetime = 0;
     
     constructor(start_x, start_y, name, lifetime){
-        this.projectile_lifetime = lifetime;
         super(start_x, start_y, name);
+        this.projectile_lifetime = lifetime;
     }
 
     updateLifetime(delta) {
         lifetime -= delta;
-        if(lifetime <= 0) this.#destroy();
+        if (lifetime <= 0) this.#destroy();
     }
 
     #destroy() {

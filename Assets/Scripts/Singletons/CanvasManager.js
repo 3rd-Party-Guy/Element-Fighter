@@ -19,7 +19,6 @@ export default class CanvasManager extends Singleton {
     get clientWidth() { return this.gameplay_canvas.clientWidth; }
     get clientHeight() { return this.gameplay_canvas.clientHeight; }
 
-    // TODO: OPTIMIZE by only getting only characters snippet
     get collisionImage() {
         let x_start = 1280;
         let y_start = 720;
@@ -37,21 +36,12 @@ export default class CanvasManager extends Singleton {
             if (end_pos.y > y_end) y_end = end_pos.y;            
         }
 
-        console.log(`${x_start}, ${y_start}, ${x_end}, ${y_end}`);
-        
         return this.collisionContext.getImageData(
             x_start,
             y_start,
             x_end - x_start,
             y_end - y_start
         );
-        
-        // return this.collisionContext.getImageData(
-        //     0,
-        //     0,
-        //     1280,
-        //     720
-        // );
     }
 
     // INFO: Debug Only

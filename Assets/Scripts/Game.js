@@ -40,7 +40,7 @@ async function Initialize() {
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
-    window.addEventListener('click', (event) => getMousePos(event));
+    // window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
     window.addEventListener('gamepadconnected', (e) => inputManager.connectGamepad(e.gamepad.index));
 
     maps_data = await ImportMaps();
