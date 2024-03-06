@@ -9,7 +9,7 @@ import AnimationComponent from "../../Components/AnimationComponent.js";
 
 export default class RenderingSystem extends System {
     update(delta) {
-        for (const e of EntityManager.getInstance(EntityManager).entities) {
+        for (const e of EntityManager.getInstance(EntityManager).all) {
             const animation_data = e.getComponentOfType(AnimationComponent);
             
             const transform = e.getComponentOfType(TransformComponent).transform;
@@ -18,17 +18,6 @@ export default class RenderingSystem extends System {
             const frame_index = animation_data.frame_index;
 
             e.getComponentOfType(RenderingComponent).update(transform, state_animation, state_frame_data, frame_index);
-        }
-
-        for (const p of EntityManager.getInstance(EntityManager).players) {
-            const animation_data = p.getComponentOfType(AnimationComponent);
-            
-            const transform = p.getComponentOfType(TransformComponent).transform;
-            const state_animation = animation_data.animation;
-            const state_frame_data = animation_data.frame_data;
-            const frame_index = animation_data.frame_index;
-
-            p.getComponentOfType(RenderingComponent).update(transform, state_animation, state_frame_data, frame_index);
         }
     }
 }

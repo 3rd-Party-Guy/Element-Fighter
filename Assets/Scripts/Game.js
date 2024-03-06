@@ -18,6 +18,7 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
+const FIXED_DELTA = FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
 
 const inputManager = InputManager.getInstance(InputManager);
 const map_collider_manager = MapColliderManager.getInstance(MapColliderManager);
@@ -162,8 +163,8 @@ function Update() {
 
 function FixedUpdate() {
     while (accumulatedTime >= FIXED_DELTA_TIME) {
-        physics_system.fixedUpdate(FIXED_DELTA_TIME / 1000);
-        entity_manager.fixedUpdateEntities(FIXED_DELTA_TIME / 1000);
+        physics_system.fixedUpdate(FIXED_DELTA);
+        entity_manager.fixedUpdateEntities(FIXED_DELTA);
 
         accumulatedTime -= FIXED_DELTA_TIME;
     }

@@ -5,6 +5,8 @@ import Component from "./Component.js";
 import CanvasManager from "../Singletons/CanvasManager.js";
 
 export default class RenderingComponent extends Component {
+    render_collision = false;
+    
     constructor() {
         super();
     }
@@ -12,9 +14,11 @@ export default class RenderingComponent extends Component {
     update(transform, state_animation, state_frame_data, frame_index)
     {
         this.#render(transform, state_animation, state_frame_data, frame_index);
-        this.#renderCollision(transform, state_animation, state_frame_data, frame_index);
+        
+        if (this.render_collision)
+            this.#renderCollision(transform, state_animation, state_frame_data, frame_index);
     }
-
+    
     #render(transform, state_animation, state_frame_data, frame_index) {
         CanvasManager.getInstance(CanvasManager).gameplayContext.drawImage(
             state_animation,

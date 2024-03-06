@@ -1,4 +1,5 @@
 import AnimationComponent from "./Components/AnimationComponent.js";
+import RenderingComponent from "./Components/RenderingComponent.js";
 import Entity from "./Entity.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
@@ -12,11 +13,11 @@ export default class Player extends Entity {
     constructor(start_x, start_y, name) {
         super(start_x, start_y, name);
     }
-
+    
     get isAttacking() {
         return (this.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None);
     }
-
+    
     get attackState() {
         return this.getComponentOfType(AnimationComponent).attack_state.current_state;
     }
@@ -30,9 +31,10 @@ export default class Player extends Entity {
             using_ability_two: this.is_ability_two
         };
     }
-
+    
     onLoaded() {
         EntityManager.getInstance(EntityManager).addPlayer(this);
+        this.getComponentOfType(RenderingComponent).render_collision = true;
     }
 
     clearAttackSignals() {

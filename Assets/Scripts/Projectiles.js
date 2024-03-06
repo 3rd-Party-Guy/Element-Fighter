@@ -1,6 +1,7 @@
 import PhysicsComponent from "./Components/PhysicsComponent";
 import Vector2 from "../Vector2.js";
 import Entity from "./Entity";
+import RenderingComponent from "./Components/RenderingComponent.js";
 
 
 
@@ -12,27 +13,19 @@ export default class Projectile extends Entity{
         super(start_x, start_y, name);
     }
 
-    
-
-    updateLifetime(fixed_delta_time)
-    {
-        lifetime -= fixed_delta_time;
+    updateLifetime(delta) {
+        lifetime -= delta;
         if(lifetime <= 0) this.#destroy();
     }
 
-    #destroy(){
+    #destroy() {
         EntityManager.getInstance(EntityManager).removeProjectile(this);
     }
 
     onLoaded() {
         EntityManager.getInstance(EntityManager).addProjectiles(this);
-        this.#SetInitialData();
-    }
 
-    #SetInitialData()
-    {
+        this.getComponentOfType(RenderingComponent).render_collision = true;
         this.getComponentOfType(PhysicsComponent).vel = new Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data[velocity]));
-
     }
-
 }

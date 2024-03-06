@@ -42,6 +42,10 @@ export default class EntityManager extends Singleton {
         return this.entities.concat(this.players).concat(this.projectiles);
     }
 
+    get combatEntities() {
+        return this.players.concat(this.projectiles);
+    }
+
     updateEntities() {
         for (const pr of this.projectiles)
             pr.update();   
