@@ -18,6 +18,7 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
+const FIXED_DELTA = FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
 
 const inputManager = InputManager.getInstance(InputManager);
 const map_collider_manager = MapColliderManager.getInstance(MapColliderManager);
@@ -40,7 +41,7 @@ async function Initialize() {
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
     window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
-    window.addEventListener('click', (event) => getMousePos(event));
+    // window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
     window.addEventListener('gamepadconnected', (e) => inputManager.connectGamepad(e.gamepad.index));
 
     maps_data = await ImportMaps();
@@ -65,8 +66,7 @@ function getMousePos(e) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    console.log("x: " + x);
-    console.log("y: " + y);
+    console.log(`${x}, ${y}`);
 }
 
 function SetupInputMaps() {
@@ -164,8 +164,8 @@ function Update() {
 
 function FixedUpdate() {
     while (accumulatedTime >= FIXED_DELTA_TIME) {
-        physics_system.fixedUpdate(FIXED_DELTA_TIME / 1000);
-        entity_manager.fixedUpdateEntities(FIXED_DELTA_TIME / 1000);
+        physics_system.fixedUpdate(FIXED_DELTA);
+        entity_manager.fixedUpdateEntities(FIXED_DELTA);
 
         accumulatedTime -= FIXED_DELTA_TIME;
     }

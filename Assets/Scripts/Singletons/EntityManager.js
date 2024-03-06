@@ -39,29 +39,20 @@ export default class EntityManager extends Singleton {
     }
 
     get all() {
-        return this.entities.concat(this.players);
+        return this.entities.concat(this.players).concat(this.projectiles);
+    }
+
+    get combatEntities() {
+        return this.players.concat(this.projectiles);
     }
 
     updateEntities() {
-        for (const pr of this.projectiles)
-            pr.update();   
-
-        for (const p of this.players)
-            p.update();
-
-        for (const e of this.entities)
-            e.update()
-
+        for (const e of this.all)
+            e.update();   
     }
 
     fixedUpdateEntities() {
-        for (const pr of this.projectiles)
-        pr.fixedUpdate();  
-
-        for (const p of this.players)
-            p.fixedUpdate();
-        
-        for (const e of this.entities)
-            e.fixedUpdate()
+        for (const e of this.all)
+            e.fixedUpdate();  
     }
 }

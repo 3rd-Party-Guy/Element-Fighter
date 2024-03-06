@@ -3,7 +3,6 @@ import AnimationDataContext from "../AnimationDataContext.js";
 import Component from "./Component.js";
 
 export default class AnimationComponent extends Component {
-    
     // New empty animation data for movement and attack animations
     movement_state = new MovementState();
     attack_state = new AttackState();
