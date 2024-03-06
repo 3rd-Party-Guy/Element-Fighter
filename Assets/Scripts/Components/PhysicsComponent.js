@@ -59,7 +59,7 @@ export default class PhysicsComponent extends Component {
 
     fixedUpdate(transform, width, height, fixed_delta_time)
     {
-        if(this.has_gravity)this.#checkGrounded(transform, fixed_delta_time);
+        if(this.has_gravity)this.#checkGrounded(transform, width, height, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }
 
