@@ -4,19 +4,25 @@
     "spritesheets_path": "Assets/Sprites/Characters/Mermaid/",
     "spritesheets_info": {
       "idle": {
-        "num_frames": 6,
-        "sheet_width": 768,
-        "sheet_height": 148,
-        "animation_scale": 1
+        "state_info": "Idle",
+        "animation_path": "Movement/idle",
+        "num_frames": 2,
+        "sheet_width": 360,
+        "sheet_height": 168,
+        "animation_scale": 2.5
       },
       "run": {
+        "state_info": "Running",
+        "animation_path": "Movement/run",
         "num_frames": 6,
-        "sheet_width": 768,
-        "sheet_height": 148,
-        "animation_scale": 1
+        "sheet_width": 1200,
+        "sheet_height": 168,
+        "animation_scale": 0.5
 
       },
       "light_attack": {
+        "state_info": "AttackLight",
+        "animation_path": "Attacks/light_attack",
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
@@ -24,6 +30,8 @@
 
       },
       "heavy_attack": {
+        "state_info": "AttackHeavy",
+        "animation_path": "Attacks/heavy_attack",
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
@@ -31,6 +39,8 @@
 
       },
       "ability1": {
+        "state_info": "AbilityTwo",
+        "animation_path": "Abilities/ability1",
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
@@ -38,6 +48,8 @@
 
       },
       "ability2": {
+        "state_info": "AbilityOne",
+        "animation_path": "Abilities/ability2",
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
@@ -45,6 +57,8 @@
 
       },
       "jump": {
+        "state_info": "Jumping",
+        "animation_path": "Movement/jump",
         "num_frames": 4,
         "sheet_width": 576,
         "sheet_height": 148,
@@ -52,12 +66,16 @@
 
       },
       "fall": {
+        "state_info": "Falling",
+        "animation_path": "Movement/fall",
         "num_frames": 2,
         "sheet_width": 240,
         "sheet_height": 148,
         "animation_scale": 1
       },
       "roll": {
+        "state_info": "Idle",
+        "animation_path": "Movement/idle",
         "num_frames": 6,
         "sheet_width": 768,
         "sheet_height": 148,
@@ -65,7 +83,7 @@
       }
     },
     "entity_info": {
-      "width": 64,
+      "width": 100,
       "height": 137,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
@@ -81,12 +99,16 @@
     "spritesheets_path": "Assets/Sprites/Characters/Minotaurus/",
     "spritesheets_info": {
       "idle": {
+        "state_info": "Idle",
+        "animation_path": "Movement/idle",
         "num_frames": 2,
         "sheet_width": 296,
         "sheet_height": 160,
         "animation_scale": 1
       },
       "run": {
+        "state_info": "Running",
+        "animation_path": "Movement/run",
         "num_frames": 6,
         "sheet_width": 768,
         "sheet_height": 160,
@@ -95,6 +117,8 @@
 
       },
       "light_attack": {
+        "state_info": "AttackLight",
+        "animation_path": "Attacks/light_attack",
         "num_frames": 3,
         "sheet_width": 480,
         "sheet_height": 160,
@@ -102,6 +126,8 @@
 
       },
       "heavy_attack": {
+        "state_info": "AttackHeavy",
+        "animation_path": "Attacks/heavy_attack",
         "num_frames": 6,
         "sheet_width": 960,
         "sheet_height": 160,
@@ -109,6 +135,8 @@
 
       },
       "ability1": {
+        "state_info": "AbilityOne",
+        "animation_path": "Abilities/ability1",
         "num_frames": 8,
         "sheet_width": 1280,
         "sheet_height": 160,
@@ -116,6 +144,8 @@
 
       },
       "ability2": {
+        "state_info": "AbilityTwo",
+        "animation_path": "Abilities/ability2",
         "num_frames": 8,
         "sheet_width": 1280,
         "sheet_height": 160,
@@ -123,6 +153,8 @@
 
       },
       "jump": {
+        "state_info": "Jumping",
+        "animation_path": "Movement/jump",
         "num_frames": 3,
         "sheet_width": 480,
         "sheet_height": 160,
@@ -130,12 +162,16 @@
 
       },
       "fall": {
+        "state_info": "Falling",
+        "animation_path": "Movement/jump",
         "num_frames": 3,
         "sheet_width": 480,
         "sheet_height": 160,
         "animation_scale": 1
       },
       "roll": {
+        "state_info": "Idle",
+        "animation_path": "Movement/idle",
         "num_frames": 2,
         "sheet_width": 296,
         "sheet_height": 148,
@@ -153,5 +189,48 @@
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
     }
-  }
+  },
+  
+    {
+        "name": "Bubble",
+        "spritesheets_path": "Assets/Sprites/Projectiles/",
+        "spritesheets_info": {
+            "bubble": {
+                "state_info": "Running",
+                "animation_path": "bubble",
+                "num_frames": 5,
+                "sheet_width": 640,
+                "sheet_height": 148,
+                "animation_scale": 1
+        }
+        },
+        "entity_info": {
+        "width": 64,
+        "height": 64,
+        "velocity": [10,0],
+        "max_x_velocity": 750,
+        "x_friction": 0,
+        "gravity": 0
+        }
+      },
+      {
+        "name": "Wave",
+        "spritesheets_path": "Assets/Sprites/Projectiles/wave.png",
+        "spritesheets_info": {
+            "bubble": {
+                "num_frames": 5,
+                "sheet_width": 1900,
+                "sheet_height": 162,
+                "animation_scale": 1
+        }
+        },
+        "entity_info": {
+        "width": 64,
+        "height": 64,
+        "velocity": [10,0],
+        "max_x_velocity": 750,
+        "x_friction": 0,
+        "gravity": 0
+        }
+      }
 ]

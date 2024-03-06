@@ -1,5 +1,6 @@
 import AnimationComponent from "./Components/AnimationComponent.js";
 import Entity from "./Entity.js";
+import Projectile from "./Projectile.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
 
@@ -52,6 +53,7 @@ export default class Player extends Entity {
     
     abilityOne() {
         this.is_ability_one = true;
+        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300,400, "Bubble", 5));
     }
 
     abilityTwo() {

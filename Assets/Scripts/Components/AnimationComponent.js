@@ -15,23 +15,46 @@ export default class AnimationComponent extends Component {
     last_update = 0;
     frame_index = 0;
 
+    // Component flags for entities
+    flags_set = false;
+    can_attack = true;
+
+
     constructor(result)
     {
         super();
-
+       
         //set animation data for movement states
-        this.animation_data_movement_state.set(MovementModes.Idle,      new AnimationDataContext(result["spritesheets_path"] + "Movement/idle",  result["spritesheets_info"]["idle"]));
-        this.animation_data_movement_state.set(MovementModes.Running,   new AnimationDataContext(result["spritesheets_path"] + "Movement/run",   result["spritesheets_info"]["run"]));
-        this.animation_data_movement_state.set(MovementModes.Jumping,   new AnimationDataContext(result["spritesheets_path"] + "Movement/jump",  result["spritesheets_info"]["jump"]));
-        this.animation_data_movement_state.set(MovementModes.Falling,   new AnimationDataContext(result["spritesheets_path"] + "Movement/fall",  result["spritesheets_info"]["fall"]));
         
-        //set animation data for attack states
-        this.animation_data_attack_state.set(AttackModes.None,          undefined);
-        this.animation_data_attack_state.set(AttackModes.AttackLight,   new AnimationDataContext(result["spritesheets_path"] + "Attacks/light_attack",   result["spritesheets_info"]["light_attack"]));
-        this.animation_data_attack_state.set(AttackModes.AttackHeavy,   new AnimationDataContext(result["spritesheets_path"] + "Attacks/heavy_attack",  result["spritesheets_info"]["heavy_attack"]));
-        this.animation_data_attack_state.set(AttackModes.AbilityOne,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability1",  result["spritesheets_info"]["ability1"]));
-        this.animation_data_attack_state.set(AttackModes.AbilityTwo,    new AnimationDataContext(result["spritesheets_path"] + "Abilities/ability2",  result["spritesheets_info"]["ability2"]));
+        for(const id in result.spritesheets_info)
+        {
+            let state_mode = MovementModes[result["spritesheets_info"][id]["state_info"]];
     
+            if(state_mode)
+            this.animation_data_movement_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
+        }
+
+            //set animation data for attack states
+        if(this.can_attack)
+        {
+            this.animation_data_attack_state.set(AttackModes.None, undefined);
+            
+            for(const id in result.spritesheets_info)
+            {
+                let state_mode = AttackModes[result["spritesheets_info"][id]["state_info"]];
+
+                if(state_mode)
+                this.animation_data_attack_state.set(AttackModes[result["spritesheets_info"][id]["state_info"]], new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
+            }
+            
+         }
+        
+    
+       
+
+        
+        
+       
         this.last_update = Date.now();
     }
 
@@ -54,12 +77,18 @@ export default class AnimationComponent extends Component {
         return this.anim_data.frame_data;
     }
 
+
+  
+
+
     update(vel_x, vel_y, is_grounded, attacking_data)
     {
         this.#updateIsFlipped(vel_x);
-        this.#updateAttackState(attacking_data);
+        if(this.can_Attack)
+        {
+            this.#updateAttackState(attacking_data);
+        }
         this.#updateMovementState(vel_x, vel_y, is_grounded);
-        
         this.#updateAnimation();
     }
 

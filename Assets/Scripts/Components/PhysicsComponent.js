@@ -37,6 +37,12 @@ export default class PhysicsComponent extends Component {
     should_apply_duck_fall_multiplier = false;
     should_apply_low_jump_multiplier = false;
 
+
+    //Component flags for entities
+    can_jump = true;
+    has_gravity = true;
+
+
     constructor(physics_info) {
         super();
 
@@ -61,7 +67,7 @@ export default class PhysicsComponent extends Component {
 
     fixedUpdate(transform, fixed_delta_time)
     {
-        this.#checkGrounded(transform, fixed_delta_time);
+        if(this.has_gravity)this.#checkGrounded(transform, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }
 
@@ -78,19 +84,26 @@ export default class PhysicsComponent extends Component {
 
 
     #updateVelocities(fixed_delta_time) {
-        if (!this.is_grounded)
+        if (!this.is_grounded && this.has_gravity)
             this.vel.y += this.physics_data["gravity"] * fixed_delta_time;
         else
             this.vel.y = Math.min(0, this.vel.y);
 
-        if (this.vel.y > 0)
+        if(this.has_gravity)
+        {
+            if (this.vel.y > 0)
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time;
         
-        if (this.should_apply_duck_fall_multiplier)
+            if (this.should_apply_duck_fall_multiplier)
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time * this.duck_fall_multiplier;
         
-        if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
+        }
+        if(this.can_jump)
+        {
+            if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
             this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
+        }
+        
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
@@ -131,6 +144,7 @@ export default class PhysicsComponent extends Component {
                 if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - this.#height / 2 || this.vel.y <= 0) {
                     transform.position.y = ground_y;
                     this.vel.y = Math.min(this.vel.y, 0);
+                    if(this.can_jump)
                     this.jumps_left = this.physics_data["jumps"] || 0;
 
                     this.is_grounded = true;
@@ -147,11 +161,16 @@ export default class PhysicsComponent extends Component {
         }
 
         // character should have one more jump when jumping from ground
-        if (this.is_grounded)
+
+        if(this.can_jump)
+        {
+            if (this.is_grounded)
             this.jumps_left = this.physics_data["jumps"] - 1 || 0;
         
-        this.is_grounded = false;
-        this.is_on_platform = false;
+            this.is_grounded = false;
+            this.is_on_platform = false;
+        }
+        
     }
 
 

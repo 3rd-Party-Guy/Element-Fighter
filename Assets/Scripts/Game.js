@@ -34,6 +34,7 @@ const map_image = new Image();
 
 let maps_data;
 let characters_data;
+let projectiles_data;
 
 async function Initialize() {
     // Setup Event Callbacks
@@ -89,6 +90,7 @@ async function ImportCharacters() {
     const response = await fetch("Assets/players.json");
     return await response.json();
 }
+
 
 function SetupMapCollisions() {
     const cur_map_data = GetCurrentMapData();

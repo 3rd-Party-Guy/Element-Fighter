@@ -9,7 +9,7 @@ import AnimationComponent from "../../Components/AnimationComponent.js";
 
 export default class RenderingSystem extends System {
     update(delta) {
-        for (const e of EntityManager.getInstance(EntityManager).entities) {
+        for (const e of EntityManager.getInstance(EntityManager).all) {
             const animation_data = e.getComponentOfType(AnimationComponent);
             
             const transform = e.getComponentOfType(TransformComponent).transform;
