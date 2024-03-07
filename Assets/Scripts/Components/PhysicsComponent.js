@@ -37,11 +37,11 @@ export default class PhysicsComponent extends Component {
     should_apply_duck_fall_multiplier = false;
     should_apply_low_jump_multiplier = false;
 
+    snap_stop_x = false;
 
     //Component flags for entities
     can_jump = true;
     has_gravity = true;
-
 
     constructor(physics_info) {
         super();
@@ -99,8 +99,10 @@ export default class PhysicsComponent extends Component {
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
-        if (Math.abs(this.vel.x) < 50 && this.vel.x != 0)
-            this.vel.x = 0;
+        if (this.snap_stop_x) {
+            if (Math.abs(this.vel.x) < 50 && this.vel.x != 0)
+                this.vel.x = 0;
+        }
     }
 
     #checkGrounded(transform, width, height, fixed_delta_time) {

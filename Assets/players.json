@@ -15,7 +15,7 @@
         "state_info": "Running",
         "animation_path": "Movement/run",
         "num_frames": 6,
-        "sheet_width": 1200,
+        "sheet_width": 768,
         "sheet_height": 168,
         "animation_scale": 0.5
 
@@ -100,10 +100,10 @@
         "spritesheets_info": {
           "animation": {
             "animation_path": "bubble",
-            "num_frames": 5,
-            "sheet_width": 640,
+            "num_frames": 6,
+            "sheet_width": 900,
             "sheet_height": 148,
-            "animation_scale": 1
+            "animation_scale": 0.4
           }
         },
         "entity_info": {

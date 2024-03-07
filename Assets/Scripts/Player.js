@@ -1,4 +1,5 @@
 import AnimationComponent from "./Components/AnimationComponent.js";
+import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
 import Entity from "./Entity.js";
 import Projectile from "./Projectile.js";
@@ -42,8 +43,13 @@ export default class Player extends Entity {
     }
     
     onLoaded() {
-        this.getComponentOfType(RenderingComponent).render_collision = true;
+        this.#setProperties();
         EntityManager.getInstance(EntityManager).addPlayer(this);
+    }
+    
+    #setProperties() {
+        this.getComponentOfType(RenderingComponent).render_collision = true;
+        this.getComponentOfType(PhysicsComponent).snap_stop_x = true;
     }
 
     clearAttackSignals() {
@@ -64,7 +70,7 @@ export default class Player extends Entity {
     abilityOne() {
         this.is_ability_one = true;
 
-        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300, 400, this.ability_data[0], 5));
+        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300, 400, this.ability_data[0], 2));
     }
 
     abilityTwo() {

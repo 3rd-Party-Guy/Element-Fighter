@@ -46,13 +46,13 @@ export default class EntityManager extends Singleton {
         return this.players.concat(this.projectiles);
     }
 
-    updateEntities() {
+    updateEntities(delta) {
         for (const e of this.all)
-            e.update();   
+            e.update(delta);   
     }
 
-    fixedUpdateEntities() {
+    fixedUpdateEntities(fixed_delta) {
         for (const e of this.all)
-            e.fixedUpdate();  
+            e.fixedUpdate(fixed_delta);
     }
 }
