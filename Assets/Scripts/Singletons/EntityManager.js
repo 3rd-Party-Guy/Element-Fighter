@@ -35,7 +35,10 @@ export default class EntityManager extends Singleton {
     removeProjectile(projectile_entity)
     {
         for(const e of this.projectiles)
-        if(e===projectile_entity) this.projectiles.splice(projectile_entity);
+            if(e===projectile_entity) {
+                this.projectiles.splice(projectile_entity);
+                return;  
+            } 
     }
 
     get all() {

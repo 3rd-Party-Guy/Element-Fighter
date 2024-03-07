@@ -1,6 +1,8 @@
+import Vector2 from "./Vector2.js";
 import AnimationComponent from "./Components/AnimationComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
+import TransformComponent from "./Components/TransformComponent.js";
 import Entity from "./Entity.js";
 import Projectile from "./Projectile.js";
 import EntityManager from "./Singletons/EntityManager.js";
@@ -70,7 +72,20 @@ export default class Player extends Entity {
     abilityOne() {
         this.is_ability_one = true;
 
-        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300, 400, this.ability_data[0], 2));
+        const is_flipped = this.getComponentOfType(RenderingComponent).is_flipped;
+        const transform = this.getComponentOfType(TransformComponent);
+
+        let start_pos = new Vector2(0, 0);
+        start_pos.x = transform.transform.position.x;
+
+        if (is_flipped)
+            start_pos.x -= transform.width;
+        else
+            start_pos.x += transform.width;
+
+        start_pos.y = transform.transform.position.y;
+
+        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[0], 2, is_flipped));
     }
 
     abilityTwo() {
