@@ -109,7 +109,7 @@
         "entity_info": {
           "width": 64,
           "height": 64,
-          "velocity": [10,0],
+          "velocity": [500,0],
           "max_x_velocity": 750,
           "x_friction": 0,
           "gravity": 0
