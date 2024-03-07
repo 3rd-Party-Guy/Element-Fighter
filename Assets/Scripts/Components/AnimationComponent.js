@@ -16,52 +16,46 @@ export default class AnimationComponent extends Component {
 
     // Component flags for entities
     flags_set = false;
-    can_attack = true;
+    is_state_machine = true;
 
-
-    constructor(result)
+    constructor(result, is_state_machine)
     {
         super();
-       
+        this.is_state_machine = is_state_machine;
+
+        this.last_update = Date.now();
+
+        if (!is_state_machine) {
+            this.animation_data_movement_state.set("idle", new AnimationDataContext(result["spritesheets_path"], result["spritesheets_info"]["animation"]));
+            this.attack_state.current_state = AttackModes.None;
+            this.movement_state.current_state = MovementModes.Idle;
+
+            return;
+        }
+
         //set animation data for movement states
-        
         for(const id in result.spritesheets_info)
         {
             let state_mode = MovementModes[result["spritesheets_info"][id]["state_info"]];
     
             if(state_mode)
-            this.animation_data_movement_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
+                this.animation_data_movement_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
         }
 
-            //set animation data for attack states
-        if(this.can_attack)
-        {
-            this.animation_data_attack_state.set(AttackModes.None, undefined);
-            
-            for(const id in result.spritesheets_info)
-            {
-                let state_mode = AttackModes[result["spritesheets_info"][id]["state_info"]];
+        this.animation_data_attack_state.set(AttackModes.None, undefined);
+        for(const id in result.spritesheets_info) {
+            let state_mode = AttackModes[result["spritesheets_info"][id]["state_info"]];
 
-                if(state_mode)
+            if(state_mode)
                 this.animation_data_attack_state.set(AttackModes[result["spritesheets_info"][id]["state_info"]], new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
-            }
-            
-         }
-         else this.attack_state = AttackModes.None;
-        
-    
-       
-
-        
-        
-       
-        this.last_update = Date.now();
+        }
     }
 
     get anim_data() {
-        return (this.attack_state.current_state == 'none') ?
-            this.animation_data_movement_state.get(this.movement_state.current_state) :
-            this.animation_data_attack_state.get(this.attack_state.current_state);
+        if (this.attack_state.current_state == "none")
+            return this.animation_data_movement_state.get(this.movement_state.current_state);
+
+        return this.animation_data_attack_state.get(this.attack_state.current_state);
     }
 
     get image_source() {
@@ -77,18 +71,13 @@ export default class AnimationComponent extends Component {
         return this.anim_data.frame_data;
     }
 
-
-  
-
-
-    update(vel_x, vel_y, is_grounded, attacking_data)
-    {
+    update(vel_x, vel_y, is_grounded, attacking_data) {
         this.#updateIsFlipped(vel_x);
-        if(this.can_Attack)
+        if(this.is_state_machine)
         {
             this.#updateAttackState(attacking_data);
+            this.#updateMovementState(vel_x, vel_y, is_grounded);
         }
-        this.#updateMovementState(vel_x, vel_y, is_grounded);
         this.#updateAnimation();
     }
 

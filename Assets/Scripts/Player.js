@@ -11,11 +11,18 @@ export default class Player extends Entity {
     is_ability_one = false;
     is_ability_two = false;
 
+    ability_data = undefined;
+
     constructor(start_x, start_y, player_data) {
-        super(start_x, start_y, player_data);
+        super(start_x, start_y, player_data, true);
+        this.#setAbilityData(player_data);
         this.onLoaded();
     }
     
+    #setAbilityData(player_data) {
+        this.ability_data = player_data["abilities_info"];
+    }
+
     get isAttacking() {
         return (this.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None);
     }
@@ -56,7 +63,8 @@ export default class Player extends Entity {
     
     abilityOne() {
         this.is_ability_one = true;
-        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300,400, "Bubble", 5));
+
+        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(300, 400, this.ability_data[0], 5));
     }
 
     abilityTwo() {

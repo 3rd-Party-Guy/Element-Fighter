@@ -4,34 +4,30 @@ import Entity from "./Entity.js";
 import AnimationComponent from "./Components/AnimationComponent.js";
 import EntityManager from "./Singletons/EntityManager.js";
 
-
-
-export default class Projectile extends Entity{
+export default class Projectile extends Entity {
     projectile_lifetime = 0;
     
-    constructor(start_x, start_y, projectile_data, lifetime){
-        super(start_x, start_y, projectile_data);
+    constructor(start_x, start_y, projectile_data, lifetime) {
+        super(start_x, start_y, projectile_data, false);
         this.projectile_lifetime = lifetime;
         this.onLoaded();
     }
 
-    updateLifetime(fixed_delta_time)
-    {
+    updateLifetime(fixed_delta_time) {
         lifetime -= fixed_delta_time;
         if(lifetime <= 0) this.#destroy();
     }
 
-    #destroy(){
+    #destroy() {
         EntityManager.getInstance(EntityManager).removeProjectile(this);
     }
 
     onLoaded() {
-        this.#setInitialData();
+        this.#setProperties();
         EntityManager.getInstance(EntityManager).addProjectile(this);
     }
 
-    #setInitialData()
-    {
+    #setProperties() {
         let physics_component = this.getComponentOfType(PhysicsComponent);
         physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"]));
         physics_component.can_jump = false;
@@ -39,5 +35,4 @@ export default class Projectile extends Entity{
         let animation_component = this.getComponentOfType(AnimationComponent);
         animation_component.can_attack = false;
     }
-
 }

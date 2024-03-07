@@ -30,7 +30,7 @@ const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 const collision_system = ColissionSystem.getInstance(ColissionSystem);
 
-const cur_map_name = "Atlantis";
+const cur_map_name = "Colosseum";
 const map_image = new Image();
 
 let maps_data;
@@ -49,6 +49,7 @@ async function Initialize() {
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
 
+    
     map_image.src = GetCurrentMapData().image_path;
 
     SpawnPlayer("Mermaid");

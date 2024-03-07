@@ -14,11 +14,11 @@ export default class Entity {
     components = [];
 
     // This contructor constructs the class instance!
-    constructor(start_x, start_y, entity_data) {
-        this.#setEntityData(start_x, start_y, entity_data);
+    constructor(start_x, start_y, entity_data, can_attack) {
+        this.#setEntityData(start_x, start_y, entity_data, can_attack);
     }
     
-    #setEntityData(start_x, start_y, entity_data) {
+    #setEntityData(start_x, start_y, entity_data, can_attack) {
         try {
             // find the right json data for this entity based on the name
             this.name = entity_data["name"];
@@ -28,11 +28,11 @@ export default class Entity {
             
             // Initialize Rendering and Physics Components with entity data
             this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
-            this.components.push(new AnimationComponent(entity_data));
+            this.components.push(new AnimationComponent(entity_data, can_attack));
             this.components.push(new RenderingComponent());
             this.components.push(new PhysicsComponent(entity_data["entity_info"]));
         } catch(err) {
-            console.error("Error getting frame data:\n", err);
+            console.error("Error fetching entity data:\n", err);
         }
     }
     

@@ -11,7 +11,7 @@ export default class CanvasManager extends Singleton {
     collision_canvas = document.getElementById('collision-window');
 
     get gameplayContext() { return this.gameplay_canvas.getContext('2d'); }
-    get collisionContext() { return this.collision_canvas.getContext('2d'); }
+    get collisionContext() { return this.collision_canvas.getContext('2d', { willReadFrequently: true }); }
     
     get width() { return this.gameplay_canvas.width; }
     get height() { return this.gameplay_canvas.height; }
