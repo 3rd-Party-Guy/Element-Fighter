@@ -11,8 +11,8 @@ export default class Player extends Entity {
     is_ability_one = false;
     is_ability_two = false;
 
-    constructor(start_x, start_y, name) {
-        super(start_x, start_y, name);
+    constructor(start_x, start_y, player_data) {
+        super(start_x, start_y, player_data);
         this.onLoaded();
     }
     

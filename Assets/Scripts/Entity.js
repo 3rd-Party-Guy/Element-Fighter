@@ -10,33 +10,30 @@ import EntityManager from "./Singletons/EntityManager.js";
 import AnimationComponent from "./Components/AnimationComponent.js";
 
 export default class Entity {
-    entity_name = "";
+    name = "";
     components = [];
 
     // This contructor constructs the class instance!
-    constructor(start_x, start_y, name) {
-        this.entity_name = name;
-
-        this.#setEntityData(start_x, start_y);
+    constructor(start_x, start_y, entity_data) {
+        this.#setEntityData(start_x, start_y, entity_data);
     }
     
-    #setEntityData(start_x, start_y) {
-        fetch('Assets/players.json')
-        .then(res => res.json())
-        .then(data => {
+    #setEntityData(start_x, start_y, entity_data) {
+        try {
             // find the right json data for this entity based on the name
-            const result = data.find(e => e.name === this.entity_name)
+            this.name = entity_data["name"];
             
-            const width = result["entity_info"]["width"];
-            const height = result["entity_info"]["height"];
+            const width = entity_data["entity_info"]["width"];
+            const height = entity_data["entity_info"]["height"];
             
             // Initialize Rendering and Physics Components with entity data
             this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
-            this.components.push(new AnimationComponent(result));
+            this.components.push(new AnimationComponent(entity_data));
             this.components.push(new RenderingComponent());
-            this.components.push(new PhysicsComponent(result["entity_info"]));
-        })
-        .catch(err => console.error("Error getting frame data:\n", err));
+            this.components.push(new PhysicsComponent(entity_data["entity_info"]));
+        } catch(err) {
+            console.error("Error getting frame data:\n", err);
+        }
     }
     
     getComponentOfType(type) {

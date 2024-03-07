@@ -37,6 +37,8 @@ let maps_data;
 let characters_data;
 let projectiles_data;
 
+let active_players = 0;
+
 async function Initialize() {
     // Setup Event Callbacks
     window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
@@ -49,8 +51,8 @@ async function Initialize() {
 
     map_image.src = GetCurrentMapData().image_path;
 
-    SpawnPlayer(1);
-    SpawnPlayer(2);
+    SpawnPlayer("Mermaid");
+    SpawnPlayer("Minotaurus");
 
     SetupInputMaps();
     SetupMapCollisions();
@@ -91,7 +93,6 @@ async function ImportCharacters() {
     return await response.json();
 }
 
-
 function SetupMapCollisions() {
     const cur_map_data = GetCurrentMapData();
 
@@ -106,16 +107,17 @@ function SetupMapCollisions() {
     }
 }
 
-// index is player number (1 or 2)
-function SpawnPlayer(index) {
+function SpawnPlayer(name) {
     const cur_map_data = GetCurrentMapData();
 
-    const spawn_pos_x = cur_map_data["spawn_positions"][index]["x"];
-    const spawn_pos_y = cur_map_data["spawn_positions"][index]["y"];
+    // If there are 0 active players, spawn at spawn_position 1
+    const spawn_pos_x = cur_map_data["spawn_positions"][active_players+1]["x"];
+    const spawn_pos_y = cur_map_data["spawn_positions"][active_players+1]["y"];
 
-    const name = (index == 1) ? "Mermaid" : "Minotaurus"
+    const player_data = characters_data.find(e => e.name == name);
+    new Player(spawn_pos_x, spawn_pos_y, player_data);
 
-    new Player(spawn_pos_x, spawn_pos_y, name);
+    active_players++;
 }
 
 function RenderMap() {

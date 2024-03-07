@@ -9,13 +9,11 @@ import EntityManager from "./Singletons/EntityManager.js";
 export default class Projectile extends Entity{
     projectile_lifetime = 0;
     
-    constructor(start_x, start_y, name, lifetime){
-        super(start_x, start_y, name);
+    constructor(start_x, start_y, projectile_data, lifetime){
+        super(start_x, start_y, projectile_data);
         this.projectile_lifetime = lifetime;
         this.onLoaded();
     }
-
-    
 
     updateLifetime(fixed_delta_time)
     {
