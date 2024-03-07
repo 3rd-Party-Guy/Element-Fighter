@@ -106,6 +106,8 @@ export class AttackState extends State {
             return true;
         }
 
+        console.log(data.using_ability_two);
+
         if (data.using_ability_two && this.current_state != AttackModes.AbilityTwo) {
             this.current_state = AttackModes.AbilityTwo;
             return true;

@@ -122,7 +122,7 @@
             "num_frames": 8,
             "sheet_width": 1900,
             "sheet_height": 162,
-            "animation_scale": 1
+            "animation_scale": 0.4
           }
         },
         "entity_info": {
