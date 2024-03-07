@@ -39,7 +39,7 @@
 
       },
       "ability1": {
-        "state_info": "AbilityTwo",
+        "state_info": "AbilityOne",
         "animation_path": "Abilities/ability1",
         "num_frames": 5,
         "sheet_width": 640,
@@ -48,13 +48,12 @@
 
       },
       "ability2": {
-        "state_info": "AbilityOne",
+        "state_info": "AbilityTwo",
         "animation_path": "Abilities/ability2",
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 1
-
       },
       "jump": {
         "state_info": "Jumping",
@@ -63,7 +62,6 @@
         "sheet_width": 576,
         "sheet_height": 148,
         "animation_scale": 1
-
       },
       "fall": {
         "state_info": "Falling",
@@ -117,10 +115,11 @@
       },  
       {
         "name": "Wave",
-        "spritesheets_path": "Assets/Sprites/Projectiles/wave.png",
+        "spritesheets_path": "Assets/Sprites/Projectiles/",
         "spritesheets_info": {
           "animation": {
-            "num_frames": 5,
+            "animation_path": "wave",
+            "num_frames": 8,
             "sheet_width": 1900,
             "sheet_height": 162,
             "animation_scale": 1
@@ -129,7 +128,7 @@
         "entity_info": {
           "width": 64,
           "height": 64,
-          "velocity": [10,0],
+          "velocity": [350,0],
           "max_x_velocity": 750,
           "x_friction": 0,
           "gravity": 0

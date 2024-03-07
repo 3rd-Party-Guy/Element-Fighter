@@ -104,6 +104,7 @@ export default class GamepadHandler {
             return;
         } else this.ability_one_command.onUnset();
         if (this.abilityTwoButton.pressed) {
+            console.log("yup");
             this.ability_two_command.execute(this.player);
             return;
         } else this.ability_two_command.onUnset();

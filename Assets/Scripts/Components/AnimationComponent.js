@@ -34,20 +34,16 @@ export default class AnimationComponent extends Component {
         }
 
         //set animation data for movement states
-        for(const id in result.spritesheets_info)
+        for(const key in result.spritesheets_info)
         {
-            let state_mode = MovementModes[result["spritesheets_info"][id]["state_info"]];
-    
-            if(state_mode)
-                this.animation_data_movement_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
+            let state_mode = MovementModes[result["spritesheets_info"][key]["state_info"]];
+            this.animation_data_movement_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][key]));
         }
 
         this.animation_data_attack_state.set(AttackModes.None, undefined);
-        for(const id in result.spritesheets_info) {
-            let state_mode = AttackModes[result["spritesheets_info"][id]["state_info"]];
-
-            if(state_mode)
-                this.animation_data_attack_state.set(AttackModes[result["spritesheets_info"][id]["state_info"]], new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][id]));
+        for(const key in result.spritesheets_info) {
+            let state_mode = AttackModes[result["spritesheets_info"][key]["state_info"]];
+            this.animation_data_attack_state.set(state_mode, new AnimationDataContext(result["spritesheets_path"],result["spritesheets_info"][key]));
         }
     }
 

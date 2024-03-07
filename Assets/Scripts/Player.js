@@ -90,5 +90,20 @@ export default class Player extends Entity {
 
     abilityTwo() {
         this.ability_two = true;
+
+        const is_flipped = this.getComponentOfType(RenderingComponent).is_flipped;
+        const transform = this.getComponentOfType(TransformComponent);
+
+        let start_pos = new Vector2(0, 0);
+        start_pos.x = transform.transform.position.x;
+
+        if (is_flipped)
+            start_pos.x -= transform.width;
+        else
+            start_pos.x += transform.width;
+
+        start_pos.y = transform.transform.position.y;
+
+        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[1], 2, is_flipped));
     }
 }
