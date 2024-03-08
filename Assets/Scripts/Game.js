@@ -30,7 +30,7 @@ const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 const collision_system = ColissionSystem.getInstance(ColissionSystem);
 
-const cur_map_name = "Colosseum";
+const cur_map_name = "Vulcano";
 const map_image = new Image();
 
 let maps_data;
@@ -52,8 +52,9 @@ async function Initialize() {
     
     map_image.src = GetCurrentMapData().image_path;
 
-    SpawnPlayer("Mermaid");
     SpawnPlayer("Minotaurus");
+    SpawnPlayer("Mermaid");
+    
 
     SetupInputMaps();
     SetupMapCollisions();
