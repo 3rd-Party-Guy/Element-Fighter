@@ -17,6 +17,7 @@ export default class AnimationComponent extends Component {
     // Component flags for entities
     flags_set = false;
     is_state_machine = true;
+    is_flipped = false;
 
     constructor(result, is_state_machine)
     {

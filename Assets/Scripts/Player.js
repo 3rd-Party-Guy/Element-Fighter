@@ -72,7 +72,7 @@ export default class Player extends Entity {
     abilityOne() {
         this.is_ability_one = true;
 
-        const is_flipped = this.getComponentOfType(RenderingComponent).is_flipped;
+        const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
@@ -91,7 +91,7 @@ export default class Player extends Entity {
     abilityTwo() {
         this.is_ability_two = true;
 
-        const is_flipped = this.getComponentOfType(RenderingComponent).is_flipped;
+        const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);

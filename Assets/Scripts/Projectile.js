@@ -7,10 +7,12 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 
 export default class Projectile extends Entity {
     lifetime = 0;
+    is_flipped = false;
     
-    constructor(start_x, start_y, projectile_data, lifetime) {
+    constructor(start_x, start_y, projectile_data, lifetime, flipped) {
         super(start_x, start_y, projectile_data, false);
         this.lifetime = lifetime;
+        this.is_flipped = flipped;
         this.onLoaded();
     }
 
@@ -38,11 +40,20 @@ export default class Projectile extends Entity {
         this.getComponentOfType(RenderingComponent).render_collision = true;
 
         let physics_component = this.getComponentOfType(PhysicsComponent);
-        physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"]));
+        let animation_component = this.getComponentOfType(AnimationComponent);
+        animation_component.is_flipped = this.is_flipped;
+        if(this.is_flipped)
+        {
+            physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"])).scale(-1);
+        }
+        else
+        {
+            physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"]));
+        }
         physics_component.can_jump = false;
         physics_component.has_gravity = false;
         
-        let animation_component = this.getComponentOfType(AnimationComponent);
+        
         animation_component.can_attack = false;
     }
 }
