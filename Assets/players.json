@@ -44,7 +44,7 @@
         "num_frames": 5,
         "sheet_width": 640,
         "sheet_height": 148,
-        "animation_scale": 1
+        "animation_scale": 0.5
 
       },
       "ability2": {
@@ -81,7 +81,7 @@
       }
     },
     "entity_info": {
-      "width": 100,
+      "width": 128,
       "height": 137,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
@@ -105,12 +105,14 @@
           }
         },
         "entity_info": {
-          "width": 64,
-          "height": 64,
+          "width": 150,
+          "height": 148,
           "velocity": [500,0],
           "max_x_velocity": 750,
           "x_friction": 0,
-          "gravity": 0
+          "gravity": 0,
+          "life_time": 5,
+          "cast_time": 0.35
         }
       },  
       {
@@ -122,7 +124,7 @@
             "num_frames": 8,
             "sheet_width": 1900,
             "sheet_height": 162,
-            "animation_scale": 0.4
+            "animation_scale": 0.5
           }
         },
         "entity_info": {
@@ -131,7 +133,9 @@
           "velocity": [350,0],
           "max_x_velocity": 750,
           "x_friction": 0,
-          "gravity": 0
+          "gravity": 0,
+          "life_time": 0.8,
+          "cast_time": 0.6
         }
       }
     ]

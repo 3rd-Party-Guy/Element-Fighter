@@ -6,12 +6,13 @@ import EntityManager from "./Singletons/EntityManager.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
 
 export default class Projectile extends Entity {
-    lifetime = 0;
+    life_time = 0;
     is_flipped = false;
+   
     
-    constructor(start_x, start_y, projectile_data, lifetime, flipped) {
+    constructor(start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
-        this.lifetime = lifetime;
+        this.life_time = projectile_data["entity_info"]["life_time"];
         this.is_flipped = flipped;
         this.onLoaded();
     }
@@ -21,9 +22,9 @@ export default class Projectile extends Entity {
     }
     
     #updateLifetime(fixed_delta) {
-        this.lifetime -= fixed_delta;
+        this.life_time -= fixed_delta;
 
-        if (this.lifetime <= 0)
+        if (this.life_time <= 0)
             this.#destroy();
     }
 
@@ -33,7 +34,6 @@ export default class Projectile extends Entity {
 
     onLoaded() {
         this.#setProperties();
-        EntityManager.getInstance(EntityManager).addProjectile(this);
     }
 
     #setProperties() {
@@ -42,6 +42,8 @@ export default class Projectile extends Entity {
         let physics_component = this.getComponentOfType(PhysicsComponent);
         let animation_component = this.getComponentOfType(AnimationComponent);
         animation_component.is_flipped = this.is_flipped;
+        animation_component.can_attack = false;
+
         if(this.is_flipped)
         {
             physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"])).scale(-1);
@@ -54,6 +56,5 @@ export default class Projectile extends Entity {
         physics_component.has_gravity = false;
         
         
-        animation_component.can_attack = false;
     }
 }

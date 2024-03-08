@@ -76,16 +76,20 @@ export default class Player extends Entity {
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
-        start_pos.x = transform.transform.position.x;
+        let ability_width = this.ability_data[0]["entity_info"]["width"];
 
-        if (is_flipped)
-            start_pos.x -= transform.width;
-        else
+        setTimeout(() => {
+            start_pos.x = transform.transform.position.x;
+
+            if (is_flipped)
+            start_pos.x -= ability_width;
+            else
             start_pos.x += transform.width;
 
-        start_pos.y = transform.transform.position.y;
-
-        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[0], 2, is_flipped));
+            start_pos.y = transform.transform.position.y;
+            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[0], is_flipped));
+        }, this.ability_data[0]["entity_info"]["cast_time"]*1000);
+        
     }
 
     abilityTwo() {
@@ -95,15 +99,21 @@ export default class Player extends Entity {
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
-        start_pos.x = transform.transform.position.x;
+        let ability_width = this.ability_data[1]["entity_info"]["width"];
 
-        if (is_flipped)
-            start_pos.x -= transform.width;
-        else
+       
+        
+        setTimeout(() => {
+            start_pos.x = transform.transform.position.x;
+
+            if (is_flipped)
+            start_pos.x -= ability_width;
+            else
             start_pos.x += transform.width;
 
-        start_pos.y = transform.transform.position.y;
-
-        EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[1], 0.8, is_flipped));
+            start_pos.y = transform.transform.position.y;
+            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[1], is_flipped));
+        }, this.ability_data[1]["entity_info"]["cast_time"]*1000);
+        
     }
 }
