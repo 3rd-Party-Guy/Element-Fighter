@@ -67,40 +67,42 @@ export default class Player extends Entity {
     
     attackHeavy() {
         this.is_attacking_heavy = true;
-
-        const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
-        const transform = this.getComponentOfType(TransformComponent);
-
-        let start_pos = new Vector2(0, 0);
-        let ability_width = this.ability_data[2]["entity_info"]["width"];
-
-        setTimeout(() => {
-            start_pos.x = transform.transform.position.x;
-
-            if (is_flipped)
-            start_pos.x -= ability_width;
-            else
-            start_pos.x += transform.width;
-
-            start_pos.y = transform.transform.position.y;
-            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[2], is_flipped));
-        }, this.ability_data[2]["entity_info"]["cast_time"]*1000);
+        if(this.name === "Mermaid"){
+            const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
+            const transform = this.getComponentOfType(TransformComponent);
+            
+            let start_pos = new Vector2(0, 0);
+            let ability_width = this.ability_data[2]["entity_info"]["width"];
+    
+            setTimeout(() => {
+                start_pos.x = transform.transform.position.x;
+    
+                if (is_flipped)
+                start_pos.x -= ability_width;
+                else
+                start_pos.x += transform.width;
+    
+                start_pos.y = transform.transform.position.y;
+                EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[2], is_flipped));
+            }, this.ability_data[2]["entity_info"]["cast_time"]*1000);
+            
+            let start_pos_bolt = new Vector2(0, 0);
+            let ability_width_bolt = this.ability_data[3]["entity_info"]["width"];
+    
+            setTimeout(() => {
+                start_pos_bolt.x = transform.transform.position.x;
+    
+                if (is_flipped)
+                start_pos_bolt.x -= ability_width_bolt;
+                else
+                start_pos_bolt.x += transform.width;
+    
+                start_pos_bolt.y = transform.transform.position.y;
+                EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[3], is_flipped));
+            }, this.ability_data[3]["entity_info"]["cast_time"]*1000);
+    
+        }
         
-        let start_pos_bolt = new Vector2(0, 0);
-        let ability_width_bolt = this.ability_data[3]["entity_info"]["width"];
-
-        setTimeout(() => {
-            start_pos_bolt.x = transform.transform.position.x;
-
-            if (is_flipped)
-            start_pos_bolt.x -= ability_width_bolt;
-            else
-            start_pos_bolt.x += transform.width;
-
-            start_pos_bolt.y = transform.transform.position.y;
-            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[3], is_flipped));
-        }, this.ability_data[3]["entity_info"]["cast_time"]*1000);
-
     }
     
     abilityOne() {

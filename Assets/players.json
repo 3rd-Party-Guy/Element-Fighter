@@ -70,14 +70,6 @@
         "sheet_width": 240,
         "sheet_height": 148,
         "animation_scale": 1
-      },
-      "roll": {
-        "state_info": "Idle",
-        "animation_path": "Movement/idle",
-        "num_frames": 6,
-        "sheet_width": 768,
-        "sheet_height": 148,
-        "animation_scale": 1
       }
     },
     "entity_info": {
@@ -196,7 +188,7 @@
         "num_frames": 2,
         "sheet_width": 296,
         "sheet_height": 160,
-        "animation_scale": 0.4
+        "animation_scale": 1
       },
       "run": {
         "state_info": "Running",
@@ -232,7 +224,7 @@
         "num_frames": 8,
         "sheet_width": 1280,
         "sheet_height": 160,
-        "animation_scale": 0.7
+        "animation_scale": 0.3
 
       },
       "ability2": {
@@ -241,7 +233,7 @@
         "num_frames": 8,
         "sheet_width": 1280,
         "sheet_height": 160,
-        "animation_scale": 1
+        "animation_scale": 0.5
 
       },
       "jump": {
@@ -259,14 +251,6 @@
         "num_frames": 3,
         "sheet_width": 480,
         "sheet_height": 160,
-        "animation_scale": 1
-      },
-      "roll": {
-        "state_info": "Idle",
-        "animation_path": "Movement/idle",
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
         "animation_scale": 1
       }
     },
@@ -295,14 +279,14 @@
           }
         },
         "entity_info": {
-          "width": 480,
+          "width": 400,
           "height": 160,
           "velocity": [0,0],
           "max_x_velocity": 0,
           "x_friction": 0,
           "gravity": 0,
           "life_time": 0.5,
-          "cast_time": 0.2
+          "cast_time": 0.55
         }
       },  
       {
@@ -318,8 +302,8 @@
           }
         },
         "entity_info": {
-          "width": 238,
-          "height": 162,
+          "width": 80,
+          "height": 160,
           "velocity": [0,0],
           "max_x_velocity": 0,
           "x_friction": 0,
@@ -400,20 +384,12 @@
         "num_frames": 4,
         "sheet_width": 640,
         "sheet_height": 160,
-        "animation_scale": 1
-      },
-      "roll": {
-        "state_info": "Idle",
-        "animation_path": "Movement/idle",
-        "num_frames": 6,
-        "sheet_width": 768,
-        "sheet_height": 148,
-        "animation_scale": 1
+        "animation_scale": 0.3
       }
     },
     "entity_info": {
-      "width": 128,
-      "height": 137,
+      "width": 64,
+      "height": 148,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
       "gravity": 3000,
@@ -518,7 +494,7 @@
     ]
   },
   {
-    "name": "Sutur",
+    "name": "Surtur",
     "spritesheets_path": "Assets/Sprites/Characters/Surtur/",
     "spritesheets_info": {
       "idle": {
@@ -535,7 +511,7 @@
         "num_frames": 6,
         "sheet_width": 1200,
         "sheet_height": 168,
-        "animation_scale": 0.4
+        "animation_scale": 0.5
 
 
       },
@@ -552,8 +528,8 @@
         "state_info": "AttackHeavy",
         "animation_path": "Attacks/heavy_attack",
         "num_frames": 6,
-        "sheet_width": 2244,
-        "sheet_height": 304,
+        "sheet_width": 1683,
+        "sheet_height": 228,
         "animation_scale": 0.5
 
       },
@@ -591,19 +567,11 @@
         "sheet_width": 480,
         "sheet_height": 160,
         "animation_scale": 1
-      },
-      "roll": {
-        "state_info": "Idle",
-        "animation_path": "Movement/idle",
-        "num_frames": 2,
-        "sheet_width": 296,
-        "sheet_height": 148,
-        "animation_scale": 1
       }
     },
     "entity_info": {
       "width": 64,
-      "height": 150,
+      "height": 160,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
       "gravity": 3000,
