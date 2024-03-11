@@ -8,7 +8,6 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 export default class Projectile extends Entity {
     life_time = 0;
     is_flipped = false;
-   
     
     constructor(start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
@@ -45,16 +44,11 @@ export default class Projectile extends Entity {
         animation_component.can_attack = false;
 
         if(this.is_flipped)
-        {
             physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"])).scale(-1);
-        }
         else
-        {
             physics_component.vel = Vector2.fromJSON((this.getComponentOfType(PhysicsComponent).physics_data["velocity"]));
-        }
+
         physics_component.can_jump = false;
         physics_component.has_gravity = false;
-        
-        
     }
 }
