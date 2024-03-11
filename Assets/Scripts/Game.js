@@ -3,7 +3,7 @@
 
 import Vector2 from "./Vector2.js";
 
-import { MoveCommand, JumpCommand, DuckCommand, AttackLightCommand, AttackHeavyCommand } from "./Command.js";
+import { MoveCommand, JumpCommand, DuckCommand, AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand } from "./Command.js";
 import Player from "./Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
@@ -73,15 +73,29 @@ function getMousePos(e) {
 }
 
 function SetupInputMaps() {
-    // Add initial KeyCodes and Commands
-    inputManager.addKeyboardInputActionLookup("KeyA", new MoveCommand(-140, 0));
-    inputManager.addKeyboardInputActionLookup("KeyD", new MoveCommand(140, 0));
-    inputManager.addKeyboardInputActionLookup("KeyW", new JumpCommand());
-    inputManager.addKeyboardInputActionLookup("Space", new JumpCommand());
-    inputManager.addKeyboardInputActionLookup("KeyS", new DuckCommand());
+    const player_one = entity_manager.players[0];
+    const player_two = entity_manager.players[1];
 
-    inputManager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand());
-    inputManager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand());
+    // Add initial KeyCodes and Commands
+    inputManager.addKeyboardInputActionLookup("KeyA", new MoveCommand(player_one, -140, 0));
+    inputManager.addKeyboardInputActionLookup("KeyD", new MoveCommand(player_one, 140, 0));
+    inputManager.addKeyboardInputActionLookup("KeyW", new JumpCommand(player_one));
+    inputManager.addKeyboardInputActionLookup("KeyS", new DuckCommand(player_one));
+
+    inputManager.addKeyboardInputActionLookup("ArrowLeft", new MoveCommand(player_two, -140, 0));
+    inputManager.addKeyboardInputActionLookup("ArrowRight", new MoveCommand(player_two, 140, 0));
+    inputManager.addKeyboardInputActionLookup("ArrowUp", new JumpCommand(player_two));
+    inputManager.addKeyboardInputActionLookup("ArrowDown", new DuckCommand(player_two));
+
+    inputManager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand(player_one));
+    inputManager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand(player_one));
+    inputManager.addKeyboardInputActionLookup("KeyU", new AbilityOneCommand(player_one));
+    inputManager.addKeyboardInputActionLookup("KeyI", new AbilityTwoCommand(player_one));
+
+    inputManager.addKeyboardInputActionLookup("Numpad5", new AttackLightCommand(player_two));
+    inputManager.addKeyboardInputActionLookup("Numpad6", new AttackHeavyCommand(player_two));
+    inputManager.addKeyboardInputActionLookup("Numpad8", new AbilityOneCommand(player_two));
+    inputManager.addKeyboardInputActionLookup("Numpad9", new AbilityTwoCommand(player_two));
 }
 
 async function ImportMaps() {

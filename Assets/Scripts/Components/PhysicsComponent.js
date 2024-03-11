@@ -57,8 +57,11 @@ export default class PhysicsComponent extends Component {
         );
     }
 
-    fixedUpdate(transform, width, height, fixed_delta_time)
+    fixedUpdate(transform, width, height, is_jumping, is_ducking, fixed_delta_time)
     {
+        this.should_apply_low_jump_multiplier = !is_jumping;
+        this.should_apply_duck_fall_multiplier = is_ducking;
+        
         if(this.has_gravity)this.#checkGrounded(transform, width, height, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }

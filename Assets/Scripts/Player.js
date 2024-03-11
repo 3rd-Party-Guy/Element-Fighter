@@ -9,6 +9,9 @@ import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
 
 export default class Player extends Entity {
+    is_jumping = false;
+    is_ducking = false;
+
     is_attacking_light = false;
     is_attacking_heavy = false;
     is_ability_one = false;

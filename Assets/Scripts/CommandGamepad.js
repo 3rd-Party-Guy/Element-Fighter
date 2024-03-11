@@ -2,6 +2,9 @@ import PhysicsComponent from "./Components/PhysicsComponent.js";
 
 export default class GamepadCommand {
     execute(player, data) {}
+
+    onPressed() {}
+    onReleased() {}
 }
 
 export class GamepadMoveHorizontalCommand {

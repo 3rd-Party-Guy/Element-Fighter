@@ -4,6 +4,7 @@
 import Singleton from "./Singleton.js";
 import EntityManager from "./EntityManager.js";
 import GamepadHandler from "../GamepadHandler.js";
+import Entity from "../Entity.js";
 // import { GamepadMoveHorizontalCommand, GamepadJumpCommand, GamepadDuckCommand } from "../CommandGamepad.js";
 // import PhysicsComponent from "../Components/PhysicsComponent.js";
 
@@ -26,12 +27,12 @@ export default class InputManager extends Singleton {
     // Set Input is called every time there is an input event.
     // This is used to keep track of all keys that are currently down.
     setKeyboardInput(event) {
+        event.preventDefault();
         const is_active = event.type == 'keydown';
-        const command = this.inputKeyboardActionLookup.get(event.code);
-
         this.activeKeyboardInputLookup.set(event.code, is_active);
         
-        (is_active) ? command?.onPressed() : command?.onReleased();
+        const cmd = this.inputKeyboardActionLookup.get(event.code);
+        (is_active) ? cmd?.onPressed() : cmd?.onReleased();
     }
 
     // Handle Input is called every frame. It iterates through all commands map to
@@ -39,8 +40,9 @@ export default class InputManager extends Singleton {
     #handleKeyboardInput()
     {
         for (const [key, value] of this.activeKeyboardInputLookup.entries())
-            if (value === true)
-                this.inputKeyboardActionLookup.get(key)?.execute(EntityManager.getInstance(EntityManager).players[0]);
+            if (value === true) {
+                this.inputKeyboardActionLookup.get(key)?.execute();
+            }
     }
 
     handleInput() {
@@ -62,21 +64,5 @@ export default class InputManager extends Singleton {
     #handleGamepadInput() {
         for (const gp of this.connected_gamepads)
             gp.handleInput();
-    }
-
-    isPlayerHoldingJump(player) {
-        const gp = this.connected_gamepads.find(e => e.player === player);
-
-        if (this.isKeyActive("KeyW")) return true;
-        if (!gp) return false;
-        return gp.is_holding_jump;
-    }
-
-    isPlayerHoldingDuck(player) {
-        const gp = this.connected_gamepads.find(e => e.player === player);
-
-        if (this.isKeyActive("KeyS")) return true;
-        if (!gp) return false;
-        return gp.is_holding_duck;
     }
 }
