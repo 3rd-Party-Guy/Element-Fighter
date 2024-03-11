@@ -35,7 +35,7 @@ const map_image = new Image();
 
 let maps_data;
 let characters_data;
-let projectiles_data;
+let abilities_data;
 
 let active_players = 0;
 
@@ -48,7 +48,7 @@ async function Initialize() {
 
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
-
+    abilities_data = await ImportAbilities();
     
     map_image.src = GetCurrentMapData().image_path;
 
@@ -94,6 +94,11 @@ async function ImportCharacters() {
     return await response.json();
 }
 
+async function ImportAbilities() {
+    const response = await fetch("Assets/abilities.json");
+    return await response.json();
+}
+
 function SetupMapCollisions() {
     const cur_map_data = GetCurrentMapData();
 
@@ -108,6 +113,21 @@ function SetupMapCollisions() {
     }
 }
 
+function GetAbilitiesObject(abilities) {
+    let abilities_obj = {};
+
+    for (const [ type, name ] of Object.entries(abilities)) {
+        const data = abilities_data.find(e => e.name === name);
+
+        if (data)
+            abilities_obj[type] = data;
+        else
+            console.error(`Could not find ability data entry for name ${name}`);
+    }
+
+    return abilities_obj;
+}
+
 function SpawnPlayer(name) {
     const cur_map_data = GetCurrentMapData();
 
@@ -116,7 +136,7 @@ function SpawnPlayer(name) {
     const spawn_pos_y = cur_map_data["spawn_positions"][active_players+1]["y"];
 
     const player_data = characters_data.find(e => e.name == name);
-    new Player(spawn_pos_x, spawn_pos_y, player_data);
+    new Player(spawn_pos_x, spawn_pos_y, player_data, GetAbilitiesObject(player_data["abilities"]));
 
     active_players++;
 }

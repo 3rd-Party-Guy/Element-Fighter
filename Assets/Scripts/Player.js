@@ -16,16 +16,12 @@ export default class Player extends Entity {
 
     ability_data = undefined;
 
-    constructor(start_x, start_y, player_data) {
+    constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
-        this.#setAbilityData(player_data);
+        this.ability_data = ability_data;
         this.onLoaded();
     }
     
-    #setAbilityData(player_data) {
-        this.ability_data = player_data["abilities_info"];
-    }
-
     get isAttacking() {
         return (this.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None);
     }
@@ -72,40 +68,38 @@ export default class Player extends Entity {
             const transform = this.getComponentOfType(TransformComponent);
             
             let start_pos = new Vector2(0, 0);
-            let ability_width = this.ability_data[2]["entity_info"]["width"];
+            let ability_width = this.ability_data["heavy_pre"]["entity_info"]["width"];
     
             setTimeout(() => {
                 start_pos.x = transform.transform.position.x;
     
                 if (is_flipped)
-                start_pos.x -= ability_width;
+                    start_pos.x -= ability_width;
                 else
-                start_pos.x += transform.width;
+                    start_pos.x += transform.width;
     
                 start_pos.y = transform.transform.position.y;
                 EntityManager.getInstance(EntityManager).addProjectile(
                     new Projectile(
-                        start_pos.x, start_pos.y, this.ability_data[2], is_flipped
+                        start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
                     ));
-            }, this.ability_data[2]["entity_info"]["cast_time"] * 1000);
+            }, this.ability_data["heavy_pre"]["entity_info"]["cast_time"] * 1000);
             
             let start_pos_bolt = new Vector2(0, 0);
-            let ability_width_bolt = this.ability_data[3]["entity_info"]["width"];
+            let ability_width_bolt = this.ability_data["heavy"]["entity_info"]["width"];
     
             setTimeout(() => {
                 start_pos_bolt.x = transform.transform.position.x;
     
                 if (is_flipped)
-                start_pos_bolt.x -= ability_width_bolt;
+                    start_pos_bolt.x -= ability_width_bolt;
                 else
-                start_pos_bolt.x += transform.width;
+                    start_pos_bolt.x += transform.width;
     
                 start_pos_bolt.y = transform.transform.position.y;
-                EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[3], is_flipped));
-            }, this.ability_data[3]["entity_info"]["cast_time"]*1000);
-    
+                EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped));
+            }, this.ability_data["heavy"]["entity_info"]["cast_time"]*1000);
         }
-        
     }
     
     abilityOne() {
@@ -115,7 +109,7 @@ export default class Player extends Entity {
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
-        let ability_width = this.ability_data[0]["entity_info"]["width"];
+        let ability_width = this.ability_data["ability_one"]["entity_info"]["width"];
 
         setTimeout(() => {
             start_pos.x = transform.transform.position.x;
@@ -126,8 +120,8 @@ export default class Player extends Entity {
             start_pos.x += transform.width;
 
             start_pos.y = transform.transform.position.y;
-            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[0], is_flipped));
-        }, this.ability_data[0]["entity_info"]["cast_time"]*1000);
+            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data["ability_one"], is_flipped));
+        }, this.ability_data["ability_one"]["entity_info"]["cast_time"]*1000);
         
     }
 
@@ -138,10 +132,8 @@ export default class Player extends Entity {
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
-        let ability_width = this.ability_data[1]["entity_info"]["width"];
+        let ability_width = this.ability_data["ability_two"]["entity_info"]["width"];
 
-       
-        
         setTimeout(() => {
             start_pos.x = transform.transform.position.x;
 
@@ -151,8 +143,8 @@ export default class Player extends Entity {
             start_pos.x += transform.width;
 
             start_pos.y = transform.transform.position.y;
-            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data[1], is_flipped));
-        }, this.ability_data[1]["entity_info"]["cast_time"]*1000);
+            EntityManager.getInstance(EntityManager).addProjectile(new Projectile(start_pos.x, start_pos.y, this.ability_data["ability_two"], is_flipped));
+        }, this.ability_data["ability_two"]["entity_info"]["cast_time"]*1000);
         
     }
 }
