@@ -31,7 +31,7 @@ export default class InputManager extends Singleton {
 
         this.activeKeyboardInputLookup.set(event.code, is_active);
         
-        (is_active) ? command?.onSet() : command?.onUnset();
+        (is_active) ? command?.onPressed() : command?.onReleased();
     }
 
     // Handle Input is called every frame. It iterates through all commands map to

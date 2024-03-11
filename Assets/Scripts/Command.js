@@ -11,8 +11,8 @@ export default class Command {
         this.first_call = false;
     }
 
-    onSet() {}
-    onUnset() {
+    onPressed() {}
+    onReleased() {
         this.first_call = true;
     }
 };

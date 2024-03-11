@@ -94,18 +94,18 @@ export default class GamepadHandler {
             this.attack_light_command.execute(this.player);
             return;
         }
-        else this.attack_light_command.onUnset();
+        else this.attack_light_command.onReleased();
         if (this.heavyAttackButton.pressed) {
             this.attack_heavy_command.execute(this.player);
             return;
-        } else this.attack_heavy_command.onUnset();
+        } else this.attack_heavy_command.onReleased();
         if (this.abilityOneButton.pressed) {
             this.ability_one_command.execute(this.player);
             return;
-        } else this.ability_one_command.onUnset();
+        } else this.ability_one_command.onReleased();
         if (this.abilityTwoButton.pressed) {
             this.ability_two_command.execute(this.player);
             return;
-        } else this.ability_two_command.onUnset();
+        } else this.ability_two_command.onReleased();
     }
 }
