@@ -6,8 +6,8 @@
       "idle": {
         "state_info": "Idle",
         "animation_path": "Movement/idle",
-        "num_frames": 2,
-        "sheet_width": 360,
+        "num_frames": 6,
+        "sheet_width": 768,
         "sheet_height": 168,
         "animation_scale": 2.5
       },
