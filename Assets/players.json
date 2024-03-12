@@ -9,7 +9,7 @@
         "num_frames": 6,
         "sheet_width": 768,
         "sheet_height": 168,
-        "animation_scale": 2.5
+        "animation_scale": 1
       },
       "run": {
         "state_info": "Running",
@@ -41,18 +41,18 @@
       "ability1": {
         "state_info": "AbilityOne",
         "animation_path": "Abilities/ability1",
-        "num_frames": 5,
-        "sheet_width": 640,
-        "sheet_height": 148,
-        "animation_scale": 0.5
+        "num_frames": 3,
+        "sheet_width": 432,
+        "sheet_height": 168,
+        "animation_scale": 1
 
       },
       "ability2": {
         "state_info": "AbilityTwo",
         "animation_path": "Abilities/ability2",
         "num_frames": 5,
-        "sheet_width": 640,
-        "sheet_height": 148,
+        "sheet_width": 720,
+        "sheet_height": 144,
         "animation_scale": 1
       },
       "jump": {
@@ -178,8 +178,8 @@
       "low_jump_multiplier": 7000
     },
     "abilities": {
-      "light": "Earthquake",
-      "heavy": "Rock"
+      "ability_one": "Earthquake",
+      "ability_two": "Rock"
     }
   },
   {
@@ -189,26 +189,26 @@
       "idle": {
         "state_info": "Idle",
         "animation_path": "Movement/idle",
-        "num_frames": 2,
-        "sheet_width": 360,
-        "sheet_height": 168,
-        "animation_scale": 2.5
+        "num_frames": 4,
+        "sheet_width": 640,
+        "sheet_height": 160,
+        "animation_scale": 1
       },
       "run": {
         "state_info": "Running",
         "animation_path": "Movement/run",
-        "num_frames": 6,
-        "sheet_width": 768,
-        "sheet_height": 168,
+        "num_frames": 4,
+        "sheet_width": 640,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
       },
       "light_attack": {
         "state_info": "AttackLight",
         "animation_path": "Attacks/light_attack",
-        "num_frames": 6,
-        "sheet_width": 1440,
-        "sheet_height": 240,
+        "num_frames": 5,
+        "sheet_width": 800,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
       },
@@ -216,8 +216,8 @@
         "state_info": "AttackHeavy",
         "animation_path": "Attacks/heavy_attack",
         "num_frames": 6,
-        "sheet_width": 1440,
-        "sheet_height": 240,
+        "sheet_width": 960,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
       },
@@ -225,8 +225,8 @@
         "state_info": "AbilityOne",
         "animation_path": "Abilities/ability1",
         "num_frames": 6,
-        "sheet_width": 1440,
-        "sheet_height": 240,
+        "sheet_width": 960,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
       },
@@ -234,8 +234,8 @@
         "state_info": "AbilityTwo",
         "animation_path": "Abilities/ability2",
         "num_frames": 6,
-        "sheet_width": 1440,
-        "sheet_height": 240,
+        "sheet_width": 960,
+        "sheet_height": 160,
         "animation_scale": 0.5
       },
       "jump": {
@@ -266,100 +266,10 @@
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
     },
-    "abilities_info": [
-      {
-        "name": "Bubble",
-        "spritesheets_path": "Assets/Sprites/Projectiles/",
-        "spritesheets_info": {
-          "animation": {
-            "animation_path": "bubble",
-            "num_frames": 6,
-            "sheet_width": 900,
-            "sheet_height": 148,
-            "animation_scale": 0.4
-          }
-        },
-        "entity_info": {
-          "width": 150,
-          "height": 148,
-          "velocity": [500,0],
-          "max_x_velocity": 750,
-          "x_friction": 0,
-          "gravity": 0,
-          "life_time": 5,
-          "cast_time": 0.35
-        }
-      },  
-      {
-        "name": "Wave",
-        "spritesheets_path": "Assets/Sprites/Projectiles/",
-        "spritesheets_info": {
-          "animation": {
-            "animation_path": "wave",
-            "num_frames": 8,
-            "sheet_width": 1900,
-            "sheet_height": 162,
-            "animation_scale": 0.5
-          }
-        },
-        "entity_info": {
-          "width": 238,
-          "height": 162,
-          "velocity": [350,0],
-          "max_x_velocity": 750,
-          "x_friction": 0,
-          "gravity": 0,
-          "life_time": 0.8,
-          "cast_time": 0.6
-        }
-      },
-      {
-        "name": "Waterportal",
-        "spritesheets_path": "Assets/Sprites/Projectiles/",
-        "spritesheets_info": {
-          "animation": {
-            "animation_path": "waterportal",
-            "num_frames": 10,
-            "sheet_width": 960,
-            "sheet_height": 128,
-            "animation_scale": 0.3
-          }
-        },
-        "entity_info": {
-          "width": 96,
-          "height": 128,
-          "velocity": [0,0],
-          "max_x_velocity": 750,
-          "x_friction": 0,
-          "gravity": 0,
-          "life_time": 0.7,
-          "cast_time": 0.3
-        }
-      },
-      {
-        "name": "Waterbolt",
-        "spritesheets_path": "Assets/Sprites/Projectiles/",
-        "spritesheets_info": {
-          "animation": {
-            "animation_path": "waterbolt",
-            "num_frames": 3,
-            "sheet_width": 294,
-            "sheet_height": 128,
-            "animation_scale": 0.3
-          }
-        },
-        "entity_info": {
-          "width": 95,
-          "height": 128,
-          "velocity": [750,0],
-          "max_x_velocity": 750,
-          "x_friction": 0,
-          "gravity": 0,
-          "life_time": 0.8,
-          "cast_time": 1
-        }
-      }
-    ]
+    "abilities": {
+      "ability_one": "Earthquake",
+      "ability_two": "Rock"
+    }
   },
   {
     "name": "Surtur",
@@ -447,6 +357,10 @@
       "jump_force": 1000,
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
+    },
+    "abilities": {
+      "ability_one": "Earthquake",
+      "ability_two": "Rock"
     }
   }
 ]
