@@ -24,6 +24,9 @@ export default class Player extends Entity {
     light_damage = 0
     heavy_damage = 0;
 
+    is_attack_registered = false;
+    last_attack_state = undefined;
+
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
         this.ability_data = ability_data;
@@ -78,6 +81,13 @@ export default class Player extends Entity {
         this.is_attacking_heavy = false;
         this.is_ability_one = false;
         this.is_ability_two = false;
+    }
+
+    update() {
+        if (this.last_attack_state !== this.attackState)
+            this.is_attack_registered = false;
+
+        this.last_attack_state = this.attackState;
     }
 
     attackLight() {

@@ -27,15 +27,17 @@ export default class ColissionSystem extends System {
     #handleMeleeAttacks() {
         const player_one = EntityManager.getInstance(EntityManager).players[0];
         const player_two = EntityManager.getInstance(EntityManager).players[1];
-
-        let attacking_player = player_one;
-
+        
         if (!player_one || !player_two) return;
         if (player_one.attackState === AttackModes.None && player_two.attackState === AttackModes.None) return;
+        
+        let attacking_player = player_one;
+        if (attacking_player.is_attack_registered) return;
 
         for (const p of EntityManager.getInstance(EntityManager).players) {
             if (p !== attacking_player) {
                 p.health -= attacking_player.damage;
+                attacking_player.is_attack_registered = true;
             }
         }
 
@@ -51,6 +53,7 @@ export default class ColissionSystem extends System {
 
     #handleProjectiles() {
         if (EntityManager.getInstance(EntityManager).projectiles.length === 0) return;
-
     }
+
+    
 }

@@ -37,5 +37,6 @@ export default class UIRenderer extends Singleton {
         bar_width = ((x_end - x_start) / 100) * clamp(playerTwo.health, 0, 100);
         
         ctx.fillRect(x_start, this.y_buffer, bar_width, 45);
+        // console.log(`One: ${playerOne.health}; Two: ${playerTwo.health}`);
     }
 }
