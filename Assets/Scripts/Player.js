@@ -66,7 +66,7 @@ export default class Player extends Entity {
     
     attackHeavy() {
         this.is_attacking_heavy = true;
-        if(this.name === "Mermaid"){
+        if (this.name === "Mermaid") {
             const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
             const transform = this.getComponentOfType(TransformComponent);
             

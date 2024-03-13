@@ -260,9 +260,9 @@
       "height": 148,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
-      "gravity": 3000,
-      "jumps": 2,
-      "jump_force": 1150,
+      "gravity": 2000,
+      "jumps": 3,
+      "jump_force": 950,
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
     },
