@@ -15,6 +15,7 @@ import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
+import UIRenderer from "./Singletons/UIRenderer.js";
 
 // FixedUpdate should run at 480FPS
 const FIXED_DELTA_TIME = 1000 / 480;
@@ -29,6 +30,8 @@ const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
 const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 const collision_system = ColissionSystem.getInstance(ColissionSystem);
+
+const ui_renderer = UIRenderer.getInstance(UIRenderer);
 
 const cur_map_name = "Vulcano";
 const map_image = new Image();
@@ -209,7 +212,8 @@ function FixedUpdate() {
 }
 
 function LateUpdate() {
-
+    ui_renderer.RenderPlayersHealth();
+    canvas_manager.gameplayContext.fill();
 }
 
 // This is the main game loop. It is called every frame!

@@ -19,9 +19,18 @@ export default class Player extends Entity {
 
     ability_data = undefined;
 
+    health = 100;
+
+    light_damage = 0
+    heavy_damage = 0;
+
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
         this.ability_data = ability_data;
+        
+        this.light_damage = player_data["entity_info"]["light_damage"];
+        this.heavy_damage = player_data["entity_info"]["heavy_damage"];
+
         this.onLoaded();
     }
     
@@ -53,6 +62,17 @@ export default class Player extends Entity {
         this.getComponentOfType(PhysicsComponent).snap_stop_x = true;
     }
 
+    get damage() {
+        let current_damage = 0;
+
+        if (this.attackState === AttackModes.AttackLight)
+            current_damage = this.light_damage;
+        else if (this.attackState === AttackModes.AttackHeavy)
+            current_damage = this.heavy_damage;
+
+        return current_damage;
+    }
+
     clearAttackSignals() {
         this.is_attacking_light = false;
         this.is_attacking_heavy = false;
@@ -66,6 +86,7 @@ export default class Player extends Entity {
     
     attackHeavy() {
         this.is_attacking_heavy = true;
+
         if (this.name === "Mermaid") {
             const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
             const transform = this.getComponentOfType(TransformComponent);

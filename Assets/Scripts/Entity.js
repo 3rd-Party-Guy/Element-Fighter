@@ -31,7 +31,7 @@ export default class Entity {
             this.components.push(new AnimationComponent(entity_data, is_state_machine));
             this.components.push(new RenderingComponent());
             this.components.push(new PhysicsComponent(entity_data["entity_info"]));
-        } catch(err) {
+        } catch (err) {
             console.error("Error fetching entity data:\n", err);
         }
     }
