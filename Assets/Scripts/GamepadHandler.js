@@ -11,14 +11,14 @@ export default class GamepadHandler {
     player = undefined;
 
     // INFO: Do this in Constructor
-    gamepad_horizontal_command = new GamepadMoveHorizontalCommand();
-    gamepad_jump_command = new GamepadJumpCommand();
-    gamepad_duck_command = new GamepadDuckCommand();
+    gamepad_horizontal_command = undefined;
+    gamepad_jump_command = undefined;
+    gamepad_duck_command = undefined;
 
-    attack_light_command = new AttackLightCommand();
-    attack_heavy_command = new AttackHeavyCommand();
-    ability_one_command = new AbilityOneCommand();
-    ability_two_command = new AbilityTwoCommand();
+    attack_light_command = undefined;
+    attack_heavy_command = undefined;
+    ability_one_command = undefined;
+    ability_two_command = undefined;
 
     is_holding_jump = false;
     is_holding_duck = false;
@@ -26,6 +26,15 @@ export default class GamepadHandler {
     constructor(controller_index) {
         this.index = controller_index;
         this.player = EntityManager.getInstance(EntityManager).players[this.index];
+    
+        this.gamepad_horizontal_command = new GamepadMoveHorizontalCommand(this.player);
+        this.gamepad_jump_command = new GamepadJumpCommand(this.player);
+        this.gamepad_duck_command = new GamepadDuckCommand(this.player);
+    
+        this.attack_light_command = new AttackLightCommand(this.player);
+        this.attack_heavy_command = new AttackHeavyCommand(this.player);
+        this.ability_one_command = new AbilityOneCommand(this.player);
+        this.ability_two_command = new AbilityTwoCommand(this.player);
     }
 
     get gamepad() {

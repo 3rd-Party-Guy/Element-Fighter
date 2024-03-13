@@ -177,7 +177,9 @@
       "jumps": 2,
       "jump_force": 1000,
       "fall_multiplier": 5400,
-      "low_jump_multiplier": 7000
+      "low_jump_multiplier": 7000,
+      "light_damage": 7,
+      "heavy_damage": 40
     },
     "abilities": {
       "ability_one": "Earthquake",

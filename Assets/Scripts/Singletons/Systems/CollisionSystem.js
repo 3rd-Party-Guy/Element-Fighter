@@ -29,9 +29,9 @@ export default class ColissionSystem extends System {
         const player_two = EntityManager.getInstance(EntityManager).players[1];
         
         if (!player_one || !player_two) return;
-        if (player_one.attackState === AttackModes.None && player_two.attackState === AttackModes.None) return;
-        
-        let attacking_player = player_one;
+        if (player_one.attackState === player_two.attackState) return;
+
+        let attacking_player = this.#calculateAttackingPlayer(player_one, player_two);
         if (attacking_player.is_attack_registered) return;
 
         for (const p of EntityManager.getInstance(EntityManager).players) {
@@ -40,20 +40,21 @@ export default class ColissionSystem extends System {
                 attacking_player.is_attack_registered = true;
             }
         }
-
-        // if (playerOne.isAttacking) {
-        //     if (!playerTwo.isAttacking) {
-        //         attackingPlayer = playerOne;
-        //     } else {
-        //         if (playerOne.attackingData.attacking_heavy && !playerTwo.attackingData.attacking_heavy)
-        //             attackingPlayer = playerOne;
-        //     }
-        // }
     }
 
     #handleProjectiles() {
         if (EntityManager.getInstance(EntityManager).projectiles.length === 0) return;
     }
 
-    
+    #calculateAttackingPlayer(player_one, player_two) {
+        if (player_one.attackState === AttackModes.AttackHeavy)
+            return player_one;
+        else if (player_two.attackState === AttackModes.AttackHeavy)
+            return player_two;
+
+        if (player_one.attackState === AttackModes.AttackLight)
+            return player_one;
+
+        return player_two;
+    }
 }
