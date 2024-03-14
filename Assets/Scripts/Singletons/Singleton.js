@@ -6,17 +6,21 @@ export default class Singleton {
   // First, it checks whether there is already an instance of the class, and if so, returns that.
   // Otherwise, the new instance is added to the static instances object.
   constructor() {
-    if (Singleton.#instances.hasOwnProperty(this.constructor.name))
-      return Singleton.#instances[this.constructor.name];
+    const type_key = Symbol.for(this.constructor.name);
 
-      Singleton.#instances[this.constructor.name] = this;
+    if (Singleton.#instances[type_key])
+      return Singleton.#instances[type_key];
+
+      Singleton.#instances[type_key] = this;
   }
 
   // This function works both as lazy-initialization and a getter for singletons.
   static getInstance(con) {
-    if (!Singleton.#instances.hasOwnProperty(con.name))
-      Singleton.#instances[con.name] = new con();
+    const type_key = Symbol.for(con.name);
 
-    return Singleton.#instances[con.name];
+    if (!Singleton.#instances[type_key])
+      Singleton.#instances[type_key] = new con();
+
+    return Singleton.#instances[type_key];
   }
 }
