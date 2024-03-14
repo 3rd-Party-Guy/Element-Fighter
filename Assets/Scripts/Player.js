@@ -20,6 +20,7 @@ export default class Player extends Entity {
     ability_data = undefined;
 
     health = 100;
+    mana = 100;
 
     light_damage = 0
     heavy_damage = 0;
