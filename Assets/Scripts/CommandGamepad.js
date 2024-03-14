@@ -16,19 +16,3 @@ export class GamepadMoveHorizontalCommand {
         physics_component.vel.x += data * 150;
     }
 }
-
-export class GamepadJumpCommand {
-    execute(player, data) {
-        if (player.isAttacking) return;
-        
-        player.getComponentOfType(PhysicsComponent)?.jump();
-    }
-}
-
-export class GamepadDuckCommand {
-    execute(player, data) {
-        if (player.isAttacking) return;
-
-        player.getComponentOfType(PhysicsComponent)?.duck();
-    }
-}
