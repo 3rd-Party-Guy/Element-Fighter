@@ -212,7 +212,7 @@ function FixedUpdate() {
 }
 
 function LateUpdate() {
-    ui_renderer.RenderPlayersHealth();
+    ui_renderer.RenderUI();
     canvas_manager.gameplayContext.fill();
 }
 

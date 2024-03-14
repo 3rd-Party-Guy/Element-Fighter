@@ -90,7 +90,8 @@
       "heavy": "Waterbolt",
       "ability_one": "Bubble",
       "ability_two": "Wave"
-    }
+    },
+    "avatar_path": "Assets/Sprites/UI/Avatars/Mermaid"
   },
   {
     "name": "Minotaurus",
@@ -184,7 +185,8 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    }
+    },
+    "avatar_path": "Assets/Sprites/UI/Avatars/Minotaurus"
   },
   {
     "name": "Sylph",
@@ -275,7 +277,8 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    }
+    },
+    "avatar_path": "Assets/Sprites/UI/Avatars/Sylph"
   },
   {
     "name": "Surtur",
@@ -367,6 +370,7 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    }
+    },
+    "avatar_path": "Assets/Sprites/UI/Avatars/Surtur"
   }
 ]

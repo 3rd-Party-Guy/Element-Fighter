@@ -20,11 +20,14 @@ export default class UIRenderer extends Singleton {
         this.mana_bar_image.src = 'Assets/Sprites/UI/ManaBar.png';
     }
 
-    RenderPlayersHealth() {
+    RenderUI() {
         const ctx = CanvasManager.getInstance(CanvasManager).gameplayContext;
-        ctx.fillStyle = "red";
-        
-        let x_start, x_end, bar_width_dest, bar_width_source = 0;
+
+        this.#RenderPlayersBars(ctx);
+    }
+
+    #RenderPlayersBars(ctx) {
+        let x_start, x_end, health_bar_width_dest, health_bar_width_source, mana_bar_width_dest, mana_bar_width_source = 0;
         
         // Player One
         const playerOne = EntityManager.getInstance(EntityManager).players[0];
@@ -33,11 +36,12 @@ export default class UIRenderer extends Singleton {
         x_start = this.avatar_size + this.buffer_start_healthbar;
         x_end = 1280 / 2 - this.buffer_end_healthbar;
         
-        bar_width_dest = ((x_end - x_start) / 100) * clamp(playerOne.health, 0, 100);
-        bar_width_source = (500 / 100) * clamp(playerOne.health, 0, 100);
+        health_bar_width_dest = ((x_end - x_start) / 100) * clamp(playerOne.health, 0, 100);
+        health_bar_width_source = (500 / 100) * clamp(playerOne.health, 0, 100);
 
-        ctx.drawImage(this.health_bar_image, 0, 0, bar_width_source, 50, x_start, this.y_buffer, bar_width_dest, 45);
-        
+        ctx.drawImage(this.health_bar_image, 0, 0, health_bar_width_source, 50, x_start, this.y_buffer, health_bar_width_dest, 45);
+        ctx.drawImage(this.mana_bar_image, 0, 0, health_bar_width_source, 50, x_start, this.y_buffer + 45 + 5, health_bar_width_dest, 45);
+
         // Player Two
         const playerTwo = EntityManager.getInstance(EntityManager).players[1];
         if (!playerTwo) return;
@@ -45,9 +49,13 @@ export default class UIRenderer extends Singleton {
         x_start = 1280 - this.avatar_size - this.buffer_start_healthbar;
         x_end = 1280 / 2 + this.buffer_end_healthbar;
         
-        bar_width_dest = ((x_end - x_start) / 100) * clamp(playerTwo.health, 0, 100);
-        bar_width_source = (500 / 100) * clamp(playerTwo.health, 0, 100);
+        health_bar_width_dest = ((x_end - x_start) / 100) * clamp(playerTwo.health, 0, 100);
+        health_bar_width_source = (500 / 100) * clamp(playerTwo.health, 0, 100);
 
-        ctx.drawImage(this.health_bar_image, 500, 0, -bar_width_source, 50, x_start, this.y_buffer, bar_width_dest, 45);
+        ctx.drawImage(this.health_bar_image, 500, 0, -health_bar_width_source, 50, x_start, this.y_buffer, health_bar_width_dest, 45);
+        ctx.drawImage(this.mana_bar_image, 500, 0, -health_bar_width_source, 50, x_start, this.y_buffer + 45 + 5, health_bar_width_dest, 45);
+    }
+
+    #RenderPlayersAvatars() {
     }
 }
