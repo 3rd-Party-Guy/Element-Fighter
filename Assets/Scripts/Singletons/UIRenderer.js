@@ -85,7 +85,7 @@ export default class UIRenderer extends Singleton {
             return;
         }
 
-        x_start = 5;
+        x_start = 2;
         ctx.drawImage(this.avatar_one_image, 0, 0, 132, 132, x_start, 5, this.avatar_size, this.avatar_size);
 
         if (!this.avatar_two_image.src.endsWith(".png")) {
@@ -93,7 +93,7 @@ export default class UIRenderer extends Singleton {
             return;
         }
 
-        x_start = 1280 - this.avatar_size - 5;
+        x_start = 1280 - this.avatar_size - 2;
         ctx.drawImage(this.avatar_two_image, 0, 0, 132, 132, x_start, 5, this.avatar_size, this.avatar_size);
     }
 }
