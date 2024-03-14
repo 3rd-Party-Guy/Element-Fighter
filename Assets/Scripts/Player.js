@@ -7,6 +7,7 @@ import Entity from "./Entity.js";
 import Projectile from "./Projectile.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
+import { clamp } from "./Math.js";
 
 export default class Player extends Entity {
     is_jumping = false;
@@ -30,6 +31,8 @@ export default class Player extends Entity {
     is_attack_registered = false;
     last_attack_state = undefined;
 
+    mana_regen_rate = 0;
+
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
         this.ability_data = ability_data;
@@ -38,6 +41,7 @@ export default class Player extends Entity {
         this.heavy_damage = player_data["entity_info"]["heavy_damage"];
 
         this.avatarPath = player_data["avatar_path"];
+        this.mana_regen_rate = player_data["mana_regen_rate"];
 
         this.onLoaded();
     }
@@ -88,7 +92,12 @@ export default class Player extends Entity {
         this.is_ability_two = false;
     }
 
-    update() {
+    fixedUpdate(delta) {
+        this.mana += this.mana_regen_rate * delta;
+        this.mana = clamp(this.mana, 0, 100);
+    }
+
+    update(delta) {
         if (this.last_attack_state !== this.attackState)
             this.is_attack_registered = false;
 
@@ -144,7 +153,11 @@ export default class Player extends Entity {
     }
     
     abilityOne() {
+        if(this.mana < this.ability_data.ability_one.cost)
+            return;
+
         this.is_ability_one = true;
+        this.mana -= this.ability_data.ability_one.cost;
 
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
@@ -169,7 +182,11 @@ export default class Player extends Entity {
     }
 
     abilityTwo() {
+        if(this.mana < this.ability_data.ability_two.cost)
+            return;
+
         this.is_ability_two = true;
+        this.mana -= this.ability_data.ability_two.cost;
 
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);

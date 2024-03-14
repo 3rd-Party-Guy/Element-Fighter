@@ -1,6 +1,8 @@
 [
   {
     "name": "Mermaid",
+    "avatar_path": "Assets/Sprites/UI/Avatars/Mermaid",
+    "mana_regen_rate": 10,
     "spritesheets_path": "Assets/Sprites/Characters/Mermaid/",
     "spritesheets_info": {
       "idle": {
@@ -90,11 +92,12 @@
       "heavy": "Waterbolt",
       "ability_one": "Bubble",
       "ability_two": "Wave"
-    },
-    "avatar_path": "Assets/Sprites/UI/Avatars/Mermaid"
+    }
   },
   {
     "name": "Minotaurus",
+    "avatar_path": "Assets/Sprites/UI/Avatars/Minotaurus",
+    "mana_regen_rate": 4,
     "spritesheets_path": "Assets/Sprites/Characters/Minotaurus/",
     "spritesheets_info": {
       "idle": {
@@ -185,11 +188,12 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    },
-    "avatar_path": "Assets/Sprites/UI/Avatars/Minotaurus"
+    }
   },
   {
     "name": "Sylph",
+    "avatar_path": "Assets/Sprites/UI/Avatars/Sylph",
+    "mana_regen_rate": 7,
     "spritesheets_path": "Assets/Sprites/Characters/Sylph/",
     "spritesheets_info": {
       "idle": {
@@ -277,11 +281,12 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    },
-    "avatar_path": "Assets/Sprites/UI/Avatars/Sylph"
+    }
   },
   {
     "name": "Surtur",
+    "avatar_path": "Assets/Sprites/UI/Avatars/Surtur",
+    "mana_regen_rate": 4,
     "spritesheets_path": "Assets/Sprites/Characters/Surtur/",
     "spritesheets_info": {
       "idle": {
@@ -370,7 +375,6 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
-    },
-    "avatar_path": "Assets/Sprites/UI/Avatars/Surtur"
+    }
   }
 ]

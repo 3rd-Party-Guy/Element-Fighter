@@ -20,7 +20,8 @@
       "gravity": 0,
       "life_time": 5,
       "cast_time": 0.35
-    }
+    },
+    "cost": 22
   },  
   {
     "name": "Wave",
@@ -43,7 +44,8 @@
       "gravity": 0,
       "life_time": 0.8,
       "cast_time": 0.6
-    }
+    },
+    "cost": 59
   },
   {
     "name": "Waterportal",
@@ -66,7 +68,8 @@
       "gravity": 0,
       "life_time": 0.7,
       "cast_time": 0.3
-    }
+    },
+    "cost": 2
   },
   {
     "name": "Waterbolt",
@@ -89,7 +92,8 @@
       "gravity": 0,
       "life_time": 0.8,
       "cast_time": 1
-    }
+    },
+    "cost": 14
   },
   {
     "name": "Earthquake",
@@ -112,7 +116,8 @@
       "gravity": 0,
       "life_time": 0.5,
       "cast_time": 0.55
-    }
+    },
+    "cost": 74
   },  
   {
     "name": "Rock",
@@ -135,6 +140,7 @@
       "gravity": 0,
       "life_time": 0.8,
       "cast_time": 1
-    }
+    },
+    "cost": 31
   }
 ]
