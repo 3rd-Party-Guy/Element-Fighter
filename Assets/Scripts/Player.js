@@ -24,6 +24,8 @@ export default class Player extends Entity {
     light_damage = 0
     heavy_damage = 0;
 
+    avatar_path = "";
+
     is_attack_registered = false;
     last_attack_state = undefined;
 
@@ -33,6 +35,8 @@ export default class Player extends Entity {
         
         this.light_damage = player_data["entity_info"]["light_damage"];
         this.heavy_damage = player_data["entity_info"]["heavy_damage"];
+
+        this.avatarPath = player_data["avatar_path"];
 
         this.onLoaded();
     }
