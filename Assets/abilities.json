@@ -173,7 +173,7 @@
       }
     },
     "entity_info": {
-      "width": 80,
+      "width": 160,
       "height": 160,
       "velocity": [0,0],
       "max_x_velocity": 0,
@@ -188,8 +188,8 @@
       "is_one_shot": true,
       "knockback_info": {
         "has_knockback": true,
-        "multiplier_x": 210,
-        "multiplier_y": 0
+        "multiplier_x": 1000,
+        "multiplier_y": 1500
       }
     }
   }

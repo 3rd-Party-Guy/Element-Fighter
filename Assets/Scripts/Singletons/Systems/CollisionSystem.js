@@ -51,7 +51,7 @@ export default class ColissionSystem extends System {
 
         for (const p of projectiles) {
             for (const e of players) {
-                if(p.owner === e) return;
+                if(p.owner === e) continue;
                 if (!this.#checkPlayerProjectileCollision(e, p)) return;
 
                 p.onCollision(e, delta);
