@@ -19,7 +19,6 @@ export default class PhysicsComponent extends Component {
     y_friction = 0;
     
     //Properties for states
-    is_flipped = false;
     jumps_left = 0;
 
     //Properties for collision
