@@ -53,7 +53,7 @@ export default class Entity {
         delete this.components[type_key];
     }
 
-    get transform() { return this.getComponentOfType(TransformComponent).transform; }
+    get transform() { return this.getComponentOfType(TransformComponent); }
 
     update() {}
     fixedUpdate() {}

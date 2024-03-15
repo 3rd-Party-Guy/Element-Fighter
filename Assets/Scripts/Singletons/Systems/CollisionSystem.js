@@ -51,6 +51,7 @@ export default class ColissionSystem extends System {
 
         for (const p of projectiles) {
             for (const e of players) {
+                if(p.owner === e) return;
                 if (!this.#checkPlayerProjectileCollision(e, p)) return;
 
                 e.health -= p.damage;
@@ -80,11 +81,11 @@ export default class ColissionSystem extends System {
         const y1 = pos1.y;
         const y2 = pos2.y;
 
-        const width1 = player.getComponentOfType(TransformComponent).width;
-        const width2 = projectile.getComponentOfType(TransformComponent).width;
+        const width1 = player.transform.width;
+        const width2 = projectile.transform.width;
         
-        const height1 = player.getComponentOfType(TransformComponent).height;
-        const height2 = projectile.getComponentOfType(TransformComponent).height;
+        const height1 = player.transform.height;
+        const height2 = projectile.transform.height;
 
         const x1Bound = x1 + width1;
         const x2Bound = x2 + width2;
