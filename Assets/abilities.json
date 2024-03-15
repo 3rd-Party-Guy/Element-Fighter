@@ -21,9 +21,11 @@
       "life_time": 5,
       "cast_time": 0.35
     },
-    "cost": 22,
-    "damage": 1,
-    "is_one_shot": false
+    "combat_info": {
+      "cost": 22,
+      "damage": 1,
+      "is_one_shot": false
+    }
   },  
   {
     "name": "Wave",
@@ -47,9 +49,11 @@
       "life_time": 0.8,
       "cast_time": 0.6
     },
-    "cost": 59,
-    "damage": 32,
-    "is_one_shot": false
+    "combat_info": {
+      "cost": 59,
+      "damage": 32,
+      "is_one_shot": false
+    }
   },
   {
     "name": "Waterportal",
@@ -73,9 +77,11 @@
       "life_time": 0.7,
       "cast_time": 0.3
     },
-    "cost": 2,
-    "damage": 1,
-    "is_one_shot": false
+    "combat_info": {
+      "cost": 2,
+      "damage": 1,
+      "is_one_shot": false
+    }
   },
   {
     "name": "Waterbolt",
@@ -99,9 +105,11 @@
       "life_time": 0.8,
       "cast_time": 1
     },
-    "cost": 14,
-    "damage": 9,
-    "is_one_shot": true
+    "combat_info": {
+      "cost": 14,
+      "damage": 9,
+      "is_one_shot": true
+    }
   },
   {
     "name": "Earthquake",
@@ -125,8 +133,11 @@
       "life_time": 0.5,
       "cast_time": 0.55
     },
-    "cost": 74,
-    "damage": 21
+    "combat_info": {
+      "cost": 74,
+      "damage": 21,
+      "is_one_shot": false
+    }
   },  
   {
     "name": "Rock",
@@ -150,8 +161,10 @@
       "life_time": 0.8,
       "cast_time": 1
     },
-    "cost": 31,
-    "damage": 54,
-    "is_one_shot": true
+    "combat_info": {
+      "cost": 31,
+      "damage": 54,
+      "is_one_shot": true
+    }
   }
 ]

@@ -8,20 +8,16 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 export default class Projectile extends Entity {
     life_time = 0;
     is_flipped = false;
-    is_registered = false;
-    is_one_shot = false;
     owner = undefined;
-    damage = 0;
+    combat_data = undefined;
 
     constructor(owner, start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
         
         this.life_time = projectile_data["entity_info"]["life_time"];
-        
         this.is_flipped = flipped;
         this.owner = owner;
-        this.damage = projectile_data["damage"];
-        this.is_one_shot = projectile_data["is_one_shot"];
+        this.combat_data = projectile_data["combat_info"];
 
         this.onLoaded();
     }
@@ -46,10 +42,10 @@ export default class Projectile extends Entity {
     }
 
     onCollision(player) {
-        if (this.is_one_shot && this.is_registered) return;
+        if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
         this.is_registered = true;
-        player.health -= this.damage;
+        player.health -= this.combat_data["damage"];
     }
 
     #setProperties() {
