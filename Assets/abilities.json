@@ -21,7 +21,8 @@
       "life_time": 5,
       "cast_time": 0.35
     },
-    "cost": 22
+    "cost": 22,
+    "damage": 1
   },  
   {
     "name": "Wave",
@@ -45,7 +46,8 @@
       "life_time": 0.8,
       "cast_time": 0.6
     },
-    "cost": 59
+    "cost": 59,
+    "damage": 32
   },
   {
     "name": "Waterportal",
@@ -69,7 +71,8 @@
       "life_time": 0.7,
       "cast_time": 0.3
     },
-    "cost": 2
+    "cost": 2,
+    "damage": 1
   },
   {
     "name": "Waterbolt",
@@ -93,7 +96,8 @@
       "life_time": 0.8,
       "cast_time": 1
     },
-    "cost": 14
+    "cost": 14,
+    "damage": 9
   },
   {
     "name": "Earthquake",
@@ -117,7 +121,8 @@
       "life_time": 0.5,
       "cast_time": 0.55
     },
-    "cost": 74
+    "cost": 74,
+    "damage": 21
   },  
   {
     "name": "Rock",
@@ -141,6 +146,7 @@
       "life_time": 0.8,
       "cast_time": 1
     },
-    "cost": 31
+    "cost": 31,
+    "damage": 54
   }
 ]
