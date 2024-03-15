@@ -178,17 +178,18 @@ export default class Player extends Entity {
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
 
+        let ability_width = ability_data["entity_info"]["width"];
+
         let start_pos = new Vector2(0, 0);
         start_pos.x = transform.position.x;
 
         if (is_flipped)
-        start_pos.x -= ability_width;
+            start_pos.x -= ability_width;
         else
-        start_pos.x += transform.width;
+            start_pos.x += transform.width;
 
         start_pos.y = transform.position.y;
 
-        let ability_width = ability_data["entity_info"]["width"];
 
         setTimeout(() => {
             EntityManager.getInstance(EntityManager).addProjectile(
