@@ -173,6 +173,11 @@ export default class Player extends Entity {
         this.#spawnAbility(this.ability_data["ability_two"]);
     }
 
+    onAttack(other_player) {
+        other_player.health -= this.damage;
+        this.is_attack_registered = true;
+    }
+
     #spawnAbility(ability_data) {
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);

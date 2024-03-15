@@ -38,10 +38,9 @@ export default class ColissionSystem extends System {
         if (attacking_player.is_attack_registered) return;
 
         for (const p of EntityManager.getInstance(EntityManager).players) {
-            if (p !== attacking_player) {
-                p.health -= attacking_player.damage;
-                attacking_player.is_attack_registered = true;
-            }
+            if (p === attacking_player) continue;
+
+            attacking_player.onAttack(p);
         }
     }
 
