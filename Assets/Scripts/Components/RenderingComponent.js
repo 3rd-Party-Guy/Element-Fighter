@@ -11,37 +11,37 @@ export default class RenderingComponent extends Component {
         super();
     }
 
-    update(transform, state_animation, state_frame_data, frame_index)
+    update(position, state_animation, state_frame_data, frame_index)
     {
-        this.#render(transform, state_animation, state_frame_data, frame_index);
+        this.#render(position, state_animation, state_frame_data, frame_index);
         
         if (this.render_collision)
-            this.#renderCollision(transform, state_animation, state_frame_data, frame_index);
+            this.#renderCollision(position, state_animation, state_frame_data, frame_index);
     }
     
-    #render(transform, state_animation, state_frame_data, frame_index) {
+    #render(position, state_animation, state_frame_data, frame_index) {
         CanvasManager.getInstance(CanvasManager).gameplayContext.drawImage(
             state_animation,
             frame_index * state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             0,
             state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             state_frame_data["sheet_height"],
-            transform.position.x,
-            transform.position.y,
+            position.x,
+            position.y,
             state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             state_frame_data["sheet_height"]
         );
     }
 
-    #renderCollision(transform, state_animation, state_frame_data, frame_index) {
+    #renderCollision(position, state_animation, state_frame_data, frame_index) {
         CanvasManager.getInstance(CanvasManager).collisionContext.drawImage(
             state_animation,
             frame_index * state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             0,
             state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             state_frame_data["sheet_height"],
-            transform.position.x,
-            transform.position.y,
+            position.x,
+            position.y,
             state_frame_data["sheet_width"] / state_frame_data["num_frames"],
             state_frame_data["sheet_height"] 
         );

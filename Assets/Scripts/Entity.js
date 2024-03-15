@@ -2,7 +2,6 @@
 // Description:     Base Entity class
 
 import Vector2 from "./Vector2.js";
-import Transform from "./Transform.js";
 import TransformComponent from "./Components/TransformComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
@@ -27,7 +26,7 @@ export default class Entity {
             const height = entity_data["entity_info"]["height"];
             
             // Initialize Rendering and Physics Components with entity data
-            this.addComponent(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
+            this.addComponent(new TransformComponent(new Vector2(start_x, start_y), width, height));
             this.addComponent(new AnimationComponent(entity_data, is_state_machine));
             this.addComponent(new RenderingComponent());
             this.addComponent(new PhysicsComponent(entity_data["entity_info"]));

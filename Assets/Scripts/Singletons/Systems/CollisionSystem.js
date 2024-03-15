@@ -5,6 +5,9 @@ import { AttackModes } from "../../StateMachine.js";
 
 export default class ColissionSystem extends System {
     update(delta) {
+        const players = EntityManager.getInstance(EntityManager).players;
+        if (players.length < 2) return;
+
         const canvas_manager = CanvasManager.getInstance(CanvasManager);
         const data = canvas_manager.collisionImage.data;
 
@@ -13,20 +16,20 @@ export default class ColissionSystem extends System {
 
             // // if pixel isn't white or black 
             if (sumRGB !== 0 && sumRGB !== 255) {
-                this.#onCollision();
+                this.#onCollision(players);
                 return;
             }
         }
     }
 
-    #onCollision() {
-        this.#handleMeleeAttacks();
-        this.#handleProjectiles();  
+    #onCollision(players) {
+        this.#handleMeleeAttacks(players);
+        this.#handleProjectiles(players);  
     }
 
-    #handleMeleeAttacks() {
-        const player_one = EntityManager.getInstance(EntityManager).players[0];
-        const player_two = EntityManager.getInstance(EntityManager).players[1];
+    #handleMeleeAttacks(players) {
+        const player_one = players[0];
+        const player_two = players[1];
         
         if (!player_one || !player_two) return;
         if (player_one.attackState === player_two.attackState) return;
@@ -42,8 +45,17 @@ export default class ColissionSystem extends System {
         }
     }
 
-    #handleProjectiles() {
-        if (EntityManager.getInstance(EntityManager).projectiles.length === 0) return;
+    #handleProjectiles(players) {
+        const projectiles = EntityManager.getInstance(EntityManager).projectiles;
+        if (projectiles.length === 0) return;
+
+        for (const p of projectiles) {
+            for (const e of players) {
+                if (!this.#checkPlayerProjectileCollision(e, p)) return;
+
+                e.health -= p.damage;
+            }
+        }
     }
 
     #calculateAttackingPlayer(player_one, player_two) {
@@ -56,5 +68,33 @@ export default class ColissionSystem extends System {
             return player_one;
 
         return player_two;
+    }
+
+    #checkPlayerProjectileCollision(player, projectile) {
+        const pos1 = player.transform.position;
+        const pos2 = projectile.transform.position;
+        
+        const x1 = pos1.x;
+        const x2 = pos2.x;
+
+        const y1 = pos1.y;
+        const y2 = pos2.y;
+
+        const width1 = player.getComponentOfType(TransformComponent).width;
+        const width2 = projectile.getComponentOfType(TransformComponent).width;
+        
+        const height1 = player.getComponentOfType(TransformComponent).height;
+        const height2 = projectile.getComponentOfType(TransformComponent).height;
+
+        const x1Bound = x1 + width1;
+        const x2Bound = x2 + width2;
+
+        const y1Bound = y1 + height1;
+        const y2Bound = y2 + height2;
+
+        const intersectX = (x1 <= x2Bound && x1Bound >= x2);
+        const intersectY = (y1 <= y2Bound && y1Bound >= y2);
+
+        return (intersectX && intersectY);
     }
 }

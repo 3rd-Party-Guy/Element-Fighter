@@ -50,32 +50,32 @@ export default class PhysicsComponent extends Component {
         this.maxVel.x = this.physics_data["max_x_velocity"] || 100;
     }
 
-    getCenter(transform) {
+    getCenter(position) {
         return new Vector2(
-            transform.position.x + this.physics_data["width"] / 2,
-            transform.position.y + this.physics_data["height"] / 2
+            position.x + this.physics_data["width"] / 2,
+            position.y + this.physics_data["height"] / 2
         );
     }
 
-    fixedUpdate(transform, width, height, is_jumping, is_ducking, fixed_delta_time)
+    fixedUpdate(position, width, height, is_jumping, is_ducking, fixed_delta_time)
     {
         this.should_apply_low_jump_multiplier = !is_jumping;
         this.should_apply_duck_fall_multiplier = is_ducking;
 
-        this.#updateLastPlatform(transform, height);
-        this.#checkGrounded(transform, width, height, fixed_delta_time);
+        this.#updateLastPlatform(position, height);
+        this.#checkGrounded(position, width, height, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }
 
-    update(transform, delta_time)
+    update(position, delta_time)
     {
-        this.#updatePosition(transform, delta_time);
+        this.#updatePosition(position, delta_time);
     }
     
-    #updatePosition(transform, delta_time) {
+    #updatePosition(position, delta_time) {
         if (!this.should_move) return;
 
-        transform.position.add(this.vel.scale(delta_time));
+        position.add(this.vel.scale(delta_time));
         this.vel.x = lerp(this.vel.x, 0, this.physics_data["x_friction"]);
     }
 
@@ -109,7 +109,7 @@ export default class PhysicsComponent extends Component {
         }
     }
 
-    #checkGrounded(transform, width, height, fixed_delta_time) {
+    #checkGrounded(position, width, height, fixed_delta_time) {
         if (!this.has_gravity) return;
 
         if (this.vel.y < 0) {
@@ -120,10 +120,10 @@ export default class PhysicsComponent extends Component {
         const col_boxes = MapColliderManager.getInstance(MapColliderManager).getBoxes();
         
         // INFO: remove magic numbers
-        const groundcast_left_x = this.getCenter(transform).x - width / 2 + this.vel.x * fixed_delta_time + 10;
-        const groundcast_right_x = this.getCenter(transform).x + width / 2 + this.vel.x * fixed_delta_time + 30;
+        const groundcast_left_x = this.getCenter(position).x - width / 2 + this.vel.x * fixed_delta_time + 10;
+        const groundcast_right_x = this.getCenter(position).x + width / 2 + this.vel.x * fixed_delta_time + 30;
 
-        const player_bottom_y = transform.position.y  + height + this.vel.y * fixed_delta_time;
+        const player_bottom_y = position.y  + height + this.vel.y * fixed_delta_time;
         
         this.groundcast_left = new Line(
             new Vector2(groundcast_left_x, player_bottom_y),
@@ -136,13 +136,13 @@ export default class PhysicsComponent extends Component {
         );
 
         for (const col_box of col_boxes) {
-            if (col_box.ld.y < transform.position.y + height - 10) continue;
+            if (col_box.ld.y < position.y + height - 10) continue;
             if (col_box === this.last_platform && this.is_ducking) continue;
             if (col_box.collidesWithGroundcast(this.groundcast_left) || col_box.collidesWithGroundcast(this.groundcast_right)) {
                 const ground_y = col_box.ru.y - height; 
                 
-                if (transform.position.y + this.vel.y * fixed_delta_time > ground_y - height / 2 || this.vel.y <= 0) {
-                    transform.position.y = ground_y;
+                if (position.y + this.vel.y * fixed_delta_time > ground_y - height / 2 || this.vel.y <= 0) {
+                    position.y = ground_y;
                     this.vel.y = Math.min(this.vel.y, 0);
                     if(this.can_jump)
                     this.jumps_left = this.physics_data["jumps"] || 0;
@@ -173,10 +173,10 @@ export default class PhysicsComponent extends Component {
     }
 
     // If the player is above the platform the ducked from, they can land back on it
-    #updateLastPlatform(transform, height) {
+    #updateLastPlatform(position, height) {
         if (!this.last_platform) return;
 
-        if (transform.position.y + height < this.last_platform.ru.y)
+        if (position.y + height < this.last_platform.ru.y)
             this.last_platform = undefined;
     }
 

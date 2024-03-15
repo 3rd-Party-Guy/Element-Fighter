@@ -13,7 +13,7 @@ export default class PhysicsSystem extends System {
             for (const e of EntityManager.getInstance(EntityManager).all) {
                 const transfrom_component = e.getComponentOfType(TransformComponent);
 
-                e.getComponentOfType(PhysicsComponent)?.update(transfrom_component.transform, delta_Time);
+                e.getComponentOfType(PhysicsComponent)?.update(transfrom_component.position, delta_Time);
             }
         }
 
@@ -26,7 +26,7 @@ export default class PhysicsSystem extends System {
                 const transfrom_component = e.getComponentOfType(TransformComponent);
 
                 e.getComponentOfType(PhysicsComponent)?.fixedUpdate(
-                    transfrom_component.transform,
+                    transfrom_component.position,
                     transfrom_component.width,
                     transfrom_component.height,
                     e.is_jumping,

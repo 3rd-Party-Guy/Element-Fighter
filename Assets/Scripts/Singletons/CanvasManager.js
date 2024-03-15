@@ -27,7 +27,7 @@ export default class CanvasManager extends Singleton {
 
         for (const e of EntityManager.getInstance(EntityManager).combatEntities) {
             const t_comp = e.getComponentOfType(TransformComponent);
-            const start_pos = t_comp.transform.position;
+            const start_pos = t_comp.position;
             const end_pos = new Vector2(start_pos.x + t_comp.width, start_pos.y + t_comp.height);
 
             if (start_pos.x < x_start) x_start = start_pos.x;

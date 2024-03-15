@@ -9,6 +9,7 @@ export default class Projectile extends Entity {
     life_time = 0;
     is_flipped = false;
     owner = undefined;
+    damage = 0;
 
     constructor(owner, start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
@@ -17,6 +18,7 @@ export default class Projectile extends Entity {
         
         this.is_flipped = flipped;
         this.owner = owner;
+        this.damage = projectile_data["damage"];
         
         this.onLoaded();
     }

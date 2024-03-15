@@ -119,14 +119,14 @@ export default class Player extends Entity {
             let ability_width = this.ability_data["heavy_pre"]["entity_info"]["width"];
     
             setTimeout(() => {
-                start_pos.x = transform.transform.position.x;
+                start_pos.x = transform.position.x;
     
                 if (is_flipped)
                     start_pos.x -= ability_width;
                 else
                     start_pos.x += transform.width;
     
-                start_pos.y = transform.transform.position.y;
+                start_pos.y = transform.position.y;
                 EntityManager.getInstance(EntityManager).addProjectile(
                     new Projectile(
                         this, start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
@@ -137,14 +137,14 @@ export default class Player extends Entity {
             let ability_width_bolt = this.ability_data["heavy"]["entity_info"]["width"];
     
             setTimeout(() => {
-                start_pos_bolt.x = transform.transform.position.x;
+                start_pos_bolt.x = transform.position.x;
     
                 if (is_flipped)
                     start_pos_bolt.x -= ability_width_bolt;
                 else
                     start_pos_bolt.x += transform.width;
     
-                start_pos_bolt.y = transform.transform.position.y;
+                start_pos_bolt.y = transform.position.y;
                 EntityManager.getInstance(EntityManager).addProjectile(
                     new Projectile(
                         this, start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped
@@ -168,14 +168,14 @@ export default class Player extends Entity {
         let ability_width = this.ability_data["ability_one"]["entity_info"]["width"];
 
         setTimeout(() => {
-            start_pos.x = transform.transform.position.x;
+            start_pos.x = transform.position.x;
 
             if (is_flipped)
             start_pos.x -= ability_width;
             else
             start_pos.x += transform.width;
 
-            start_pos.y = transform.transform.position.y;
+            start_pos.y = transform.position.y;
             EntityManager.getInstance(EntityManager).addProjectile(
                 new Projectile(
                     this, start_pos.x, start_pos.y, this.ability_data["ability_one"], is_flipped
@@ -199,14 +199,14 @@ export default class Player extends Entity {
         let ability_width = this.ability_data["ability_two"]["entity_info"]["width"];
 
         setTimeout(() => {
-            start_pos.x = transform.transform.position.x;
+            start_pos.x = transform.position.x;
 
             if (is_flipped)
             start_pos.x -= ability_width;
             else
             start_pos.x += transform.width;
 
-            start_pos.y = transform.transform.position.y;
+            start_pos.y = transform.position.y;
             EntityManager.getInstance(EntityManager).addProjectile(
                 new Projectile(
                     this, start_pos.x, start_pos.y, this.ability_data["ability_two"], is_flipped
