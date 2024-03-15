@@ -62,7 +62,11 @@ export default class PhysicsComponent extends Component {
         this.should_apply_low_jump_multiplier = !is_jumping;
         this.should_apply_duck_fall_multiplier = is_ducking;
         
-        if(this.has_gravity)this.#checkGrounded(transform, width, height, fixed_delta_time);
+        this.#updateLastPlatform(transform, height);
+
+        if(this.has_gravity)
+            this.#checkGrounded(transform, width, height, fixed_delta_time);
+        
         this.#updateVelocities(fixed_delta_time);
     }
 
@@ -76,7 +80,6 @@ export default class PhysicsComponent extends Component {
         transform.position.add(this.vel.scale(delta_time));
         this.vel.x = lerp(this.vel.x, 0, this.physics_data["x_friction"]);
     }
-
 
     #updateVelocities(fixed_delta_time) {
         if (!this.is_grounded && this.has_gravity)
@@ -158,7 +161,6 @@ export default class PhysicsComponent extends Component {
         }
 
         // character should have one more jump when jumping from ground
-
         if(this.can_jump)
         {
             if (this.is_grounded)
@@ -170,6 +172,13 @@ export default class PhysicsComponent extends Component {
         
     }
 
+    // If the player is above the platform the ducked from, they can land back on it
+    #updateLastPlatform(transform, height) {
+        if (!this.last_platform) return;
+
+        if (transform.position.y + height < this.last_platform.ru.y)
+            this.last_platform = undefined;
+    }
 
     jump() {
         if (this.jumps_left > 0) {
