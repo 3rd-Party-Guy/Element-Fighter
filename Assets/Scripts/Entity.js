@@ -11,7 +11,7 @@ import AnimationComponent from "./Components/AnimationComponent.js";
 
 export default class Entity {
     name = "";
-    components = [];
+    components = {};
 
     // This contructor constructs the class instance!
     constructor(start_x, start_y, entity_data, is_state_machine) {
@@ -27,21 +27,31 @@ export default class Entity {
             const height = entity_data["entity_info"]["height"];
             
             // Initialize Rendering and Physics Components with entity data
-            this.components.push(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
-            this.components.push(new AnimationComponent(entity_data, is_state_machine));
-            this.components.push(new RenderingComponent());
-            this.components.push(new PhysicsComponent(entity_data["entity_info"]));
+            this.addComponent(new TransformComponent(new Transform(new Vector2(start_x, start_y)), width, height));
+            this.addComponent(new AnimationComponent(entity_data, is_state_machine));
+            this.addComponent(new RenderingComponent());
+            this.addComponent(new PhysicsComponent(entity_data["entity_info"]));
         } catch (err) {
             console.error("Error fetching entity data:\n", err);
         }
     }
+
+    addComponent(comp) {
+        const type_key = Symbol.for(comp.constructor.name);
+        
+        // Entities can and should only have one component per type
+        if (!this.components[type_key])
+            this.components[type_key] = comp;
+    }
     
     getComponentOfType(type) {
-        for (const c of this.components)
-            if (c.constructor === type)
-                return c;
+        const type_key = Symbol.for(type.name);
+        return this.components[type_key] || null;
+    }
 
-        return null;
+    removeComponentOfType(type) {
+        const type_key = Symbol.for(type);
+        delete this.components[type_key];
     }
 
     get transform() { return this.getComponentOfType(TransformComponent).transform; }
