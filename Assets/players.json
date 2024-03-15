@@ -83,11 +83,11 @@
       "jumps": 2,
       "jump_force": 1150,
       "fall_multiplier": 5400,
-      "low_jump_multiplier": 7000,
-      "light_damage": 3,
-      "heavy_damage": 0
+      "low_jump_multiplier": 7000
     },
     "combat_info": {
+      "light_damage": 3,
+      "heavy_damage": 0,
       "knockback_info": {
         "light": {
           "multiplier_x": 800,
@@ -193,11 +193,11 @@
       "jumps": 2,
       "jump_force": 1000,
       "fall_multiplier": 5400,
-      "low_jump_multiplier": 7000,
-      "light_damage": 7,
-      "heavy_damage": 40
+      "low_jump_multiplier": 7000
     },
     "combat_info": {
+      "light_damage": 7,
+      "heavy_damage": 40,
       "knockback_info": {
         "light": {
           "multiplier_x": 700,
@@ -298,11 +298,11 @@
       "jumps": 3,
       "jump_force": 950,
       "fall_multiplier": 5400,
-      "low_jump_multiplier": 7000,
-      "light_damage": 5,
-      "heavy_damage": 10
+      "low_jump_multiplier": 7000
     },
     "combat_info": {
+      "light_damage": 5,
+      "heavy_damage": 10,
       "knockback_info": {
         "light": {
           "multiplier_x": 1240,
@@ -397,18 +397,6 @@
         "animation_scale": 1
       }
     },
-    "combat_info": {
-      "knockback_info": {
-        "light": {
-          "multiplier_x": 1000,
-          "multiplier_y": 700
-        },
-        "heavy": {
-          "multiplier_x": 0,
-          "multiplier_y": 2500
-        }
-      }
-    },
     "entity_info": {
       "width": 64,
       "height": 160,
@@ -419,6 +407,20 @@
       "jump_force": 1000,
       "fall_multiplier": 5400,
       "low_jump_multiplier": 7000
+    },
+    "combat_info": {
+      "light_damage": 7,
+      "heavy_damage": 21,
+      "knockback_info": {
+        "light": {
+          "multiplier_x": 1000,
+          "multiplier_y": 700
+        },
+        "heavy": {
+          "multiplier_x": 0,
+          "multiplier_y": 2500
+        }
+      }
     },
     "abilities": {
       "ability_one": "Earthquake",

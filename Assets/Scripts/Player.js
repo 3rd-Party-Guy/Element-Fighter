@@ -18,14 +18,11 @@ export default class Player extends Entity {
     is_ability_one = false;
     is_ability_two = false;
 
+    combat_data = undefined;
     ability_data = undefined;
 
     health = 100;
     mana = 100;
-
-    light_damage = 0
-    heavy_damage = 0;
-
     avatar_path = "";
 
     is_attack_registered = false;
@@ -35,6 +32,8 @@ export default class Player extends Entity {
 
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
+        
+        this.combat_data = player_data["combat_info"];
         this.ability_data = ability_data;
         
         this.light_damage = player_data["entity_info"]["light_damage"];
