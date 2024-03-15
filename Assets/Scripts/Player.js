@@ -161,28 +161,7 @@ export default class Player extends Entity {
         this.is_ability_one = true;
         this.mana -= this.ability_data.ability_one.combat_info.cost;
 
-        const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
-        const transform = this.getComponentOfType(TransformComponent);
-
-        let start_pos = new Vector2(0, 0);
-        let ability_width = this.ability_data["ability_one"]["entity_info"]["width"];
-
-        setTimeout(() => {
-            start_pos.x = transform.position.x;
-
-            if (is_flipped)
-            start_pos.x -= ability_width;
-            else
-            start_pos.x += transform.width;
-
-            start_pos.y = transform.position.y;
-            EntityManager.getInstance(EntityManager).addProjectile(
-                new Projectile(
-                    this, start_pos.x, start_pos.y, this.ability_data["ability_one"], is_flipped
-                )
-            );
-        }, this.ability_data["ability_one"]["entity_info"]["cast_time"] * 1000);
-        
+        this.#spawnAbility(this.ability_data["ability_one"]);
     }
 
     abilityTwo() {
@@ -192,27 +171,31 @@ export default class Player extends Entity {
         this.is_ability_two = true;
         this.mana -= this.ability_data.ability_two.combat_info.cost;
 
+        this.#spawnAbility(this.ability_data["ability_two"]);
+    }
+
+    #spawnAbility(ability_data) {
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
 
         let start_pos = new Vector2(0, 0);
-        let ability_width = this.ability_data["ability_two"]["entity_info"]["width"];
+        start_pos.x = transform.position.x;
+
+        if (is_flipped)
+        start_pos.x -= ability_width;
+        else
+        start_pos.x += transform.width;
+
+        start_pos.y = transform.position.y;
+
+        let ability_width = ability_data["entity_info"]["width"];
 
         setTimeout(() => {
-            start_pos.x = transform.position.x;
-
-            if (is_flipped)
-            start_pos.x -= ability_width;
-            else
-            start_pos.x += transform.width;
-
-            start_pos.y = transform.position.y;
             EntityManager.getInstance(EntityManager).addProjectile(
                 new Projectile(
-                    this, start_pos.x, start_pos.y, this.ability_data["ability_two"], is_flipped
+                    this, start_pos.x, start_pos.y, ability_data, is_flipped
                 )
             );
         }, this.ability_data["ability_two"]["entity_info"]["cast_time"] * 1000);
-        
     }
 }
