@@ -32,7 +32,7 @@ export default class Player extends Entity {
 
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
-        
+
         this.combat_data = player_data["combat_info"];
         this.ability_data = ability_data;
         
@@ -77,9 +77,9 @@ export default class Player extends Entity {
         let current_damage = 0;
 
         if (this.attackState === AttackModes.AttackLight)
-            current_damage = this.light_damage;
+            current_damage = this.combat_data.light_damage;
         else if (this.attackState === AttackModes.AttackHeavy)
-            current_damage = this.heavy_damage;
+            current_damage = this.combat_data.heavy_damage;
 
         return current_damage;
     }
