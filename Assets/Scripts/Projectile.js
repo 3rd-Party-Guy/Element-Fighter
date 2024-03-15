@@ -8,11 +8,16 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 export default class Projectile extends Entity {
     life_time = 0;
     is_flipped = false;
-    
-    constructor(start_x, start_y, projectile_data, flipped) {
+    owner = undefined;
+
+    constructor(owner, start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
+        
         this.life_time = projectile_data["entity_info"]["life_time"];
+        
         this.is_flipped = flipped;
+        this.owner = owner;
+        
         this.onLoaded();
     }
 

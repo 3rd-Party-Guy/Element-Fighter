@@ -129,7 +129,7 @@ export default class Player extends Entity {
                 start_pos.y = transform.transform.position.y;
                 EntityManager.getInstance(EntityManager).addProjectile(
                     new Projectile(
-                        start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
+                        this, start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
                     ));
             }, this.ability_data["heavy_pre"]["entity_info"]["cast_time"] * 1000);
             
@@ -146,7 +146,7 @@ export default class Player extends Entity {
     
                 start_pos_bolt.y = transform.transform.position.y;
                 EntityManager.getInstance(EntityManager).addProjectile(
-                    new Projectile(start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped)
+                    new Projectile(this, start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped)
                 );
             }, this.ability_data["heavy"]["entity_info"]["cast_time"] * 1000);
         }
@@ -175,7 +175,7 @@ export default class Player extends Entity {
 
             start_pos.y = transform.transform.position.y;
             EntityManager.getInstance(EntityManager).addProjectile(
-                new Projectile(start_pos.x, start_pos.y, this.ability_data["ability_one"], is_flipped)
+                new Projectile(this, start_pos.x, start_pos.y, this.ability_data["ability_one"], is_flipped)
             );
         }, this.ability_data["ability_one"]["entity_info"]["cast_time"] * 1000);
         
@@ -204,7 +204,7 @@ export default class Player extends Entity {
 
             start_pos.y = transform.transform.position.y;
             EntityManager.getInstance(EntityManager).addProjectile(
-                new Projectile(start_pos.x, start_pos.y, this.ability_data["ability_two"], is_flipped)
+                new Projectile(this, start_pos.x, start_pos.y, this.ability_data["ability_two"], is_flipped)
             );
         }, this.ability_data["ability_two"]["entity_info"]["cast_time"] * 1000);
         
