@@ -155,11 +155,11 @@ export default class Player extends Entity {
     }
     
     abilityOne() {
-        if(this.mana < this.ability_data.ability_one.cost)
+        if(this.mana < this.ability_data.ability_one.combat_info.cost)
             return;
 
         this.is_ability_one = true;
-        this.mana -= this.ability_data.ability_one.cost;
+        this.mana -= this.ability_data.ability_one.combat_info.cost;
 
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
@@ -186,11 +186,11 @@ export default class Player extends Entity {
     }
 
     abilityTwo() {
-        if(this.mana < this.ability_data.ability_two.cost)
+        if(this.mana < this.ability_data.ability_two.combat_info.cost)
             return;
 
         this.is_ability_two = true;
-        this.mana -= this.ability_data.ability_two.cost;
+        this.mana -= this.ability_data.ability_two.combat_info.cost;
 
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
