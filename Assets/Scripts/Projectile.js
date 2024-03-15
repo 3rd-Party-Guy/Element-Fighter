@@ -41,11 +41,11 @@ export default class Projectile extends Entity {
         this.#setProperties();
     }
 
-    onCollision(player) {
+    onCollision(player, delta) {
         if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
         this.is_registered = true;
-        player.health -= this.combat_data["damage"];
+        player.health -= (this.combat_data["is_one_shot"]) ? this.combat_data["damage"] : this.combat_data["damage"] * delta;
     }
 
     #setProperties() {

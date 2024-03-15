@@ -16,15 +16,15 @@ export default class ColissionSystem extends System {
 
             // // if pixel isn't white or black 
             if (sumRGB !== 0 && sumRGB !== 255) {
-                this.#onCollision(players);
+                this.#onCollision(players, delta);
                 return;
             }
         }
     }
 
-    #onCollision(players) {
+    #onCollision(players, delta) {
         this.#handleMeleeAttacks(players);
-        this.#handleProjectiles(players);  
+        this.#handleProjectiles(players, delta);  
     }
 
     #handleMeleeAttacks(players) {
@@ -45,7 +45,7 @@ export default class ColissionSystem extends System {
         }
     }
 
-    #handleProjectiles(players) {
+    #handleProjectiles(players, delta) {
         const projectiles = EntityManager.getInstance(EntityManager).projectiles;
         if (projectiles.length === 0) return;
 
@@ -54,7 +54,7 @@ export default class ColissionSystem extends System {
                 if(p.owner === e) return;
                 if (!this.#checkPlayerProjectileCollision(e, p)) return;
 
-                p.onCollision(e);
+                p.onCollision(e, delta);
             }
         }
     }
