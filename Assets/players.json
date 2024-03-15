@@ -87,6 +87,18 @@
       "light_damage": 3,
       "heavy_damage": 0
     },
+    "combat_info": {
+      "knockback_info": {
+        "light": {
+          "multiplier_x": 800,
+          "multiplier_y": 0
+        },
+        "heavy": {
+          "multiplier_x": 0,
+          "multiplier_y": 0
+        }
+      }
+    },
     "abilities": {
       "heavy_pre": "Waterportal",
       "heavy": "Waterbolt",
@@ -185,6 +197,18 @@
       "light_damage": 7,
       "heavy_damage": 40
     },
+    "combat_info": {
+      "knockback_info": {
+        "light": {
+          "multiplier_x": 700,
+          "multiplier_y": 450
+        },
+        "heavy": {
+          "multiplier_x": 3150,
+          "multiplier_y": 2000
+        }
+      }
+    },
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
@@ -278,6 +302,18 @@
       "light_damage": 5,
       "heavy_damage": 10
     },
+    "combat_info": {
+      "knockback_info": {
+        "light": {
+          "multiplier_x": 1240,
+          "multiplier_y": 0
+        },
+        "heavy": {
+          "multiplier_x": 5000,
+          "multiplier_y": 0
+        }
+      }
+    },
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
@@ -359,6 +395,18 @@
         "sheet_width": 480,
         "sheet_height": 160,
         "animation_scale": 1
+      }
+    },
+    "combat_info": {
+      "knockback_info": {
+        "light": {
+          "multiplier_x": 1000,
+          "multiplier_y": 700
+        },
+        "heavy": {
+          "multiplier_x": 0,
+          "multiplier_y": 2500
+        }
       }
     },
     "entity_info": {
