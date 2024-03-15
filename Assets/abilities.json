@@ -58,8 +58,8 @@
       "is_one_shot": false,
       "knockback_info": {
         "has_knockback": true,
-        "knockback_multiplier_x": 1,
-        "knockback_multiplier_y": 2
+        "multiplier_x": 250,
+        "multiplier_y": 175
       }
     }
   },
@@ -88,7 +88,10 @@
     "combat_info": {
       "cost": 2,
       "damage": 1,
-      "is_one_shot": false
+      "is_one_shot": false,
+      "knockback_info": {
+        "has_knockback": false
+      }
     }
   },
   {
@@ -116,7 +119,12 @@
     "combat_info": {
       "cost": 14,
       "damage": 9,
-      "is_one_shot": true
+      "is_one_shot": true,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 1000,
+        "multiplier_y": 0
+      }
     }
   },
   {
@@ -144,7 +152,12 @@
     "combat_info": {
       "cost": 74,
       "damage": 21,
-      "is_one_shot": false
+      "is_one_shot": false,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 50,
+        "multiplier_y":190
+      }
     }
   },  
   {
@@ -172,7 +185,12 @@
     "combat_info": {
       "cost": 31,
       "damage": 54,
-      "is_one_shot": true
+      "is_one_shot": true,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 210,
+        "multiplier_y": 0
+      }
     }
   }
 ]

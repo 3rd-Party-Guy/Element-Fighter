@@ -45,7 +45,25 @@ export default class Projectile extends Entity {
         if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
         this.is_registered = true;
+        this.#damageEnemy(player, delta);
+        this.#knockbackEnemy(player, delta);
+    }
+
+    #damageEnemy(player, delta) {
         player.health -= (this.combat_data["is_one_shot"]) ? this.combat_data["damage"] : this.combat_data["damage"] * delta;
+    }
+
+    #knockbackEnemy(player, delta) {
+        const kb_data = this.combat_data.knockback_info;
+        if (!kb_data.has_knockback) return;
+
+        const physics_comp = player.getComponentOfType(PhysicsComponent);
+
+        physics_comp.vel.x = kb_data.multiplier_x;
+        physics_comp.vel.y -= kb_data.multiplier_y;
+
+        if (this.is_flipped)
+            physics_comp.vel.x *= -1;
     }
 
     #setProperties() {
