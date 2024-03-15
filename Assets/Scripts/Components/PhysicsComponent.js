@@ -61,22 +61,20 @@ export default class PhysicsComponent extends Component {
     {
         this.should_apply_low_jump_multiplier = !is_jumping;
         this.should_apply_duck_fall_multiplier = is_ducking;
-        
-        this.#updateLastPlatform(transform, height);
 
-        if(this.has_gravity)
-            this.#checkGrounded(transform, width, height, fixed_delta_time);
-        
+        this.#updateLastPlatform(transform, height);
+        this.#checkGrounded(transform, width, height, fixed_delta_time);
         this.#updateVelocities(fixed_delta_time);
     }
 
     update(transform, delta_time)
     {
-        if (this.should_move)
-            this.#updatePosition(transform, delta_time);
+        this.#updatePosition(transform, delta_time);
     }
     
     #updatePosition(transform, delta_time) {
+        if (!this.should_move) return;
+
         transform.position.add(this.vel.scale(delta_time));
         this.vel.x = lerp(this.vel.x, 0, this.physics_data["x_friction"]);
     }
@@ -112,6 +110,8 @@ export default class PhysicsComponent extends Component {
     }
 
     #checkGrounded(transform, width, height, fixed_delta_time) {
+        if (!this.has_gravity) return;
+
         if (this.vel.y < 0) {
             this.is_grounded = false;
             return;
