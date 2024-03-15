@@ -46,14 +46,14 @@ export default class Projectile extends Entity {
 
         this.is_registered = true;
         this.#damageEnemy(player, delta);
-        this.#knockbackEnemy(player, delta);
+        this.#knockbackEnemy(player);
     }
 
     #damageEnemy(player, delta) {
         player.health -= (this.combat_data["is_one_shot"]) ? this.combat_data["damage"] : this.combat_data["damage"] * delta;
     }
 
-    #knockbackEnemy(player, delta) {
+    #knockbackEnemy(player) {
         const kb_data = this.combat_data.knockback_info;
         if (!kb_data.has_knockback) return;
 

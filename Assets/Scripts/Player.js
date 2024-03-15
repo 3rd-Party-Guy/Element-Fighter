@@ -174,8 +174,26 @@ export default class Player extends Entity {
     }
 
     onAttack(other_player) {
-        other_player.health -= this.damage;
+        if (this.is_attack_registered) return;
+
         this.is_attack_registered = true;
+        other_player.health -= this.damage;
+
+        this.#knockbackEnemy(other_player);
+    }
+
+    #knockbackEnemy(other_player) {
+        const kb_data = this.combat_data.knockback_info;
+        const physics_comp = other_player.getComponentOfType(PhysicsComponent);
+
+        const kb_vel_x = (this.attackState === AttackModes.AttackLight) ? kb_data.light.multiplier_x : kb_data.heavy.multiplier_x;
+        const kb_vel_y = (this.attackState === AttackModes.AttackLight) ? kb_data.light.multiplier_y : kb_data.heavy.multiplier_y;
+
+        physics_comp.vel.x = kb_vel_x;
+        physics_comp.vel.y = kb_vel_y;
+
+        if (this.getComponentOfType(AnimationComponent).is_flipped)
+            physics_comp.vel.x *= -1;
     }
 
     #spawnAbility(ability_data) {

@@ -35,7 +35,6 @@ export default class ColissionSystem extends System {
         if (player_one.attackState === player_two.attackState) return;
 
         let attacking_player = this.#calculateAttackingPlayer(player_one, player_two);
-        if (attacking_player.is_attack_registered) return;
 
         for (const p of EntityManager.getInstance(EntityManager).players) {
             if (p === attacking_player) continue;
