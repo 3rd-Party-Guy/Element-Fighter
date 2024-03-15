@@ -54,7 +54,7 @@ export default class ColissionSystem extends System {
                 if(p.owner === e) return;
                 if (!this.#checkPlayerProjectileCollision(e, p)) return;
 
-                e.health -= p.damage;
+                p.onCollision(e);
             }
         }
     }

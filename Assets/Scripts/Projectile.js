@@ -8,6 +8,8 @@ import RenderingComponent from "./Components/RenderingComponent.js";
 export default class Projectile extends Entity {
     life_time = 0;
     is_flipped = false;
+    is_registered = false;
+    is_one_shot = false;
     owner = undefined;
     damage = 0;
 
@@ -19,7 +21,8 @@ export default class Projectile extends Entity {
         this.is_flipped = flipped;
         this.owner = owner;
         this.damage = projectile_data["damage"];
-        
+        this.is_one_shot = projectile_data["is_one_shot"];
+
         this.onLoaded();
     }
 
@@ -40,6 +43,13 @@ export default class Projectile extends Entity {
 
     onLoaded() {
         this.#setProperties();
+    }
+
+    onCollision(player) {
+        if (this.is_one_shot && this.is_registered) return;
+
+        this.is_registered = true;
+        player.health -= this.damage;
     }
 
     #setProperties() {

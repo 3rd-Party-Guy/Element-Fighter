@@ -22,7 +22,8 @@
       "cast_time": 0.35
     },
     "cost": 22,
-    "damage": 1
+    "damage": 1,
+    "is_one_shot": false
   },  
   {
     "name": "Wave",
@@ -47,7 +48,8 @@
       "cast_time": 0.6
     },
     "cost": 59,
-    "damage": 32
+    "damage": 32,
+    "is_one_shot": false
   },
   {
     "name": "Waterportal",
@@ -72,7 +74,8 @@
       "cast_time": 0.3
     },
     "cost": 2,
-    "damage": 1
+    "damage": 1,
+    "is_one_shot": false
   },
   {
     "name": "Waterbolt",
@@ -97,7 +100,8 @@
       "cast_time": 1
     },
     "cost": 14,
-    "damage": 9
+    "damage": 9,
+    "is_one_shot": true
   },
   {
     "name": "Earthquake",
@@ -147,6 +151,7 @@
       "cast_time": 1
     },
     "cost": 31,
-    "damage": 54
+    "damage": 54,
+    "is_one_shot": true
   }
 ]
