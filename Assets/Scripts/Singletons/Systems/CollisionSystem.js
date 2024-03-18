@@ -1,37 +1,83 @@
+import Vector2 from "../../Vector2.js";
 import System from "./System.js"
 import CanvasManager from "../CanvasManager.js"
 import EntityManager from "../EntityManager.js";
 import { AttackModes } from "../../StateMachine.js";
+import { withinRange } from "../../Utilities.js";
 
 export default class ColissionSystem extends System {
+    involved_projectiles = [];
+    involved_players = [];
+
     update(delta) {
         const players = EntityManager.getInstance(EntityManager).players;
         if (players.length < 2) return;
 
         const canvas_manager = CanvasManager.getInstance(CanvasManager);
-        const data = canvas_manager.collisionImage.data;
+        const col_image = canvas_manager.collisionImage;
+        const data = col_image.image_data.data;
+        const image_width = col_image.image_data.width;
+        const start_pos = new Vector2(col_image.start_pos.x, col_image.start_pos.y);
+
+        // INFO: Debug Purposes only. Shows the collision image with absolute coordinates
+        // canvas_manager.gameplayContext.putImageData(col_image.image_data, start_pos.x, start_pos.y);
 
         for (let i = 0; i < data.length; i += 4) {
             const sumRGB = data[i] + data[i+1] + data[1+2];
 
             // // if pixel isn't white or black 
             if (sumRGB !== 0 && sumRGB !== 255) {
-                this.#onCollision(players, delta);
+                // Calculate Collision Position (relative to cropped image)
+                const x = Math.trunc(i / 4) % image_width;
+                const y = Math.trunc(i / (image_width * 4));
+                // Add Offset to the Relative Coordinates
+                const col_pos_abs = new Vector2(x + start_pos.x, y + start_pos.y);
+
+                this.#onCollision(delta, col_pos_abs);
                 return;
             }
         }
     }
 
-    #onCollision(players, delta) {
-        this.#handleMeleeAttacks(players);
-        this.#handleProjectiles(players, delta);  
+    #onCollision(delta, col_pos) {
+        // INFO: Debug Purposes only. Logs the absolute collision position
+        // console.log(`X: ${col_pos.x}; Y: ${col_pos.y}`);
+
+        this.#getInvolvedEntities(col_pos);
+
+        this.#handleMeleeAttacks();
+        this.#handleProjectiles(delta);
+
+        this.involved_projectiles = [];
+        this.involved_players = [];
     }
 
-    #handleMeleeAttacks(players) {
-        const player_one = players[0];
-        const player_two = players[1];
+    #getInvolvedEntities(col_pos) {
+        for (const p of EntityManager.getInstance(EntityManager).projectiles) {
+            const transform = p.transform;
+            if (withinRange(col_pos.x, transform.position.x, transform.position.x + transform.width) &&
+                withinRange(col_pos.y, transform.position.y, transform.position.y + transform.height)) {
+                console.log(`${p.name}`);
+                this.involved_projectiles.push(p);
+            }
+        }
+
+        for (const p of EntityManager.getInstance(EntityManager).players) {
+            const transform = p.transform;
+            if (withinRange(col_pos.x, transform.position.x, transform.position.x + transform.width) &&
+                withinRange(col_pos.y, transform.position.y, transform.position.y + transform.height)) {
+                console.log(`${p.name}`);
+                this.involved_players.push(p);
+            }
+        }
+    }
+
+    #handleMeleeAttacks() {
+        if (this.involved_players.length < 2) return;
+
+        const player_one = this.involved_players[0];
+        const player_two = this.involved_players[1];
         
-        if (!player_one || !player_two) return;
         if (player_one.attackState === player_two.attackState) return;
 
         let attacking_player = this.#calculateAttackingPlayer(player_one, player_two);
@@ -43,15 +89,12 @@ export default class ColissionSystem extends System {
         }
     }
 
-    #handleProjectiles(players, delta) {
-        const projectiles = EntityManager.getInstance(EntityManager).projectiles;
-        if (projectiles.length === 0) return;
+    #handleProjectiles(delta) {
+        if (this.involved_projectiles.length === 0) return;
 
-        for (const p of projectiles) {
-            for (const e of players) {
+        for (const p of this.involved_projectiles) {
+            for (const e of this.involved_players) {
                 if(p.owner === e) continue;
-                if (!this.#checkPlayerProjectileCollision(e, p)) return;
-
                 p.onCollision(e, delta);
             }
         }
@@ -67,33 +110,5 @@ export default class ColissionSystem extends System {
             return player_one;
 
         return player_two;
-    }
-
-    #checkPlayerProjectileCollision(player, projectile) {
-        const pos1 = player.transform.position;
-        const pos2 = projectile.transform.position;
-        
-        const x1 = pos1.x;
-        const x2 = pos2.x;
-
-        const y1 = pos1.y;
-        const y2 = pos2.y;
-
-        const width1 = player.transform.width;
-        const width2 = projectile.transform.width;
-        
-        const height1 = player.transform.height;
-        const height2 = projectile.transform.height;
-
-        const x1Bound = x1 + width1;
-        const x2Bound = x2 + width2;
-
-        const y1Bound = y1 + height1;
-        const y2Bound = y2 + height2;
-
-        const intersectX = (x1 <= x2Bound && x1Bound >= x2);
-        const intersectY = (y1 <= y2Bound && y1Bound >= y2);
-
-        return (intersectX && intersectY);
     }
 }

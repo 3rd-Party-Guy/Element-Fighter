@@ -36,12 +36,18 @@ export default class CanvasManager extends Singleton {
             if (end_pos.y > y_end) y_end = end_pos.y;            
         }
 
-        return this.collisionContext.getImageData(
-            x_start,
-            y_start,
-            x_end - x_start,
-            y_end - y_start
-        );
+        return {
+            image_data: this.collisionContext.getImageData(
+                x_start,
+                y_start,
+                x_end - x_start,
+                y_end - y_start
+            ),
+            start_pos: {
+                x: x_start,
+                y: y_start
+            }
+        }
     }
 
     // INFO: Debug Only

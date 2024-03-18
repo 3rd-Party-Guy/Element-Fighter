@@ -23,7 +23,7 @@
     },
     "combat_info": {
       "cost": 22,
-      "damage": 1,
+      "damage": 25,
       "is_one_shot": false,
       "knockback_info": {
         "has_knockback": false
