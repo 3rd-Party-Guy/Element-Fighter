@@ -1,6 +1,7 @@
 /// Author:         Nikolay Hadzhiev
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
+import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 
 export default class Command {
@@ -50,8 +51,10 @@ export class JumpCommand extends Command {
         if (this.player.isAttacking)
             return;
 
-        if (this.first_call)
+        if (this.first_call) {
+            this.player.getComponentOfType(AudioPlayerComponent).playOneShot(this.player.sound_data.jump);
             this.player.getComponentOfType(PhysicsComponent)?.jump();
+        }
 
         super.execute();
     }

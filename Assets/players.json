@@ -104,6 +104,9 @@
       "heavy": "Waterbolt",
       "ability_one": "Bubble",
       "ability_two": "Wave"
+    },
+    "sound_paths": {
+      "jump": "Assets/SFX/Mermaid_Jump.wav"
     }
   },
   {

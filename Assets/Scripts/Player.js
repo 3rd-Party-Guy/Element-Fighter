@@ -3,6 +3,7 @@ import AnimationComponent from "./Components/AnimationComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
 import TransformComponent from "./Components/TransformComponent.js";
+import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import Entity from "./Entity.js";
 import Projectile from "./Projectile.js";
 import EntityManager from "./Singletons/EntityManager.js";
@@ -20,6 +21,7 @@ export default class Player extends Entity {
 
     combat_data = undefined;
     ability_data = undefined;
+    sound_data = undefined;
 
     health = 100;
     mana = 100;
@@ -35,12 +37,15 @@ export default class Player extends Entity {
 
         this.combat_data = player_data["combat_info"];
         this.ability_data = ability_data;
+        this.sound_data = player_data["sound_paths"];
         
         this.light_damage = player_data["entity_info"]["light_damage"];
         this.heavy_damage = player_data["entity_info"]["heavy_damage"];
 
         this.avatarPath = player_data["avatar_path"];
         this.mana_regen_rate = player_data["mana_regen_rate"];
+
+        this.addComponent(new AudioPlayerComponent());
 
         this.onLoaded();
     }

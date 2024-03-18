@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from "./Component.js";
 
 export default class AudioPlayerComponent extends Component {
   audio = undefined;
@@ -7,21 +7,15 @@ export default class AudioPlayerComponent extends Component {
   constructor(source_path) {
     super();
 
-    if (!source_path) return;
     this.audio = new Audio(source_path);
   }
 
   play() {
-    if(!this.#canPlay()) return;
-
     this.audio.loop = this.loop;
-
     this.audio.play();
   }
 
   playOneShot(source_path) {
-    if(!this.#canPlay()) return;
-
     const old_loop = this.audio.loop;
     const old_source = this.audio.src;
     
@@ -33,19 +27,5 @@ export default class AudioPlayerComponent extends Component {
       this.audio.loop = old_loop;
       this.audio.src = old_source;
     });
-  }
-
-  #canPlay() {
-    if (this.audio.readyState < 3) {
-      console.warn('Audio not ready for playback. Omitting.');
-      return false;
-    }
-
-    if (!this.audio.paused) {
-      console.warn('Cannot interrupt audio. Omitting.')
-      return false;
-    }
-
-    return true;
   }
 }
