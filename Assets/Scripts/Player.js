@@ -238,6 +238,6 @@ export default class Player extends Entity {
                     this, start_pos.x, start_pos.y, ability_data, is_flipped
                 )
             );
-        }, this.ability_data["ability_two"]["entity_info"]["cast_time"] * 1000);
+        }, ability_data["entity_info"]["cast_time"] * 1000);
     }
 }
