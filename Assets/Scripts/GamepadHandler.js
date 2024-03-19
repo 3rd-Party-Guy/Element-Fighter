@@ -25,7 +25,7 @@ export default class GamepadHandler {
 
     constructor(controller_index) {
         this.index = controller_index;
-        this.player = EntityManager.getInstance(EntityManager).players[this.index];
+        this.player = EntityManager.getInstance(EntityManager).players[this.index - 1];
     
         this.gamepad_horizontal_command = new GamepadMoveHorizontalCommand(this.player);
         this.gamepad_jump_command = new JumpCommand(this.player);
