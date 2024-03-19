@@ -5,12 +5,8 @@ import InputManager from "./Singletons/InputManager.js";
 import CanvasManager from "./Singletons/CanvasManager.js";
 import Room from "./Room.js";
 
-import Room from "./Room.js";
-
 const inputManager = InputManager.getInstance(InputManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
-
-const ingame_room = new Room();
 
 const game_room = new Room();
 
@@ -18,7 +14,7 @@ let maps_data;
 let characters_data;
 let abilities_data;
 
-let active_players = 0;
+// let active_players = 0;
 
 async function Initialize() {
     // Setup Event Callbacks
@@ -30,18 +26,8 @@ async function Initialize() {
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
-    
-    map_image.src = GetCurrentMapData().image_path;
 
-    SpawnPlayer("Minotaurus");
-    SpawnPlayer("Sylph");
-
-    SetupInputMaps();
-    SetupMapCollisions();
-
-    // Setup Collision Canvas
-    canvas_manager.collisionContext.fillStyle = "black";
-    canvas_manager.collisionContext.globalCompositeOperation = "xor";
+    game_room.Initialize(maps_data, characters_data, abilities_data);
 }
 
 // INFO: Only for debugging purposes
@@ -70,10 +56,7 @@ async function ImportAbilities() {
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
-    EarlyUpdate();
-    FixedUpdate();
-    Update();
-    LateUpdate();
+    game_room.RoomLoop();
 
     // Move on to next frame
     requestAnimationFrame(GameLoop);
