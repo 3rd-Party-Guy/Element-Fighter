@@ -8,6 +8,7 @@ export default class Command {
     // some commands cannot be held down and should only function when pressed instead
     first_call = true;
     player = undefined;
+    pressed = false;
 
     constructor(player) {
         this.player = player;
@@ -17,9 +18,12 @@ export default class Command {
         this.first_call = false;
     }
 
-    onPressed() {}
+    onPressed() {
+        this.pressed = true;
+    }
     onReleased() {
         this.first_call = true;
+        this.pressed = false;
     }
 };
 
