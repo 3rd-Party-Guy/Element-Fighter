@@ -23,7 +23,7 @@ export default class Room{
     #deltaTime = 0;
     #lastFrameTime = performance.now();
     #accumulatedTime = 0;
-    
+
     // FixedUpdate should run at 480FPS
     FIXED_DELTA_TIME = 1000 / 480;
     FIXED_DELTA = this.FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
@@ -49,7 +49,6 @@ export default class Room{
        this.#setRoomData();
     }
 
-
     #setRoomData()
     {
         this.#addSystem(AudioSystem.getInstance(AudioSystem));
@@ -58,8 +57,6 @@ export default class Room{
         this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
         this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
     }
-
-
 
     #addSystem(system)
     {
@@ -70,9 +67,7 @@ export default class Room{
         }
     }
 
-
     async Initialize(maps_data, characters_data, abilities_data) {
-
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;
@@ -87,8 +82,6 @@ export default class Room{
         this.canvas_manager.collisionContext.fillStyle = "black";
         this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
     }
-
-
 
     SetupMapCollisions() {
         const cur_map_data = this.GetCurrentMapData();
