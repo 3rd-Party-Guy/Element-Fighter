@@ -105,9 +105,7 @@
       "ability_one": "Bubble",
       "ability_two": "Wave"
     },
-    "sound_paths": {
-      "jump": "Assets/SFX/Mermaid_Jump.wav"
-    }
+    "sound_paths": "Assets/SFX/Mermaid/"
   },
   {
     "name": "Minotaurus",
@@ -214,9 +212,7 @@
       "ability_one": "Earthquake",
       "ability_two": "Rock"
     },
-    "sound_paths": {
-      "jump": "Assets/SFX/Minotaurus_Jump.wav"
-    }
+    "sound_paths": "Assets/SFX/Minotaurus/"
   },
   {
     "name": "Sylph",
@@ -322,9 +318,7 @@
       "ability_one": "Earthquake",
       "ability_two": "Rock"
     },
-    "sound_paths": {
-      "jump": "Assets/SFX/Sylph_Jump.wav"
-    }
+    "sound_paths": "Assets/SFX/Sylph/"
   },
   {
     "name": "Surtur",
@@ -433,8 +427,6 @@
       "ability_one": "Earthquake",
       "ability_two": "Rock"
     },
-    "sound_paths": {
-      "jump": "Assets/SFX/Surtur_Jump.wav"
-    }
+    "sound_paths": "Assets/SFX/Surtur/"
   }
 ]
