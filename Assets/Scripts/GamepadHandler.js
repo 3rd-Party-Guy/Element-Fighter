@@ -1,8 +1,8 @@
 // Author:          Nikolay Hadzhiev
 // Description:     Instances of this class are responsible for reading input and executing the respective commands.
 
-import GamepadCommand, { GamepadMoveHorizontalCommand } from "./CommandGamepad.js";
-import Command, { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand, JumpCommand, DuckCommand } from "./Command.js";
+import { GamepadMoveHorizontalCommand } from "./CommandGamepad.js";
+import { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand, JumpCommand, DuckCommand } from "./Command.js";
 
 import EntityManager from "./Singletons/EntityManager.js";
 
