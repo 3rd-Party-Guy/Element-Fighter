@@ -52,7 +52,6 @@ export class JumpCommand extends Command {
             return;
 
         if (this.first_call) {
-            this.player.getComponentOfType(AudioPlayerComponent).playOneShot(this.player.sound_data.jump);
             this.player.getComponentOfType(PhysicsComponent)?.jump();
         }
 

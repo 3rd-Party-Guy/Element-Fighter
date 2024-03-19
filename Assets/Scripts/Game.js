@@ -15,6 +15,8 @@ import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
+import AudioSystem from "./Singletons/Systems/AudioSystem.js";
+
 import UIRenderer from "./Singletons/UIRenderer.js";
 
 // FixedUpdate should run at 480FPS
@@ -30,6 +32,7 @@ const physics_system = PhysicsSystem.getInstance(PhysicsSystem);
 const animation_system = AnimationSystem.getInstance(AnimationSystem);
 const render_system = RenderingSystem.getInstance(RenderingSystem);
 const collision_system = ColissionSystem.getInstance(ColissionSystem);
+const audio_system = AudioSystem.getInstance(AudioSystem);
 
 const ui_renderer = UIRenderer.getInstance(UIRenderer);
 
@@ -55,7 +58,7 @@ async function Initialize() {
     
     map_image.src = GetCurrentMapData().image_path;
 
-    SpawnPlayer("Sylph");
+    SpawnPlayer("Surtur");
     SpawnPlayer("Mermaid");
 
     SetupInputMaps();
@@ -178,6 +181,8 @@ function EarlyUpdate() {
     accumulatedTime += deltaTime;
     lastFrameTime = newFrameTime;
 
+    physics_system.earlyUpdate();
+
     // clears attack signals from previous frame
     for (const p of entity_manager.players)
         p.clearAttackSignals();
@@ -198,6 +203,7 @@ function Update() {
     physics_system.update(delta);
     render_system.update(delta);
     collision_system.update(delta);
+    audio_system.update(delta);
 
     entity_manager.updateEntities(delta);
 }

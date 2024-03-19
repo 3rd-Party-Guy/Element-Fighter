@@ -19,6 +19,9 @@ export default class PhysicsComponent extends Component {
     y_friction = 0;
     
     //Properties for states
+    just_jumped = false;
+    just_ducked = false;
+
     jumps_left = 0;
 
     //Properties for collision
@@ -71,6 +74,12 @@ export default class PhysicsComponent extends Component {
         this.#updatePosition(position, delta_time);
     }
     
+    earlyUpdate() {
+        // Release State Variables
+        this.just_jumped = false;
+        this.just_ducked = false;
+    }
+
     #updatePosition(position, delta_time) {
         if (!this.should_move) return;
 
@@ -181,14 +190,18 @@ export default class PhysicsComponent extends Component {
 
     jump() {
         if (this.jumps_left > 0) {
+            this.just_jumped = true;
+            this.is_grounded = false;
+
             this.vel.y = this.physics_data["jump_force"] * -1 || 0;
             this.jumps_left--;
-            this.is_grounded = false;
         }
     }
 
     duck() {
-        if (this.is_grounded && this.is_on_platform)
+        if (this.is_grounded && this.is_on_platform) {
+            this.just_ducked = true;
             this.is_ducking = true;
+        }
     }
 }

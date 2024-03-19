@@ -130,8 +130,6 @@
         "sheet_width": 768,
         "sheet_height": 160,
         "animation_scale": 0.4
-
-
       },
       "light_attack": {
         "state_info": "AttackLight",
@@ -215,6 +213,9 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
+    },
+    "sound_paths": {
+      "jump": "Assets/SFX/Minotaurus_Jump.wav"
     }
   },
   {
@@ -320,6 +321,9 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
+    },
+    "sound_paths": {
+      "jump": "Assets/SFX/Sylph_Jump.wav"
     }
   },
   {
@@ -428,6 +432,9 @@
     "abilities": {
       "ability_one": "Earthquake",
       "ability_two": "Rock"
+    },
+    "sound_paths": {
+      "jump": "Assets/SFX/Surtur_Jump.wav"
     }
   }
 ]

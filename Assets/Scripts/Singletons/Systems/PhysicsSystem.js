@@ -8,6 +8,12 @@ import TransformComponent from "../../Components/TransformComponent.js";
 import EntityManager from "../EntityManager.js";
 
 export default class PhysicsSystem extends System {
+        earlyUpdate() {
+            for (const p of EntityManager.getInstance(EntityManager).players) {
+                p.getComponentOfType(PhysicsComponent).earlyUpdate();
+            }
+        }
+
         update(delta_Time)
         {   
             for (const e of EntityManager.getInstance(EntityManager).all) {
