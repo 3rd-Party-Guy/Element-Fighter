@@ -80,7 +80,7 @@ export default class GamepadHandler {
         if (this.jumpButton.pressed) {
             this.gamepad_jump_command.onPressed();
             this.gamepad_jump_command.execute(this.player);
-        } else
+        } else if (this.gamepad_jump_command.pressed)
             this.gamepad_jump_command.onReleased();
     }
 
@@ -90,27 +90,38 @@ export default class GamepadHandler {
         if (this.gamepad["axes"][1] > 0.7 || this.duckButton.pressed) {
             this.gamepad_duck_command.onPressed();
             this.gamepad_duck_command.execute(this.player);
-        } else
+        } else if (this.gamepad_duck_command.pressed)
             this.gamepad_duck_command.onReleased();
     }
 
     #handleAttacks() {
         if (this.lightAttackButton.pressed) {
+            this.attack_light_command.onPressed();
             this.attack_light_command.execute(this.player);
             return;
         }
-        else this.attack_light_command.onReleased();
+        else if (this.attack_light_command.pressed)
+            this.attack_light_command.onReleased();
+        
         if (this.heavyAttackButton.pressed) {
+            this.attack_heavy_command.onPressed();
             this.attack_heavy_command.execute(this.player);
             return;
-        } else this.attack_heavy_command.onReleased();
+        } else if (this.attack_heavy_command.pressed)
+            this.attack_heavy_command.onReleased();
+        
         if (this.abilityOneButton.pressed) {
+            this.ability_one_command.onPressed();
             this.ability_one_command.execute(this.player);
             return;
-        } else this.ability_one_command.onReleased();
+        } else if (this.ability_one_command.pressed)
+            this.ability_one_command.onReleased();
+        
         if (this.abilityTwoButton.pressed) {
+            this.ability_two_command.onPressed();
             this.ability_two_command.execute(this.player);
             return;
-        } else this.ability_two_command.onReleased();
+        } else if (this.ability_two_command.pressed)
+            this.ability_two_command.onReleased();
     }
 }
