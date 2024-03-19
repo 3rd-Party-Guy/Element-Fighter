@@ -209,7 +209,7 @@ export default class Player extends Entity {
         const kb_vel_y = (this.attackState === AttackModes.AttackLight) ? kb_data.light.multiplier_y : kb_data.heavy.multiplier_y;
 
         physics_comp.vel.x = kb_vel_x;
-        physics_comp.vel.y = kb_vel_y;
+        physics_comp.vel.y = kb_vel_y * -1;
 
         if (this.getComponentOfType(AnimationComponent).is_flipped)
             physics_comp.vel.x *= -1;

@@ -415,7 +415,7 @@
       "knockback_info": {
         "light": {
           "multiplier_x": 1000,
-          "multiplier_y": 700
+          "multiplier_y": 1200
         },
         "heavy": {
           "multiplier_x": 0,
