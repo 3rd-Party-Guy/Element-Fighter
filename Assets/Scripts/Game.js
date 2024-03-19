@@ -58,7 +58,7 @@ async function Initialize() {
     
     map_image.src = GetCurrentMapData().image_path;
 
-    SpawnPlayer("Surtur");
+    SpawnPlayer("Minotaurus");
     SpawnPlayer("Mermaid");
 
     SetupInputMaps();

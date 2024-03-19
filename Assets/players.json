@@ -184,7 +184,7 @@
       }
     },
     "entity_info": {
-      "width": 64,
+      "width": 131,
       "height": 150,
       "x_friction": 0.1125,
       "max_x_velocity": 750,

@@ -79,7 +79,7 @@ export default class Player extends Entity {
         this.getComponentOfType(PhysicsComponent).snap_stop_x = true;
     }
 
-    get damage() {
+    get current_damage() {
         let current_damage = 0;
 
         if (this.attackState === AttackModes.AttackLight)
@@ -88,6 +88,13 @@ export default class Player extends Entity {
             current_damage = this.combat_data.heavy_damage;
 
         return current_damage;
+    }
+
+    damage(amount) {
+        this.health -= amount;
+
+        this.health = clamp(this.health, 0, 100);
+        this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "hurt.wav");
     }
 
     clearAttackSignals() {
@@ -183,7 +190,7 @@ export default class Player extends Entity {
         if (this.is_attack_registered) return;
 
         this.is_attack_registered = true;
-        other_player.health -= this.damage;
+        other_player.damage(this.current_damage);
 
         this.#knockbackEnemy(other_player);
     }
