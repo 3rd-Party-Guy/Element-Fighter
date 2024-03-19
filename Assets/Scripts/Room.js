@@ -73,7 +73,7 @@ export default class Room{
 
         this.map_image.src = this.GetCurrentMapData().image_path;
         this.SpawnPlayer("Sylph");
-        this.SpawnPlayer("Mermaid");
+        this.SpawnPlayer("Surtur");
         this.SetupMapCollisions();
         this.SetupInputMaps();
 

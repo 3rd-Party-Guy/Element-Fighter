@@ -330,16 +330,16 @@
         "state_info": "Idle",
         "animation_path": "Movement/idle",
         "num_frames": 2,
-        "sheet_width": 336,
-        "sheet_height": 168,
+        "sheet_width": 340,
+        "sheet_height": 160,
         "animation_scale": 1
       },
       "run": {
         "state_info": "Running",
         "animation_path": "Movement/run",
         "num_frames": 6,
-        "sheet_width": 1200,
-        "sheet_height": 168,
+        "sheet_width": 1020,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
 
@@ -348,8 +348,8 @@
         "state_info": "AttackLight",
         "animation_path": "Attacks/light_attack",
         "num_frames": 5,
-        "sheet_width": 1400,
-        "sheet_height": 168,
+        "sheet_width": 1150,
+        "sheet_height": 160,
         "animation_scale": 0.32
 
       },
@@ -399,7 +399,7 @@
       }
     },
     "entity_info": {
-      "width": 64,
+      "width": 128,
       "height": 160,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
