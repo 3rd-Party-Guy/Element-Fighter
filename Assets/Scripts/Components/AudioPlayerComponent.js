@@ -15,7 +15,9 @@ export default class AudioPlayerComponent extends Component {
     this.audio.play();
   }
 
-  playOneShot(source_path) {
+  playOneShot(source_path, force = false) {
+    if (!this.audio.paused && !force) return;
+    
     const old_loop = this.audio.loop;
     const old_source = this.audio.src;
     

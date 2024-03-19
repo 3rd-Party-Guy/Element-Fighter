@@ -118,10 +118,12 @@ export default class Player extends Entity {
 
     attackLight() {
         this.is_attacking_light = true;
+        this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "light_attack.wav");
     }
     
     attackHeavy() {
         this.is_attacking_heavy = true;
+        this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "heavy_attack.wav");
 
         if (this.name === "Mermaid") {
             const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
@@ -169,6 +171,8 @@ export default class Player extends Entity {
     abilityOne() {
         if(this.mana < this.ability_data.ability_one.combat_info.cost)
             return;
+    
+        this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "ability_one.wav");
 
         this.is_ability_one = true;
         this.mana -= this.ability_data.ability_one.combat_info.cost;
@@ -179,6 +183,8 @@ export default class Player extends Entity {
     abilityTwo() {
         if(this.mana < this.ability_data.ability_two.combat_info.cost)
             return;
+    
+        this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "ability_two.wav");
 
         this.is_ability_two = true;
         this.mana -= this.ability_data.ability_two.combat_info.cost;

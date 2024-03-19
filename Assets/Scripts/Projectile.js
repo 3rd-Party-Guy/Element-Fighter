@@ -50,7 +50,8 @@ export default class Projectile extends Entity {
     }
 
     #damageEnemy(player, delta) {
-        player.health -= (this.combat_data["is_one_shot"]) ? this.combat_data["damage"] : this.combat_data["damage"] * delta;
+        const damage_amount = (this.combat_data["is_one_shot"]) ? this.combat_data["damage"] : this.combat_data["damage"] * delta;
+        player.damage(damage_amount);
     }
 
     #knockbackEnemy(player) {
