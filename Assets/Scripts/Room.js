@@ -16,7 +16,6 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 
 export default class Room{
-
     systems = [];
 
     #newFrameTime = 0;
@@ -67,7 +66,7 @@ export default class Room{
         }
     }
 
-    async Initialize(maps_data, characters_data, abilities_data) {
+    Initialize(maps_data, characters_data, abilities_data) {
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;
