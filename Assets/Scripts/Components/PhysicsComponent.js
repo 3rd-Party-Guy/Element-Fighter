@@ -191,10 +191,9 @@ export default class PhysicsComponent extends Component {
     jump() {
         if (this.jumps_left > 0) {
             this.just_jumped = true;
-            this.is_grounded = false;
-
             this.vel.y = this.physics_data["jump_force"] * -1 || 0;
             this.jumps_left--;
+            this.is_grounded = false;
         }
     }
 

@@ -9,7 +9,7 @@ export default class AudioSystem extends System {
             const should_play_jump = p.getComponentOfType(PhysicsComponent).just_jumped;
             
             if (should_play_jump)
-                p.getComponentOfType(AudioPlayerComponent).playOneShot(p.sounds_path + "jump.wav");
+                p.getComponentOfType(AudioPlayerComponent).playOneShot(p.sounds_path + "jump.wav", true);
         }
     }
 }
