@@ -66,7 +66,6 @@ export default class ColissionSystem extends System {
             const transform = p.transform;
             if (withinRange(col_pos.x, transform.position.x, transform.position.x + transform.width) &&
                 withinRange(col_pos.y, transform.position.y, transform.position.y + transform.height)) {
-                console.log(`${p.name}`);
                 this.involved_players.push(p);
             }
         }
