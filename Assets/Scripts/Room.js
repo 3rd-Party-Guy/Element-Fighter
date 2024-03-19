@@ -8,12 +8,12 @@ import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
 
-import AudioSystem from "./Singletons/Systems/AudioSystem.js";
-import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js";
+import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
+import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 
 export default class Room{
     systems = [];
@@ -22,7 +22,6 @@ export default class Room{
     #deltaTime = 0;
     #lastFrameTime = performance.now();
     #accumulatedTime = 0;
-
     // FixedUpdate should run at 480FPS
     FIXED_DELTA_TIME = 1000 / 480;
     FIXED_DELTA = this.FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
@@ -50,11 +49,11 @@ export default class Room{
 
     #setRoomData()
     {
-        this.#addSystem(AudioSystem.getInstance(AudioSystem));
         this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
         this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
         this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
         this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
+        this.#addSystem(AudioSystem.getInstance(AudioSystem));
     }
 
     #addSystem(system)
@@ -66,7 +65,8 @@ export default class Room{
         }
     }
 
-    Initialize(maps_data, characters_data, abilities_data) {
+    async Initialize(maps_data, characters_data, abilities_data) {
+
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;
@@ -177,6 +177,9 @@ export default class Room{
         for (const p of this.entity_manager.players)
             p.clearAttackSignals();
     
+        for (const system of this.systems)
+            system.earlyUpdate();
+        
         // handles input
         this.inputManager.handleInput();
     }
@@ -190,9 +193,7 @@ export default class Room{
         this.RenderMap();
         
         for(const system of this.systems)
-        {
             system.update(delta);
-        }
     
     
         this.entity_manager.updateEntities(delta);
@@ -200,15 +201,18 @@ export default class Room{
     
     #FixedUpdate() {
         while (this.#accumulatedTime >= this.FIXED_DELTA_TIME) {
-            if(this.physics_system){
-                this.physics_system.fixedUpdate(this.FIXED_DELTA);
-            }
-            this.entity_manager.fixedUpdateEntities(this.FIXED_DELTA);
+            for (const system of this.systems)
+                system.fixedUpdate(this.FIXED_DELTA);
+
+                this.entity_manager.fixedUpdateEntities(this.FIXED_DELTA);
             this.#accumulatedTime -= this.FIXED_DELTA_TIME;
         }
     }
     
     #LateUpdate() {
+        for (const system of this.systems)
+            system.lateUpdate();
+        
         this.ui_renderer.RenderUI();
         this.canvas_manager.gameplayContext.fill();
     }
