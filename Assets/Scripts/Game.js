@@ -41,8 +41,6 @@ function getMousePos(e) {
     console.log(`${x}, ${y}`);
 }
 
-
-
 async function ImportMaps() {
     const response = await fetch("Assets/maps.json");
     return await response.json();

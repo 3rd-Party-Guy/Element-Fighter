@@ -8,7 +8,8 @@ import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
 
-import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
+import AudioSystem from "./Singletons/Systems/AudioSystem.js";
+import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js";
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
 import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
@@ -22,6 +23,7 @@ export default class Room{
     #deltaTime = 0;
     #lastFrameTime = performance.now();
     #accumulatedTime = 0;
+    
     // FixedUpdate should run at 480FPS
     FIXED_DELTA_TIME = 1000 / 480;
     FIXED_DELTA = this.FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
@@ -42,8 +44,6 @@ export default class Room{
 
     active_players = 0;
 
-
-
     constructor()
     {
        this.#setRoomData();
@@ -52,6 +52,7 @@ export default class Room{
 
     #setRoomData()
     {
+        this.#addSystem(AudioSystem.getInstance(AudioSystem));
         this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
         this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
         this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
@@ -85,8 +86,6 @@ export default class Room{
         // Setup Collision Canvas
         this.canvas_manager.collisionContext.fillStyle = "black";
         this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
-
-
     }
 
 
@@ -166,12 +165,6 @@ export default class Room{
     GetCurrentMapData(){
         return this.maps_data.find(e => e.name === this.cur_map_name);
     }
-
-
-
-  
-
-
 
     RoomLoop()
     { 
