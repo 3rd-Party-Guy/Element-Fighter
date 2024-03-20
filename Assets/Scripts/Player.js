@@ -33,6 +33,8 @@ export default class Player extends Entity {
 
     mana_regen_rate = 0;
 
+    // Fetches all needed JSON data
+    // Adds all additional needed components that default entities lack
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
 
@@ -51,14 +53,18 @@ export default class Player extends Entity {
         this.onLoaded();
     }
     
-    get isAttacking() {
-        return (this.getComponentOfType(AnimationComponent).attack_state.current_state != AttackModes.None);
-    }
-    
+    // A getter function. Returns the animation component's current attack state
     get attackState() {
         return this.getComponentOfType(AnimationComponent).attack_state.current_state;
     }
 
+    // A getter function. isAttacking is determined based on the animation component's current attack state
+    // This is because our combat collision system is based on visual collision calculation
+    get isAttacking() {
+        return (this.attackState != AttackModes.None);
+    }
+
+    // Returns all attacking data as an object
     get attackingData() {
         return {
             is_attacking: this.isAttacking,
@@ -67,16 +73,6 @@ export default class Player extends Entity {
             using_ability_one: this.is_ability_one,
             using_ability_two: this.is_ability_two
         };
-    }
-    
-    onLoaded() {
-        this.#setProperties();
-        EntityManager.getInstance(EntityManager).addPlayer(this);
-    }
-    
-    #setProperties() {
-        this.getComponentOfType(RenderingComponent).render_collision = true;
-        this.getComponentOfType(PhysicsComponent).snap_stop_x = true;
     }
 
     get current_damage() {
@@ -89,7 +85,20 @@ export default class Player extends Entity {
 
         return current_damage;
     }
+    
+    // onLoaded is called after all data is fed and all components are initialized
+    onLoaded() {
+        this.#setProperties();
+        EntityManager.getInstance(EntityManager).addPlayer(this);
+    }
+    
+    // Set Properties configures all components
+    #setProperties() {
+        this.getComponentOfType(RenderingComponent).render_collision = true;
+        this.getComponentOfType(PhysicsComponent).snap_stop_x = true;
+    }
 
+    // Called by other enities to damage the player
     damage(amount) {
         this.health -= amount;
 
@@ -97,6 +106,8 @@ export default class Player extends Entity {
         this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "hurt.wav");
     }
 
+    // Clears all attack signals for the player
+    // These signals are different each frame
     clearAttackSignals() {
         this.is_attacking_light = false;
         this.is_attacking_heavy = false;
@@ -104,11 +115,13 @@ export default class Player extends Entity {
         this.is_ability_two = false;
     }
 
+    // Regenerates mana and clamps it to a range
     fixedUpdate(delta) {
         this.mana += this.mana_regen_rate * delta;
         this.mana = clamp(this.mana, 0, 100);
     }
 
+    // Makes sure that new attacks start off as unregistered
     update(delta) {
         if (this.last_attack_state !== this.attackState)
             this.is_attack_registered = false;
@@ -116,11 +129,13 @@ export default class Player extends Entity {
         this.last_attack_state = this.attackState;
     }
 
+    // Called when the player presses the light attack button
     attackLight() {
         this.is_attacking_light = true;
         this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "light_attack.wav");
     }
     
+    // Called when the player presses the heavy attack button
     attackHeavy() {
         this.is_attacking_heavy = true;
         this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "heavy_attack.wav");
@@ -168,6 +183,7 @@ export default class Player extends Entity {
         }
     }
     
+    // Called when the player presses the ability one button
     abilityOne() {
         if(this.mana < this.ability_data.ability_one.combat_info.cost)
             return;
@@ -180,6 +196,7 @@ export default class Player extends Entity {
         this.#spawnAbility(this.ability_data["ability_one"]);
     }
 
+    // Called when the player presses the ability two button
     abilityTwo() {
         if(this.mana < this.ability_data.ability_two.combat_info.cost)
             return;
@@ -192,6 +209,8 @@ export default class Player extends Entity {
         this.#spawnAbility(this.ability_data["ability_two"]);
     }
 
+    // This event is called when the collision system determines that this player is attacking another
+    // Only called on melee attacks
     onAttack(other_player) {
         if (this.is_attack_registered) return;
 
@@ -201,6 +220,7 @@ export default class Player extends Entity {
         this.#knockbackEnemy(other_player);
     }
 
+    // Calculates the knockback amount and applies it to the other player's physics component
     #knockbackEnemy(other_player) {
         const kb_data = this.combat_data.knockback_info;
         const physics_comp = other_player.getComponentOfType(PhysicsComponent);
@@ -215,6 +235,7 @@ export default class Player extends Entity {
             physics_comp.vel.x *= -1;
     }
 
+    // Calculates the position of the projectile and accounts for cast time
     #spawnAbility(ability_data) {
         const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
         const transform = this.getComponentOfType(TransformComponent);
