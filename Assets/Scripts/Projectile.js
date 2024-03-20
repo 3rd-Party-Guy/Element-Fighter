@@ -45,7 +45,7 @@ export default class Projectile extends Entity {
     onCollision(player, delta) {
         if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
-        if(this.name == "Bubble")
+        if (this.name === "Bubble")
         {
             let physics_component = this.getComponentOfType(PhysicsComponent);
             physics_component.vel = new Vector2(0,0);
@@ -58,9 +58,8 @@ export default class Projectile extends Entity {
                 transform_component.position.x = transform_component.position.x - player_width / 2;
             else
                 transform_component.position.x = transform_component.position.x + player_width / 2;
-
-            
         }
+
         this.is_registered = true;
         this.#damageEnemy(player, delta);
         this.#knockbackEnemy(player);
