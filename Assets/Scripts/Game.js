@@ -5,7 +5,7 @@ import InputManager from "./Singletons/InputManager.js";
 import CanvasManager from "./Singletons/CanvasManager.js";
 import Room from "./Room.js";
 
-const inputManager = InputManager.getInstance(InputManager);
+const input_manager = InputManager.getInstance(InputManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
 
 const game_room = new Room();
@@ -16,12 +16,13 @@ let abilities_data;
 
 // let active_players = 0;
 
+// Fetches all JSON data and adds the needed event listeners
 async function Initialize() {
     // Setup Event Callbacks
-    window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
-    window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
+    window.addEventListener('keydown', (event) => input_manager.setKeyboardInput(event));
+    window.addEventListener('keyup', (event) => input_manager.setKeyboardInput(event));
     window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
-    window.addEventListener('gamepadconnected', (e) => inputManager.connectGamepad(e.gamepad.index));
+    window.addEventListener('gamepadconnected', (e) => input_manager.connectGamepad(e.gamepad.index));
 
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
@@ -31,6 +32,7 @@ async function Initialize() {
 }
 
 // INFO: Only for debugging purposes
+// Gets the current mouse position and outputs it as in-game coordinates
 function getMousePos(e) {
     const rect = canvas_manager.clientRect;
     const x = e.clientX - rect.left;
@@ -39,16 +41,19 @@ function getMousePos(e) {
     console.log(`${x}, ${y}`);
 }
 
+// Imports all information from maps.json as an object
 async function ImportMaps() {
     const response = await fetch("Assets/maps.json");
     return await response.json();
 }
 
+// Imports all information from players.json as an object
 async function ImportCharacters() {
     const response = await fetch("Assets/players.json");
     return await response.json();
 }
 
+// Imports all information from abilities.json as an object
 async function ImportAbilities() {
     const response = await fetch("Assets/abilities.json");
     return await response.json();

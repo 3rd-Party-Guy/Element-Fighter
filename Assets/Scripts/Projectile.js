@@ -55,7 +55,7 @@ export default class Projectile extends Entity {
     onCollision(player, delta) {
         if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
-        if(this.name == "Bubble")
+        if (this.name === "Bubble")
         {
 
             //Get Projectile Data
