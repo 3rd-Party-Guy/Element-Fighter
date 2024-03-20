@@ -4,6 +4,7 @@ import Entity from "./Entity.js";
 import AnimationComponent from "./Components/AnimationComponent.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
+import TransformComponent from "./Components/TransformComponent.js";
 
 export default class Projectile extends Entity {
     life_time = 0;
@@ -44,6 +45,26 @@ export default class Projectile extends Entity {
     onCollision(player, delta) {
         if (this.combat_data["is_one_shot"] && this.is_registered) return;
 
+        if(this.name == "Bubble")
+        {
+            let physics_component = this.getComponentOfType(PhysicsComponent);
+            physics_component.vel = new Vector2(0,0);
+            let player_transform = player.getComponentOfType(TransformComponent);
+            let player_width = player_transform.width;
+            let transform_component = this.getComponentOfType(TransformComponent);
+            let animation_component = this.getComponentOfType(AnimationComponent);
+            
+            if(animation_component.is_flipped)
+            {
+                transform_component.position.x = transform_component.position.x -player_width/2;
+            }
+            else
+            {
+                transform_component.position.x = transform_component.position.x +player_width/2;
+            }
+
+            
+        }
         this.is_registered = true;
         this.#damageEnemy(player, delta);
         this.#knockbackEnemy(player);

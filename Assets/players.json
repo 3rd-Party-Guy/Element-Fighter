@@ -315,8 +315,8 @@
       }
     },
     "abilities": {
-      "ability_one": "Earthquake",
-      "ability_two": "Rock"
+      "ability_one": "Wind",
+      "ability_two": "Tornado"
     },
     "sound_paths": "Assets/SFX/Sylph/"
   },

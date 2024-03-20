@@ -72,7 +72,7 @@ export default class Room{
         this.abilities_data = abilities_data;
 
         this.map_image.src = this.GetCurrentMapData().image_path;
-        this.SpawnPlayer("Sylph");
+        this.SpawnPlayer("Mermaid");
         this.SpawnPlayer("Surtur");
         this.SetupMapCollisions();
         this.SetupInputMaps();

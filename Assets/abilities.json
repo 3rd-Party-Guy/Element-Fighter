@@ -24,9 +24,11 @@
     "combat_info": {
       "cost": 22,
       "damage": 25,
-      "is_one_shot": false,
+      "is_one_shot": true,
       "knockback_info": {
-        "has_knockback": false
+        "has_knockback": false,
+        "multiplier_x": 250,
+        "multiplier_y": 175
       }
     }
   },  
@@ -190,6 +192,72 @@
         "has_knockback": true,
         "multiplier_x": 1000,
         "multiplier_y": 1500
+      }
+    }
+  },  
+  {
+    "name": "Wind",
+    "spritesheets_path": "Assets/Sprites/Projectiles/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "wind",
+        "num_frames": 12,
+        "sheet_width": 3840,
+        "sheet_height": 180,
+        "animation_scale": 0.2
+      }
+    },
+    "entity_info": {
+      "width": 200,
+      "height": 180,
+      "velocity": [750,0],
+      "max_x_velocity": 1000,
+      "x_friction": 0,
+      "gravity": 0,
+      "life_time": 0.5,
+      "cast_time": 0.25
+    },
+    "combat_info": {
+      "cost": 31,
+      "damage": 54,
+      "is_one_shot": true,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 1000,
+        "multiplier_y": 1500
+      }
+    }
+  },  
+  {
+    "name": "Tornado",
+    "spritesheets_path": "Assets/Sprites/Projectiles/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "tornado",
+        "num_frames": 6,
+        "sheet_width": 960,
+        "sheet_height": 160,
+        "animation_scale": 0.5
+      }
+    },
+    "entity_info": {
+      "width": 160,
+      "height": 160,
+      "velocity": [250,0] ,
+      "max_x_velocity": 250,
+      "x_friction": 0,
+      "gravity": 0,
+      "life_time": 4,
+      "cast_time": 0.5
+    },
+    "combat_info": {
+      "cost": 31,
+      "damage": 125,
+      "is_one_shot": false,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 1000,
+        "multiplier_y": 150
       }
     }
   }
