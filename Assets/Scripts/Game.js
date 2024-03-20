@@ -5,7 +5,7 @@ import InputManager from "./Singletons/InputManager.js";
 import CanvasManager from "./Singletons/CanvasManager.js";
 import Room from "./Room.js";
 
-const inputManager = InputManager.getInstance(InputManager);
+const input_manager = InputManager.getInstance(InputManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
 
 const game_room = new Room();
@@ -18,10 +18,10 @@ let abilities_data;
 
 async function Initialize() {
     // Setup Event Callbacks
-    window.addEventListener('keydown', (event) => inputManager.setKeyboardInput(event));
-    window.addEventListener('keyup', (event) => inputManager.setKeyboardInput(event));
+    window.addEventListener('keydown', (event) => input_manager.setKeyboardInput(event));
+    window.addEventListener('keyup', (event) => input_manager.setKeyboardInput(event));
     window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
-    window.addEventListener('gamepadconnected', (e) => inputManager.connectGamepad(e.gamepad.index));
+    window.addEventListener('gamepadconnected', (e) => input_manager.connectGamepad(e.gamepad.index));
 
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();

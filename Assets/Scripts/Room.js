@@ -15,23 +15,31 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 
+// A room is simply a different level.
+// This allows us to have different entities and logic for different parts of the game,
+// e.g. the main menu vs the fighting level
 export default class Room{
+    // These are all of the systems that will be used in this room
     systems = [];
 
+    // Used to compute the delta time. This is the amount of time inbetween the last and current frame.
+    // Necessary for making computations that should not be based on the FPS/time.
     #newFrameTime = 0;
     #deltaTime = 0;
     #lastFrameTime = performance.now();
     #accumulatedTime = 0;
+
     // FixedUpdate should run at 480FPS
     FIXED_DELTA_TIME = 1000 / 480;
     FIXED_DELTA = this.FIXED_DELTA_TIME / 1000; // delta must be passed in seconds
 
-    inputManager = InputManager.getInstance(InputManager);
+    // Directly initializing and instancing the managers we need.
+    // This defeats the purpose of lazy-initialization, but since we will be referencing them a lot,
+    // it is a good trade.
+    input_manager = InputManager.getInstance(InputManager);
     map_collider_manager = MapColliderManager.getInstance(MapColliderManager);
     canvas_manager = CanvasManager.getInstance(CanvasManager);
     entity_manager = EntityManager.getInstance(EntityManager);
-
-    physics_system = undefined;
 
     ui_renderer = UIRenderer.getInstance(UIRenderer);
     cur_map_name = "Vulcano";
@@ -47,6 +55,7 @@ export default class Room{
        this.#setRoomData();
     }
 
+    // Gets all needed systems for the room
     #setRoomData()
     {
         this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
@@ -56,23 +65,24 @@ export default class Room{
         this.#addSystem(AudioSystem.getInstance(AudioSystem));
     }
 
+    // Pushes a system to the systems array
     #addSystem(system)
     {
         this.systems.push(system);
-        if(system.constructor.name === PhysicsSystem.name)
-        {
-            this.physics_system = system;
-        }
     }
 
+    // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
+    // Also spawns the players and calls for other setup
     Initialize(maps_data, characters_data, abilities_data) {
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;
 
         this.map_image.src = this.GetCurrentMapData().image_path;
+
         this.SpawnPlayer("Mermaid");
         this.SpawnPlayer("Surtur");
+
         this.SetupMapCollisions();
         this.SetupInputMaps();
 
@@ -81,6 +91,8 @@ export default class Room{
         this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
     }
 
+    // This functions scrapes the JSON data (see maps.json) of the current map,
+    // and sets each collision box for it
     SetupMapCollisions() {
         const cur_map_data = this.GetCurrentMapData();
 
@@ -95,6 +107,8 @@ export default class Room{
         }
     }
 
+    // This functions scrapes the abilities JSON file and creates an object with all of the info
+    // of the abilities that are needed. This is intented to be fed into the player entitys constructor
     GetAbilitiesObject(abilities) {
         let abilities_obj = {};
 
@@ -110,12 +124,14 @@ export default class Room{
         return abilities_obj;
     }
 
+    // Gets the spawn position based on which player it is (1, 2, 3, or 4)
+    // (currently only 2 players are supported)
     SpawnPlayer(name){
         const cur_map_data = this.GetCurrentMapData();
 
         // If there are 0 active players, spawn at spawn_position 1
-        const spawn_pos_x = cur_map_data["spawn_positions"][this.active_players+1]["x"];
-        const spawn_pos_y = cur_map_data["spawn_positions"][this.active_players+1]["y"];
+        const spawn_pos_x = cur_map_data["spawn_positions"][this.active_players + 1]["x"];
+        const spawn_pos_y = cur_map_data["spawn_positions"][this.active_players + 1]["y"];
 
         const player_data = this.characters_data.find(e => e.name == name);
         new Player(spawn_pos_x, spawn_pos_y, player_data, this.GetAbilitiesObject(player_data["abilities"]));
@@ -123,40 +139,44 @@ export default class Room{
         this.active_players++;
     }
 
+    // Sets up the initial keyboard input lookups for both players
     SetupInputMaps() {
         const player_one = this.entity_manager.players[0];
         const player_two = this.entity_manager.players[1];
     
         // Add initial KeyCodes and Commands
-        this.inputManager.addKeyboardInputActionLookup("KeyA", new MoveCommand(player_one, -140, 0));
-        this.inputManager.addKeyboardInputActionLookup("KeyD", new MoveCommand(player_one, 140, 0));
-        this.inputManager.addKeyboardInputActionLookup("KeyW", new JumpCommand(player_one));
-        this.inputManager.addKeyboardInputActionLookup("KeyS", new DuckCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyA", new MoveCommand(player_one, -140, 0));
+        this.input_manager.addKeyboardInputActionLookup("KeyD", new MoveCommand(player_one, 140, 0));
+        this.input_manager.addKeyboardInputActionLookup("KeyW", new JumpCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyS", new DuckCommand(player_one));
    
-        this.inputManager.addKeyboardInputActionLookup("ArrowLeft", new MoveCommand(player_two, -140, 0));
-        this.inputManager.addKeyboardInputActionLookup("ArrowRight", new MoveCommand(player_two, 140, 0));
-        this.inputManager.addKeyboardInputActionLookup("ArrowUp", new JumpCommand(player_two));
-        this.inputManager.addKeyboardInputActionLookup("ArrowDown", new DuckCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("ArrowLeft", new MoveCommand(player_two, -140, 0));
+        this.input_manager.addKeyboardInputActionLookup("ArrowRight", new MoveCommand(player_two, 140, 0));
+        this.input_manager.addKeyboardInputActionLookup("ArrowUp", new JumpCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("ArrowDown", new DuckCommand(player_two));
    
-        this.inputManager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand(player_one));
-        this.inputManager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand(player_one));
-        this.inputManager.addKeyboardInputActionLookup("KeyU", new AbilityOneCommand(player_one));
-        this.inputManager.addKeyboardInputActionLookup("KeyI", new AbilityTwoCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyU", new AbilityOneCommand(player_one));
+        this.input_manager.addKeyboardInputActionLookup("KeyI", new AbilityTwoCommand(player_one));
   
-        this.inputManager.addKeyboardInputActionLookup("Numpad5", new AttackLightCommand(player_two));
-        this.inputManager.addKeyboardInputActionLookup("Numpad6", new AttackHeavyCommand(player_two));
-        this.inputManager.addKeyboardInputActionLookup("Numpad8", new AbilityOneCommand(player_two));
-        this.inputManager.addKeyboardInputActionLookup("Numpad9", new AbilityTwoCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("Numpad5", new AttackLightCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("Numpad6", new AttackHeavyCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("Numpad8", new AbilityOneCommand(player_two));
+        this.input_manager.addKeyboardInputActionLookup("Numpad9", new AbilityTwoCommand(player_two));
     }
 
+    // Renders the map background image over the whole gameplay canvas
     RenderMap(){
         this.canvas_manager.gameplayContext.drawImage(this.map_image, 0, 0, 1280, 720, 0, 0, this.canvas_manager.width, this.canvas_manager.height);
     }
 
+    // Get the JSON data for the map with the correct name
     GetCurrentMapData(){
         return this.maps_data.find(e => e.name === this.cur_map_name);
     }
 
+    // The main game loop, called in Game.js
     RoomLoop()
     { 
             this.#EarlyUpdate();
@@ -164,7 +184,10 @@ export default class Room{
             this.#Update();
             this.#LateUpdate();  
     }
-
+    
+    // EarlyUpdate is the first method called at the beginning of the game loop each frame
+    // Calculates the delta time, clears the attack signals of the last frame for all players,
+    // registers input
     #EarlyUpdate() {
         // calculates deltaTime
         this.#newFrameTime = performance.now();
@@ -180,9 +203,11 @@ export default class Room{
             system.earlyUpdate();
         
         // handles input
-        this.inputManager.handleInput();
+        this.input_manager.handleInput();
     }
     
+    // Update is the main method of the game loop. It is called after EarlyUpdate
+    // Clears canvases, renders the map
     #Update() {
         const delta = this.#deltaTime / 1000;
     
@@ -198,6 +223,8 @@ export default class Room{
         this.entity_manager.updateEntities(delta);
     }
     
+    // FixedUpdate is called every 1/480th of a second.
+    // The while loop ensures that missed calls are accumulated and also called
     #FixedUpdate() {
         while (this.#accumulatedTime >= this.FIXED_DELTA_TIME) {
             for (const system of this.systems)
@@ -207,7 +234,9 @@ export default class Room{
             this.#accumulatedTime -= this.FIXED_DELTA_TIME;
         }
     }
-    
+
+    // LateUpdate is the final method called in the game loop.
+    // It renders UI and fills the collision canvas with black.
     #LateUpdate() {
         for (const system of this.systems)
             system.lateUpdate();
