@@ -3,6 +3,7 @@
 
 import Singleton from "./Singleton.js";
 
+// The entity manager divides and keeps track of different types of entities
 export default class EntityManager extends Singleton {
     entities = [];
     players = [];

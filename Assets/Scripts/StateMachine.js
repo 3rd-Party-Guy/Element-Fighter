@@ -1,6 +1,10 @@
 /// Author:         Nikolay Hadzhiev, Leon Enders
 /// Description:    This is the statemachine a class handling states for entitys
 
+// Different state machines used for the entities
+// Every state is a state mode, with different states
+// having different connections and conditions which can be found
+// in the nextState switch statement
 export const MovementModes = Object.freeze({
     Idle: 'idle',
     Running: 'running',

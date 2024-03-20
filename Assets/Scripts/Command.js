@@ -1,9 +1,10 @@
 /// Author:         Nikolay Hadzhiev
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
-import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 
+// Commands are used as an interface between the input manager
+// and the actual entities
 export default class Command {
     // some commands cannot be held down and should only function when pressed instead
     first_call = true;

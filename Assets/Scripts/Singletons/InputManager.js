@@ -5,8 +5,6 @@ import Singleton from "./Singleton.js";
 import EntityManager from "./EntityManager.js";
 import GamepadHandler from "../GamepadHandler.js";
 import Entity from "../Entity.js";
-// import { GamepadMoveHorizontalCommand, GamepadJumpCommand, GamepadDuckCommand } from "../CommandGamepad.js";
-// import PhysicsComponent from "../Components/PhysicsComponent.js";
 
 export default class InputManager extends Singleton {
     // Lookup Table for input codes and Commands

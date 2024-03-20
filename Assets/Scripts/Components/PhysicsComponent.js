@@ -1,7 +1,7 @@
 /// Author:         Leon Enders, Nikolay Hadzhiev
 /// Description:    An inherited Component class handling the physics domain, implementing behaviour for entities.
 
-import { clamp, lerp } from "../Math.js";
+import { clamp, lerp } from "../Utilities.js";
 import Vector2 from "../Vector2.js";
 import Line from "../Line.js";
 import Component from "./Component.js";
@@ -118,14 +118,9 @@ export default class PhysicsComponent extends Component {
         if(this.homing_target)
         {
             let target_position = this.homing_target.getComponentOfType(TransformComponent).position;
-            
-
 
             this.vel.x  = target_position.x - position.x;
             this.vel.y  = target_position.y - position.y;
-
-            
-            
         }
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);

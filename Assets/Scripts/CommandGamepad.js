@@ -1,5 +1,6 @@
 import PhysicsComponent from "./Components/PhysicsComponent.js";
 
+// Commands specifically passed on for a gamepad
 export default class GamepadCommand {
     execute(player, data) {}
 

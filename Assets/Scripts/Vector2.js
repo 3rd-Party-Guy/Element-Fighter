@@ -1,3 +1,4 @@
+// A Vector2 defines a point in space
 export default class Vector2 {
     x = 0;
     y = 0;

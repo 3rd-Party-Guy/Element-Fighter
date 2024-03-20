@@ -2,8 +2,11 @@
 // Description:     Used for maps. Calculates collisions for box area
 
 import Vector2 from "./Vector2.js";
-import { withinRange } from "./Math.js";
+import { withinRange } from "./Utilities.js";
 
+// A collision box is defined by only two vectors,
+// left-down (ld) and right-up (ru)
+// This way we have all the information we need
 export default class CollisionBox {
     ld = new Vector2(0, 0);
     ru = new Vector2(0, 0);

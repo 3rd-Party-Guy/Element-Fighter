@@ -8,7 +8,7 @@ import Entity from "./Entity.js";
 import Projectile from "./Projectile.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import { AttackModes } from "./StateMachine.js";
-import { clamp } from "./Math.js";
+import { clamp } from "./Utilities.js";
 
 export default class Player extends Entity {
     is_jumping = false;

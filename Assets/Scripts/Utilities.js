@@ -1,3 +1,6 @@
+// Here are helper functions that can be used anywhere
+// All of them are pure functions
+
 export function clamp(num, min, max) {
     return Math.max(min, Math.min(num, max));
 }

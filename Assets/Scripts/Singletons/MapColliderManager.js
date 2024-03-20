@@ -4,6 +4,7 @@
 import Singleton from "./Singleton.js";
 import CollisionBox from "../CollisionBox.js";
 
+// Manages and adds collision boxes for the map
 export default class MapColliderManager extends Singleton {
     collision_boxes = [];
 

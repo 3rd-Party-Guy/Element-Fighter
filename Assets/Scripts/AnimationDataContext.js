@@ -1,3 +1,5 @@
+// Container for spritesheet paths image objects, and
+// other relevant data for different animations
 export default class AnimationDataContext {
     image = undefined;
     image_source_normal = undefined;

@@ -6,6 +6,7 @@ import Singleton from "./Singleton.js";
 import EntityManager from "./EntityManager.js"
 import TransformComponent from "../Components/TransformComponent.js"
 
+// This class manages and gives global access to both the gameplay and collision canvas
 export default class CanvasManager extends Singleton {
     gameplay_canvas = document.getElementById('game-window');
     collision_canvas = document.getElementById('collision-window');
@@ -19,6 +20,7 @@ export default class CanvasManager extends Singleton {
     get clientWidth() { return this.gameplay_canvas.clientWidth; }
     get clientHeight() { return this.gameplay_canvas.clientHeight; }
 
+    // The collision image only returns the necessary snippet of the whole canvas for analysis
     get collisionImage() {
         let x_start = 1280;
         let y_start = 720;

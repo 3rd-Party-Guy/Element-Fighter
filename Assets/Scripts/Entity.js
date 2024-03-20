@@ -17,6 +17,7 @@ export default class Entity {
         this.#setEntityData(start_x, start_y, entity_data, is_state_machine);
     }
     
+    // Adds components and fetches the necessary data
     #setEntityData(start_x, start_y, entity_data, is_state_machine) {
         try {
             // find the right json data for this entity based on the name
@@ -35,6 +36,7 @@ export default class Entity {
         }
     }
 
+    // Adds a component only if it is not already present in the components object
     addComponent(comp) {
         const type_key = Symbol.for(comp.constructor.name);
         
@@ -43,11 +45,13 @@ export default class Entity {
             this.components[type_key] = comp;
     }
     
+    // Searches the lookup for a constructor of the same name
     getComponentOfType(type) {
         const type_key = Symbol.for(type.name);
         return this.components[type_key] || null;
     }
 
+    // Removes component from the components object
     removeComponentOfType(type) {
         const type_key = Symbol.for(type);
         delete this.components[type_key];
@@ -55,10 +59,13 @@ export default class Entity {
 
     get transform() { return this.getComponentOfType(TransformComponent); }
 
+    // All entities have their own gameloop methods
+    earlyUpdate() {}
     update() {}
     fixedUpdate() {}
+    lateUpdate() {}
 
-    // entities only add themselves to the game once they have fetched all their data
+    // entities only add themselves to the entity manager once they have fetched all their data
     onLoaded() {
         EntityManager.getInstance(EntityManager).addEntity(this);
     }

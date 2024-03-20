@@ -6,6 +6,8 @@ import { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCo
 
 import EntityManager from "./Singletons/EntityManager.js";
 
+// Every gamepad has its own gamepad handler
+// All gamepad handlers are called by the input manager
 export default class GamepadHandler {
     index = undefined;
     player = undefined;
