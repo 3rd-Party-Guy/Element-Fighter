@@ -65,6 +65,7 @@ export default class Projectile extends Entity {
 
             
         }
+        blblalblalbalbala;
         this.is_registered = true;
         this.#damageEnemy(player, delta);
         this.#knockbackEnemy(player);
