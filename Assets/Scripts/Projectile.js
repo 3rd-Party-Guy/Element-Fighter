@@ -54,14 +54,10 @@ export default class Projectile extends Entity {
             let transform_component = this.getComponentOfType(TransformComponent);
             let animation_component = this.getComponentOfType(AnimationComponent);
             
-            if(animation_component.is_flipped)
-            {
-                transform_component.position.x = transform_component.position.x -player_width/2;
-            }
+            if (animation_component.is_flipped)
+                transform_component.position.x = transform_component.position.x - player_width / 2;
             else
-            {
-                transform_component.position.x = transform_component.position.x +player_width/2;
-            }
+                transform_component.position.x = transform_component.position.x + player_width / 2;
 
             
         }
