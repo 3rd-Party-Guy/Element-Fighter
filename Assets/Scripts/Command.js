@@ -41,7 +41,7 @@ export class MoveCommand extends Command {
     execute() {
         const physics_component = this.player.getComponentOfType(PhysicsComponent);
         if (!physics_component) return;
-        if (this.player.isAttacking) return;
+        if (this.player.isAttacking || !this.player.is_controllable) return;
 
         physics_component.vel.x += this.xVel;
         physics_component.vel.y += this.yVel;
@@ -52,7 +52,7 @@ export class MoveCommand extends Command {
 
 export class JumpCommand extends Command {
     execute() {
-        if (this.player.isAttacking)
+        if (this.player.isAttacking || !this.player.is_controllable)
             return;
 
         if (this.first_call) {
@@ -75,7 +75,7 @@ export class JumpCommand extends Command {
 
 export class DuckCommand extends Command {
     execute() {
-        if (this.player.isAttacking) return;
+        if (this.player.isAttacking || !this.player.is_controllable) return;
         if (this.first_call)
             this.player.getComponentOfType(PhysicsComponent)?.duck();
 

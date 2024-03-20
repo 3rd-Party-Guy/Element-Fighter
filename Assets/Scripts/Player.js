@@ -33,6 +33,9 @@ export default class Player extends Entity {
 
     mana_regen_rate = 0;
 
+
+    is_controllable = true;
+
     constructor(start_x, start_y, player_data, ability_data) {
         super(start_x, start_y, player_data, true);
 
@@ -117,11 +120,13 @@ export default class Player extends Entity {
     }
 
     attackLight() {
+        if(!this.is_controllable)return;
         this.is_attacking_light = true;
         this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "light_attack.wav");
     }
     
     attackHeavy() {
+        if(!this.is_controllable)return;
         this.is_attacking_heavy = true;
         this.getComponentOfType(AudioPlayerComponent).playOneShot(this.sounds_path + "heavy_attack.wav");
 
@@ -169,6 +174,7 @@ export default class Player extends Entity {
     }
     
     abilityOne() {
+        if(!this.is_controllable)return;
         if(this.mana < this.ability_data.ability_one.combat_info.cost)
             return;
     
@@ -181,6 +187,7 @@ export default class Player extends Entity {
     }
 
     abilityTwo() {
+        if(!this.is_controllable)return;
         if(this.mana < this.ability_data.ability_two.combat_info.cost)
             return;
     
@@ -202,6 +209,7 @@ export default class Player extends Entity {
     }
 
     #knockbackEnemy(other_player) {
+        if(!this.is_controllable)return;
         const kb_data = this.combat_data.knockback_info;
         const physics_comp = other_player.getComponentOfType(PhysicsComponent);
 

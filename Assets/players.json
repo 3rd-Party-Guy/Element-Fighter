@@ -403,7 +403,7 @@
       "height": 160,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
-      "gravity": 3000,
+      "gravity": 0,
       "jumps": 2,
       "jump_force": 1000,
       "fall_multiplier": 5400,

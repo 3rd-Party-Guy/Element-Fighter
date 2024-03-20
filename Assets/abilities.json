@@ -18,7 +18,7 @@
       "max_x_velocity": 750,
       "x_friction": 0,
       "gravity": 0,
-      "life_time": 5,
+      "life_time": 2,
       "cast_time": 0.35
     },
     "combat_info": {

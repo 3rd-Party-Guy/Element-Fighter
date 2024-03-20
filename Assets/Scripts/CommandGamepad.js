@@ -11,7 +11,7 @@ export class GamepadMoveHorizontalCommand {
     execute(player, data) {
         const physics_component = player.getComponentOfType(PhysicsComponent);
         if (!physics_component) return;
-        if (player.isAttacking) return;
+        if (player.isAttacking || !player.is_controllable) return;
 
         physics_component.vel.x += data * 150;
     }

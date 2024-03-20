@@ -11,6 +11,7 @@ export default class Projectile extends Entity {
     is_flipped = false;
     owner = undefined;
     combat_data = undefined;
+    target = undefined;
 
     constructor(owner, start_x, start_y, projectile_data, flipped) {
         super(start_x, start_y, projectile_data, false);
@@ -35,6 +36,15 @@ export default class Projectile extends Entity {
     }
 
     #destroy() {
+        if(this.target)
+        {
+            this.target.is_controllable = true;
+            let target_physics_component = this.target.getComponentOfType(PhysicsComponent);
+            target_physics_component.has_gravity = true;
+            let physics_component = this.getComponentOfType(PhysicsComponent);
+            physics_component.homing_target = undefined;
+            
+        }
         EntityManager.getInstance(EntityManager).removeProjectile(this);
     }
 
@@ -47,25 +57,35 @@ export default class Projectile extends Entity {
 
         if(this.name == "Bubble")
         {
+
+            //Get Projectile Data
             let physics_component = this.getComponentOfType(PhysicsComponent);
             physics_component.vel = new Vector2(0,0);
+            let transform_component = this.getComponentOfType(TransformComponent);
+            
+
+
+            //Get Player Data
             let player_transform = player.getComponentOfType(TransformComponent);
             let player_width = player_transform.width;
-            let transform_component = this.getComponentOfType(TransformComponent);
-            let animation_component = this.getComponentOfType(AnimationComponent);
+            let player_physicscomponent = player.getComponentOfType(PhysicsComponent);
+            this.target = player;
+            let player_velocity = player_physicscomponent.vel;
+            player_physicscomponent.has_gravity = false;
+            player_velocity.y = -50;
+            physics_component.homing_target = player;
+            player.is_controllable = false;
             
-            if(animation_component.is_flipped)
-            {
+            if(this.is_flipped)
+            {   
+                
                 transform_component.position.x = transform_component.position.x -player_width/2;
             }
             else
             {
                 transform_component.position.x = transform_component.position.x +player_width/2;
             }
-
-            
         }
-        blblalblalbalbala;
         this.is_registered = true;
         this.#damageEnemy(player, delta);
         this.#knockbackEnemy(player);

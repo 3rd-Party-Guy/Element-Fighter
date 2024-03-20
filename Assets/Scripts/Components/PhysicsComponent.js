@@ -6,6 +6,7 @@ import Vector2 from "../Vector2.js";
 import Line from "../Line.js";
 import Component from "./Component.js";
 import MapColliderManager from "../Singletons/MapColliderManager.js";
+import TransformComponent from "./TransformComponent.js";
 
 export default class PhysicsComponent extends Component {
     // Property to hold all relevant physics data for an entity
@@ -45,6 +46,12 @@ export default class PhysicsComponent extends Component {
     can_jump = true;
     has_gravity = true;
 
+
+
+    //Homing Target
+    homing_target = undefined;
+
+
     constructor(physics_info) {
         super();
 
@@ -66,7 +73,7 @@ export default class PhysicsComponent extends Component {
 
         this.#updateLastPlatform(position, height);
         this.#checkGrounded(position, width, height, fixed_delta_time);
-        this.#updateVelocities(fixed_delta_time);
+        this.#updateVelocities(fixed_delta_time, position);
     }
 
     update(position, delta_time)
@@ -87,7 +94,7 @@ export default class PhysicsComponent extends Component {
         this.vel.x = lerp(this.vel.x, 0, this.physics_data["x_friction"]);
     }
 
-    #updateVelocities(fixed_delta_time) {
+    #updateVelocities(fixed_delta_time, position) {
         if (!this.is_grounded && this.has_gravity)
             this.vel.y += this.physics_data["gravity"] * fixed_delta_time;
         else
@@ -100,14 +107,26 @@ export default class PhysicsComponent extends Component {
         
             if (this.should_apply_duck_fall_multiplier)
             this.vel.y += this.physics_data["fall_multiplier"] * fixed_delta_time * this.duck_fall_multiplier;
-        
+            
+            if(this.can_jump)
+            {
+                if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
+                this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
+            }
         }
-        if(this.can_jump)
+       
+        if(this.homing_target)
         {
-            if (this.vel.y < 0 && this.should_apply_low_jump_multiplier)
-            this.vel.y += this.physics_data["low_jump_multiplier"] * fixed_delta_time;
+            let target_position = this.homing_target.getComponentOfType(TransformComponent).position;
+            
+
+
+            this.vel.x  = target_position.x - position.x;
+            this.vel.y  = target_position.y - position.y;
+
+            
+            
         }
-        
         
         this.vel.x = clamp(this.vel.x, -this.maxVel.x, this.maxVel.x);
 
