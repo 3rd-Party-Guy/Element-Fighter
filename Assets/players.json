@@ -341,8 +341,6 @@
         "sheet_width": 1020,
         "sheet_height": 160,
         "animation_scale": 0.5
-
-
       },
       "light_attack": {
         "state_info": "AttackLight",
@@ -358,7 +356,7 @@
         "animation_path": "Attacks/heavy_attack",
         "num_frames": 6,
         "sheet_width": 1683,
-        "sheet_height": 228,
+        "sheet_height": 340,
         "animation_scale": 0.5
 
       },
@@ -403,7 +401,7 @@
       "height": 160,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
-      "gravity": 0,
+      "gravity": 2400,
       "jumps": 2,
       "jump_force": 1000,
       "fall_multiplier": 5400,

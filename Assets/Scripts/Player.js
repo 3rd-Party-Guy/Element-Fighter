@@ -161,10 +161,9 @@ export default class Player extends Entity {
                     start_pos.x += transform.width;
     
                 start_pos.y = transform.position.y;
-                EntityManager.getInstance(EntityManager).addProjectile(
-                    new Projectile(
-                        this, start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
-                    ));
+                new Projectile(
+                    this, start_pos.x, start_pos.y, this.ability_data["heavy_pre"], is_flipped
+                );
             }, this.ability_data["heavy_pre"]["entity_info"]["cast_time"] * 1000);
             
             let start_pos_bolt = new Vector2(0, 0);
@@ -179,10 +178,8 @@ export default class Player extends Entity {
                     start_pos_bolt.x += transform.width;
     
                 start_pos_bolt.y = transform.position.y;
-                EntityManager.getInstance(EntityManager).addProjectile(
-                    new Projectile(
-                        this, start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped
-                    )
+                new Projectile(
+                    this, start_pos.x, start_pos.y, this.ability_data["heavy"], is_flipped
                 );
             }, this.ability_data["heavy"]["entity_info"]["cast_time"] * 1000);
         }
@@ -260,12 +257,9 @@ export default class Player extends Entity {
 
         start_pos.y = transform.position.y;
 
-
         setTimeout(() => {
-            EntityManager.getInstance(EntityManager).addProjectile(
-                new Projectile(
-                    this, start_pos.x, start_pos.y, ability_data, is_flipped
-                )
+            new Projectile(
+                this, start_pos.x, start_pos.y, ability_data, is_flipped
             );
         }, ability_data["entity_info"]["cast_time"] * 1000);
     }

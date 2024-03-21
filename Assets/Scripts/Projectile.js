@@ -24,8 +24,8 @@ export default class Projectile extends Entity {
         this.onLoaded();
     }
 
-    fixedUpdate(fixed_delta) {
-        this.#updateLifetime(fixed_delta);
+    update(delta) {
+        this.#updateLifetime(delta);
     }
     
     #updateLifetime(fixed_delta) {
@@ -36,20 +36,20 @@ export default class Projectile extends Entity {
     }
 
     #destroy() {
-        if(this.target)
-        {
+        if(this.target) {
             this.target.is_controllable = true;
             let target_physics_component = this.target.getComponentOfType(PhysicsComponent);
             target_physics_component.has_gravity = true;
             let physics_component = this.getComponentOfType(PhysicsComponent);
             physics_component.homing_target = undefined;
-            
         }
+
         EntityManager.getInstance(EntityManager).removeProjectile(this);
     }
 
     onLoaded() {
         this.#setProperties();
+        EntityManager.getInstance(EntityManager).addProjectile(this);
     }
 
     onCollision(player, delta) {
@@ -57,13 +57,10 @@ export default class Projectile extends Entity {
 
         if (this.name === "Bubble")
         {
-
             //Get Projectile Data
             let physics_component = this.getComponentOfType(PhysicsComponent);
             physics_component.vel = new Vector2(0,0);
             let transform_component = this.getComponentOfType(TransformComponent);
-            
-
 
             //Get Player Data
             let player_transform = player.getComponentOfType(TransformComponent);
@@ -77,15 +74,11 @@ export default class Projectile extends Entity {
             player.is_controllable = false;
             
             if(this.is_flipped)
-            {   
-                
                 transform_component.position.x = transform_component.position.x -player_width/2;
-            }
             else
-            {
                 transform_component.position.x = transform_component.position.x +player_width/2;
-            }
         }
+
         this.is_registered = true;
         this.#damageEnemy(player, delta);
         this.#knockbackEnemy(player);
