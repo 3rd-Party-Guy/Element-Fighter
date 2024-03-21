@@ -27,16 +27,23 @@ export default class GamepadHandler {
 
     constructor(controller_index) {
         this.index = controller_index;
+        
+        this.#initialize();
+    }
+
+    #initialize() {
         this.player = EntityManager.getInstance(EntityManager).players[this.index];
-    
-        this.gamepad_horizontal_command = new GamepadMoveHorizontalCommand(this.player);
-        this.gamepad_jump_command = new JumpCommand(this.player);
-        this.gamepad_duck_command = new DuckCommand(this.player);
-    
-        this.attack_light_command = new AttackLightCommand(this.player);
-        this.attack_heavy_command = new AttackHeavyCommand(this.player);
-        this.ability_one_command = new AbilityOneCommand(this.player);
-        this.ability_two_command = new AbilityTwoCommand(this.player);
+
+        if (this.player) {
+            this.gamepad_horizontal_command = new GamepadMoveHorizontalCommand(this.player);
+            this.gamepad_jump_command = new JumpCommand(this.player);
+            this.gamepad_duck_command = new DuckCommand(this.player);
+        
+            this.attack_light_command = new AttackLightCommand(this.player);
+            this.attack_heavy_command = new AttackHeavyCommand(this.player);
+            this.ability_one_command = new AbilityOneCommand(this.player);
+            this.ability_two_command = new AbilityTwoCommand(this.player);
+        }
     }
 
     get gamepad() {
@@ -68,6 +75,9 @@ export default class GamepadHandler {
     }
 
     handleInput() {
+        if (!this.player)
+            this.#initialize();
+        
         this.#moveHorizontal();
         this.#handleJump();
         this.#handleDuck();
