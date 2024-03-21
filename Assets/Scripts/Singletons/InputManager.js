@@ -60,7 +60,9 @@ export default class InputManager extends Singleton {
     }
 
     #handleGamepadInput() {
-        for (const gp of this.connected_gamepads)
+        for (const gp of this.connected_gamepads){
             gp.handleInput();
+        }
+            
     }
 }

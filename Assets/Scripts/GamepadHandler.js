@@ -3,7 +3,7 @@
 
 import { GamepadMoveHorizontalCommand } from "./CommandGamepad.js";
 import { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand, JumpCommand, DuckCommand } from "./Command.js";
-
+import InputManager from "./Singletons/InputManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
 
 // Every gamepad has its own gamepad handler
@@ -11,16 +11,8 @@ import EntityManager from "./Singletons/EntityManager.js";
 export default class GamepadHandler {
     index = undefined;
     player = undefined;
-
     // INFO: Do this in Constructor
-    gamepad_horizontal_command = undefined;
-    gamepad_jump_command = undefined;
-    gamepad_duck_command = undefined;
-
-    attack_light_command = undefined;
-    attack_heavy_command = undefined;
-    ability_one_command = undefined;
-    ability_two_command = undefined;
+    
 
     is_holding_jump = false;
     is_holding_duck = false;
@@ -28,18 +20,10 @@ export default class GamepadHandler {
     constructor(controller_index) {
         this.index = controller_index;
         this.player = EntityManager.getInstance(EntityManager).players[this.index];
-    
-        this.gamepad_horizontal_command = new GamepadMoveHorizontalCommand(this.player);
-        this.gamepad_jump_command = new JumpCommand(this.player);
-        this.gamepad_duck_command = new DuckCommand(this.player);
-    
-        this.attack_light_command = new AttackLightCommand(this.player);
-        this.attack_heavy_command = new AttackHeavyCommand(this.player);
-        this.ability_one_command = new AbilityOneCommand(this.player);
-        this.ability_two_command = new AbilityTwoCommand(this.player);
-    }
+        
+       }
 
-    get gamepad() {
+       get gamepad() {
         return navigator.getGamepads()[this.index];
     }
 
@@ -68,6 +52,10 @@ export default class GamepadHandler {
     }
 
     handleInput() {
+        if(!this.player){
+            this.player = EntityManager.getInstance(EntityManager).players[this.index];
+            return;
+        } 
         this.#moveHorizontal();
         this.#handleJump();
         this.#handleDuck();
@@ -75,55 +63,62 @@ export default class GamepadHandler {
     }
 
     #moveHorizontal() {
-        this.gamepad_horizontal_command.execute(this.player, this.gamepad["axes"][0]);
+        new GamepadMoveHorizontalCommand().execute(this.player,this.gamepad["axes"][0]);
     }
 
     #handleJump() {
+        let gamepad_jump_command = new JumpCommand(this.player);
         if (this.jumpButton.pressed) {
-            this.gamepad_jump_command.onPressed();
-            this.gamepad_jump_command.execute(this.player);
-        } else if (this.gamepad_jump_command.pressed)
-            this.gamepad_jump_command.onReleased();
+
+            gamepad_jump_command.onPressed();
+            gamepad_jump_command.execute(this.player);
+        } else if (gamepad_jump_command.pressed)
+            gamepad_jump_command.onReleased();
     }
 
     #handleDuck() {
         // if (!this.player.getComponentOfType(PhysicsComponent).is_grounded) return;
-        
+        let gamepad_duck_command = new DuckCommand(this.player);
         if (this.gamepad["axes"][1] > 0.7 || this.duckButton.pressed) {
-            this.gamepad_duck_command.onPressed();
-            this.gamepad_duck_command.execute(this.player);
-        } else if (this.gamepad_duck_command.pressed)
-            this.gamepad_duck_command.onReleased();
+            gamepad_duck_command.onPressed();
+            gamepad_duck_command.execute(this.player);
+        } else if (gamepad_duck_command.pressed)
+            gamepad_duck_command.onReleased();
     }
 
     #handleAttacks() {
+        let attack_light_command =  new AttackLightCommand(this.player);
+        let attack_heavy_command= new AttackHeavyCommand(this.player);
+        let ability_one_command =new AbilityOneCommand(this.player);
+        let ability_two_command =new AbilityTwoCommand(this.player);
+
         if (this.lightAttackButton.pressed) {
-            this.attack_light_command.onPressed();
-            this.attack_light_command.execute(this.player);
+            attack_light_command.onPressed();
+            attack_light_command.execute(this.player);
             return;
         }
-        else if (this.attack_light_command.pressed)
-            this.attack_light_command.onReleased();
+        else if (attack_light_command.pressed)
+            attack_light_command.onReleased();
         
         if (this.heavyAttackButton.pressed) {
-            this.attack_heavy_command.onPressed();
-            this.attack_heavy_command.execute(this.player);
+            attack_heavy_command.onPressed();
+            attack_heavy_command.execute(this.player);
             return;
-        } else if (this.attack_heavy_command.pressed)
-            this.attack_heavy_command.onReleased();
+        } else if (attack_heavy_command.pressed)
+            attack_heavy_command.onReleased();
         
         if (this.abilityOneButton.pressed) {
-            this.ability_one_command.onPressed();
-            this.ability_one_command.execute(this.player);
+            ability_one_command.onPressed();
+            ability_one_command.execute(this.player);
             return;
-        } else if (this.ability_one_command.pressed)
-            this.ability_one_command.onReleased();
+        } else if (ability_one_command.pressed)
+            ability_one_command.onReleased();
         
         if (this.abilityTwoButton.pressed) {
-            this.ability_two_command.onPressed();
-            this.ability_two_command.execute(this.player);
+            ability_two_command.onPressed();
+            ability_two_command.execute(this.player);
             return;
-        } else if (this.ability_two_command.pressed)
-            this.ability_two_command.onReleased();
+        } else if (ability_two_command.pressed)
+            ability_two_command.onReleased();
     }
 }
