@@ -78,22 +78,24 @@ export default class Room {
     Enter(room_name, data) {
         this.room_name = room_name;
 
-        if (this.room_name === "Game") {
-            this.maps_data = data.maps_data;
-            this.characters_data = data.characters_data;
-            this.abilities_data = data.abilities_data;
-            
-            this.map_image.src = this.GetCurrentMapData().image_path;
-            this.SetupMapCollisions();
-            
-            this.SpawnPlayer("Mermaid");
-            this.SpawnPlayer("Minotaurus");
-            
-            this.SetupInputMaps();
-            
-            // Setup Collision Canvas
-            this.canvas_manager.collisionContext.fillStyle = "black";
-            this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
+        switch (this.room_name) {
+            case "Game":
+                this.maps_data = data.maps_data;
+                this.characters_data = data.characters_data;
+                this.abilities_data = data.abilities_data;
+                
+                this.map_image.src = this.GetCurrentMapData().image_path;
+                this.SetupMapCollisions();
+                
+                this.SpawnPlayer("Mermaid");
+                this.SpawnPlayer("Minotaurus");
+                
+                this.SetupInputMaps();
+                
+                // Setup Collision Canvas
+                this.canvas_manager.collisionContext.fillStyle = "black";
+                this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
+                break;
         }
     }
 
