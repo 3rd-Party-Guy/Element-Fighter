@@ -57,8 +57,19 @@ export default class InputManager extends Singleton {
     addKeyboardInputActionLookup = (keyCode, command) =>
         this.inputKeyboardActionLookup.set(keyCode, command);
     
-    isKeyActive = (keyCode) =>
+    isKeyActive(keyCode) {
+        if (keyCode === "any") {
+            for (const val of this.activeKeyboardInputLookup.values())
+                if (val === true) return true;
+
+            for (const gamepad of this.connected_gamepads)
+                if (gamepad.anyButton) return true;
+
+            return false;
+        }
+
         this.activeKeyboardInputLookup.get(keyCode) ? true : false;
+    }
 
     connectGamepad(index) {
         this.connected_gamepads.push(new GamepadHandler(index))

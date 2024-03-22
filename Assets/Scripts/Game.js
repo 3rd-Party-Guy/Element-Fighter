@@ -27,12 +27,16 @@ async function Initialize() {
     window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
     window.addEventListener('gamepadconnected', (e) => input_manager.connectGamepad(e.gamepad.index));
 
+    rooms_data = await ImportRooms();
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
-    rooms_data = await ImportRooms();
 
-    room.Enter(rooms_data[current_room_index]);
+    // Enter Main Menu
+    room.Enter(rooms_data[current_room_index], {
+        characters_data,
+        maps_data
+    });
 }
 
 // INFO: Only for debugging purposes

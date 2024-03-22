@@ -74,14 +74,22 @@ export default class GamepadHandler {
         return this.gamepad["buttons"][5];
     }
 
+    get anyButton() {
+        for (let button of this.gamepad.buttons)
+            if (button.pressed) return true;
+
+        return false;
+    }
+
     handleInput() {
         if (!this.player)
             this.#initialize();
-        
-        this.#moveHorizontal();
-        this.#handleJump();
-        this.#handleDuck();
-        this.#handleAttacks();
+        else {
+            this.#moveHorizontal();
+            this.#handleJump();
+            this.#handleDuck();
+            this.#handleAttacks();
+        }
     }
 
     #moveHorizontal() {

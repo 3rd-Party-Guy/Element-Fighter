@@ -77,13 +77,13 @@ export default class Room {
     // Also spawns the players and calls for other setup
     Enter(room_name, data) {
         this.room_name = room_name;
+        this.maps_data = data.maps_data;
+        this.characters_data = data.characters_data;
 
         switch (this.room_name) {
             case "Main Menu":
                 break;
             case "Game":
-                this.maps_data = data.maps_data;
-                this.characters_data = data.characters_data;
                 this.abilities_data = data.abilities_data;
                 
                 this.map_image.src = this.GetCurrentMapData().image_path;
@@ -113,7 +113,7 @@ export default class Room {
     CheckLeaveConditions() {
         switch (this.room_name) {
             case "Main Menu":
-                if (this.input_manager.isKeyActive("KeyW")) return true;
+                if (this.input_manager.isKeyActive("any")) return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)
