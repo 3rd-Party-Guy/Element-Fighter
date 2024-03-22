@@ -52,7 +52,6 @@ export default class Room {
 
     active_players = 0;
 
-
     constructor()
     {
         this.#setRoomData();
@@ -69,11 +68,14 @@ export default class Room {
     // Gets all needed systems for the room
     #setRoomData()
     {
-        this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
-        this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
-        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
-        this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
         this.#addSystem(AudioSystem.getInstance(AudioSystem));
+        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
+        this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
+
+        if (this.name === "Game") {
+            this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
+            this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
+        }
     }
 
     // Pushes a system to the systems array
@@ -90,7 +92,8 @@ export default class Room {
         this.characters_data = data.characters_data;
 
         switch (this.name) {
-            case "Splash": 
+            case "Splash":
+                
             case "Main Menu":
                 break;
             case "Game":

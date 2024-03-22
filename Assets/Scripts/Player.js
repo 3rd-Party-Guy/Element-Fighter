@@ -33,7 +33,6 @@ export default class Player extends Entity {
 
     mana_regen_rate = 0;
 
-
     is_controllable = true;
 
     // Fetches all needed JSON data
