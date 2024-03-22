@@ -5,7 +5,11 @@
       "select_sound_path": "Assets/SFX/splash.wav"
     },
     "images": {
-      "normal": 
-    } 
+      "normal": "Assets/Sprites/logo.png"
+    },
+    "entity_info": {
+      "width": 640,
+      "height": 360
+    }
   }
 ]

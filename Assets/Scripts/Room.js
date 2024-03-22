@@ -14,6 +14,7 @@ import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
+import Button from "./UIInteractable.js";
 
 // A room is simply a different level.
 // This allows us to have different entities and logic for different parts of the game,
@@ -45,37 +46,20 @@ export default class Room {
     cur_map_name = "Vulcano";
     map_image = new Image();
 
-    room_data;
-    maps_data;
-    characters_data;
-    abilities_data;
+    room_data = undefined;
+    maps_data = undefined;
+    characters_data = undefined;
+    abilities_data = undefined;
+    buttons_data = undefined;
 
     active_players = 0;
 
-    constructor()
-    {
-        this.#setRoomData();
-    }
-
     get name() {
-        return this.room_data.name;
+        return this.room_data.name || "";
     }
 
     get next() {
         return this.room_data.next;
-    }
-
-    // Gets all needed systems for the room
-    #setRoomData()
-    {
-        this.#addSystem(AudioSystem.getInstance(AudioSystem));
-        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
-        this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
-
-        if (this.name === "Game") {
-            this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
-            this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
-        }
     }
 
     // Pushes a system to the systems array
@@ -84,15 +68,22 @@ export default class Room {
         this.systems.push(system);
     }
 
+    getButtonDataByName(name) {
+        return this.buttons_data.find(e => e.name === name);
+    }
+
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
     Enter(room_data, data) {
         this.room_data = room_data;
-        this.maps_data = data.maps_data;
-        this.characters_data = data.characters_data;
+        
+        this.#addSystem(AudioSystem.getInstance(AudioSystem));
+        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
 
         switch (this.name) {
             case "Splash":
+                this.buttons_data = data.buttons_data;
+                new Button(320, 180, this.getButtonDataByName("Splash Button"));
                 break;
             case "Main Menu":
                 break;
@@ -111,6 +102,9 @@ export default class Room {
                 this.canvas_manager.collisionContext.fillStyle = "black";
                 this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
                 
+                this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
+                this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
+
                 break;
             default:
                 break;

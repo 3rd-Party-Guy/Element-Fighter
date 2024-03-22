@@ -27,11 +27,11 @@ async function Initialize() {
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
+    buttons_data = await ImportButtons();
 
     // Enter Main Menu
     room.Enter(getRoomDataByName("Splash"), {
-        characters_data,
-        maps_data
+        buttons_data
     });
 }
 
@@ -70,6 +70,12 @@ async function ImportAbilities() {
 // Imports all rooms from rooms.json as an object
 async function ImportRooms() {
     const response = await fetch("Assets/rooms.json");
+    return await response.json();
+}
+
+// Import all buttons from buttons.json as an object
+async function ImportButtons() {
+    const response = await fetch("Assets/buttons.json");
     return await response.json();
 }
 
