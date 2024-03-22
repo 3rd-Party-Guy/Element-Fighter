@@ -1,4 +1,18 @@
 [
-  "Main Menu",
-  "Game"
+  {
+    "name": "Splash",
+    "next": "Main Menu"
+  },
+  {
+    "name": "Main Menu",
+    "next": "Character Select"
+  },
+  {
+    "name": "Character Select",
+    "next": "Game"
+  },
+  {
+    "name": "Game",
+    "next": "Main Menu"
+  }
 ]

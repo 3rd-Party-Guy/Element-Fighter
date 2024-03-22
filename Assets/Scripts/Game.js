@@ -33,7 +33,7 @@ async function Initialize() {
     abilities_data = await ImportAbilities();
 
     // Enter Main Menu
-    room.Enter(rooms_data[current_room_index], {
+    room.Enter(getRoomDataByName("Splash"), {
         characters_data,
         maps_data
     });
@@ -47,6 +47,10 @@ function getMousePos(e) {
     const y = e.clientY - rect.top;
 
     console.log(`${x}, ${y}`);
+}
+
+function getRoomDataByName(name) {
+    return rooms_data.find(e => e.name === name);
 }
 
 // Imports all information from maps.json as an object
@@ -67,8 +71,7 @@ async function ImportAbilities() {
     return await response.json();
 }
 
-// Imports all rooms from rooms.json as an object (observed by the rest of the code as an array)
-// Rooms.json simply defines the names of the rooms and their order in the game
+// Imports all rooms from rooms.json as an object
 async function ImportRooms() {
     const response = await fetch("Assets/rooms.json");
     return await response.json();
@@ -81,7 +84,7 @@ function GameLoop() {
     if (room.CheckLeaveConditions()) {
         room.Leave();
         current_room_index++;
-        room.Enter(rooms_data[current_room_index], {
+        room.Enter(getRoomDataByName(room.room_data.next), {
             maps_data,
             characters_data,
             abilities_data

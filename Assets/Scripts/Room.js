@@ -44,13 +44,14 @@ export default class Room {
     ui_renderer = UIRenderer.getInstance(UIRenderer);
     cur_map_name = "Vulcano";
     map_image = new Image();
+
+    room_data;
     maps_data;
     characters_data;
     abilities_data;
 
     active_players = 0;
 
-    room_name = undefined;
 
     constructor()
     {
@@ -75,12 +76,13 @@ export default class Room {
 
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
-    Enter(room_name, data) {
-        this.room_name = room_name;
+    Enter(room_data, data) {
+        this.room_data = room_data;
         this.maps_data = data.maps_data;
         this.characters_data = data.characters_data;
 
         switch (this.room_name) {
+            case "Splash": 
             case "Main Menu":
                 break;
             case "Game":
@@ -112,7 +114,9 @@ export default class Room {
 
     CheckLeaveConditions() {
         switch (this.room_name) {
+            case "Splash":
             case "Main Menu":
+            case "Character Select":
                 if (this.input_manager.isKeyActive("any")) return true;
                 break;
             case "Game":
