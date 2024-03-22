@@ -75,24 +75,26 @@ export default class Room {
 
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
-    Enter(room_name, maps_data, characters_data, abilities_data) {
+    Enter(room_name, data) {
         this.room_name = room_name;
-        
-        this.maps_data = maps_data;
-        this.characters_data = characters_data;
-        this.abilities_data = abilities_data;
 
-        this.map_image.src = this.GetCurrentMapData().image_path;
-
-        this.SpawnPlayer("Mermaid");
-        this.SpawnPlayer("Minotaurus");
-
-        this.SetupMapCollisions();
-        this.SetupInputMaps();
-
-        // Setup Collision Canvas
-        this.canvas_manager.collisionContext.fillStyle = "black";
-        this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
+        if (this.room_name === "Game") {
+            this.maps_data = data.maps_data;
+            this.characters_data = data.characters_data;
+            this.abilities_data = data.abilities_data;
+            
+            this.map_image.src = this.GetCurrentMapData().image_path;
+            this.SetupMapCollisions();
+            
+            this.SpawnPlayer("Mermaid");
+            this.SpawnPlayer("Minotaurus");
+            
+            this.SetupInputMaps();
+            
+            // Setup Collision Canvas
+            this.canvas_manager.collisionContext.fillStyle = "black";
+            this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
+        }
     }
 
     Leave() {
