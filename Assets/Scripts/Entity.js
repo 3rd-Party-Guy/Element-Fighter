@@ -20,6 +20,7 @@ export default class Entity {
     // Adds components and fetches the necessary data
     #setEntityData(start_x, start_y, entity_data, is_state_machine) {
         try {
+            console.log("not correct");
             // find the right json data for this entity based on the name
             this.name = entity_data["name"];
             

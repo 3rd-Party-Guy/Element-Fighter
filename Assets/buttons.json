@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Splash Button",
+    "sounds": {
+      "select_sound_path": "Assets/SFX/splash.wav"
+    },
+    "images": {
+      "normal": 
+    } 
+  }
+]

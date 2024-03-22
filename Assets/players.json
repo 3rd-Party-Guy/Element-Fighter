@@ -20,7 +20,6 @@
         "sheet_width": 768,
         "sheet_height": 168,
         "animation_scale": 0.5
-
       },
       "light_attack": {
         "state_info": "AttackLight",
@@ -29,7 +28,6 @@
         "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 0.3
-
       },
       "heavy_attack": {
         "state_info": "AttackHeavy",
@@ -38,7 +36,6 @@
         "sheet_width": 640,
         "sheet_height": 148,
         "animation_scale": 0.5
-
       },
       "ability1": {
         "state_info": "AbilityOne",
@@ -47,7 +44,6 @@
         "sheet_width": 432,
         "sheet_height": 168,
         "animation_scale": 1
-
       },
       "ability2": {
         "state_info": "AbilityTwo",
@@ -145,7 +141,6 @@
         "sheet_width": 960,
         "sheet_height": 160,
         "animation_scale": 0.5
-
       },
       "ability1": {
         "state_info": "AbilityOne",
@@ -154,7 +149,6 @@
         "sheet_width": 1280,
         "sheet_height": 160,
         "animation_scale": 0.3
-
       },
       "ability2": {
         "state_info": "AbilityTwo",
@@ -163,7 +157,6 @@
         "sheet_width": 1280,
         "sheet_height": 160,
         "animation_scale": 0.5
-
       },
       "jump": {
         "state_info": "Jumping",
@@ -172,7 +165,6 @@
         "sheet_width": 480,
         "sheet_height": 160,
         "animation_scale": 1
-
       },
       "fall": {
         "state_info": "Falling",
@@ -253,7 +245,6 @@
         "sheet_width": 960,
         "sheet_height": 160,
         "animation_scale": 0.5
-
       },
       "ability1": {
         "state_info": "AbilityOne",
@@ -262,7 +253,6 @@
         "sheet_width": 960,
         "sheet_height": 160,
         "animation_scale": 0.5
-
       },
       "ability2": {
         "state_info": "AbilityTwo",

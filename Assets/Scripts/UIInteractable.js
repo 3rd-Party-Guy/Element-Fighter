@@ -1,10 +1,24 @@
-import AnimationComponent from "./Components/AnimationComponent";
-import RenderingComponent from "./Components/RenderingComponent";
-import TransformComponent from "./Components/TransformComponent";
+import AnimationComponent from "./Components/AnimationComponent.js";
+import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
+import RenderingComponent from "./Components/RenderingComponent.js";
+import TransformComponent from "./Components/TransformComponent.js";
+import Entity from "./Entity.js";
 
-export default class UIInteractable extends Entity {
+export default class Button extends Entity {
+  is_selected = false;
+  button_data = undefined;
+
+  constructor(start_x, start_y, button_data) {
+
+    this.addComponent(new AudioPlayerComponent());
+
+    this.button_data = button_data;
+  }
+
   #setEntityData(start_x, start_y, entity_data) {
     try {
+      console.log("correct");
+
       const width = entity_data["entity_info"]["width"];
       const height = entity_data["entity_info"]["height"];
   
@@ -14,5 +28,9 @@ export default class UIInteractable extends Entity {
     } catch (err) {
       console.error(`Error creating UI Entity\n${err}`);
     }
+  }
+
+  onSelect() {
+
   }
 }
