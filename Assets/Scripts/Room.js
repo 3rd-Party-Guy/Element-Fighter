@@ -18,7 +18,7 @@ import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 // A room is simply a different level.
 // This allows us to have different entities and logic for different parts of the game,
 // e.g. the main menu vs the fighting level
-export default class Room{
+export default class Room {
     // These are all of the systems that will be used in this room
     systems = [];
 
@@ -52,7 +52,7 @@ export default class Room{
 
     constructor()
     {
-       this.#setRoomData();
+        this.#setRoomData();
     }
 
     // Gets all needed systems for the room
@@ -73,7 +73,7 @@ export default class Room{
 
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
-    Initialize(maps_data, characters_data, abilities_data) {
+    Enter(maps_data, characters_data, abilities_data) {
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;

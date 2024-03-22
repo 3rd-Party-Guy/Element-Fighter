@@ -28,7 +28,7 @@ async function Initialize() {
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
 
-    game_room.Initialize(maps_data, characters_data, abilities_data);
+    game_room.Enter(maps_data, characters_data, abilities_data);
 }
 
 // INFO: Only for debugging purposes
