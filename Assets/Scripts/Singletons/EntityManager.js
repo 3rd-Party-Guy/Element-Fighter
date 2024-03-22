@@ -48,6 +48,12 @@ export default class EntityManager extends Singleton {
         }
     }
 
+    clear() {
+        this.entities = [];
+        this.players = [];
+        this.projectiles = [];
+    }
+
     #logProjectiles() {
         for (const p of this.projectiles) {
             console.log(`${p}\n`);

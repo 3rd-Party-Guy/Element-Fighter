@@ -91,6 +91,12 @@ export default class Room {
         this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
     }
 
+    Leave() {
+        // Remove Entities
+        // Remove Map Collisions
+        // Clear Input Maps
+    }
+
     // This functions scrapes the JSON data (see maps.json) of the current map,
     // and sets each collision box for it
     SetupMapCollisions() {
