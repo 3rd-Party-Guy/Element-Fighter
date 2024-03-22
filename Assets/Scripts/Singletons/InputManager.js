@@ -22,6 +22,11 @@ export default class InputManager extends Singleton {
         this.connected_gamepads = [];
     }
 
+    clear() {
+        this.inputKeyboardActionLookup = new Map();
+        this.activeKeyboardInputLookup = new Map();
+    }
+
     // Set Input is called every time there is an input event.
     // This is used to keep track of all keys that are currently down.
     setKeyboardInput(event) {
