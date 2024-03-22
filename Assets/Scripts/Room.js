@@ -79,6 +79,8 @@ export default class Room {
         this.room_name = room_name;
 
         switch (this.room_name) {
+            case "Main Menu":
+                break;
             case "Game":
                 this.maps_data = data.maps_data;
                 this.characters_data = data.characters_data;
@@ -95,6 +97,9 @@ export default class Room {
                 // Setup Collision Canvas
                 this.canvas_manager.collisionContext.fillStyle = "black";
                 this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
+                
+                break;
+            default:
                 break;
         }
     }
