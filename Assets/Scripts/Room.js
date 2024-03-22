@@ -89,8 +89,6 @@ export default class Room {
         this.maps_data = data.maps_data;
         this.characters_data = data.characters_data;
 
-        console.log(`Entering ${this.name}`);
-
         switch (this.name) {
             case "Splash": 
             case "Main Menu":
