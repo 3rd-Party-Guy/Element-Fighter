@@ -202,8 +202,6 @@ export default class Room {
         this.#FixedUpdate();
         this.#Update();
         this.#LateUpdate();
-
-        requestAnimationFrame(this.RoomLoop);
     }
     
     // EarlyUpdate is the first method called at the beginning of the game loop each frame
