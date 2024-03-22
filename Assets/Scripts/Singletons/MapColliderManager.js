@@ -20,6 +20,12 @@ export default class MapColliderManager extends Singleton {
         }
     }
 
+    clear() {
+        this.collision_boxes = [];
+    }
+
+    // INFO: For Debug Purposes only.
+    // Adds a rect to visualize where the collision box is
     addBoxCenterRenders(ctx, size) {
         for (const col_box of this.collision_boxes) {
             const x = col_box.center.x;
