@@ -1,11 +1,18 @@
 [
   {
     "name": "Splash Button",
+    "spritesheets_path": "Assets/Sprites/UI/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "logo",
+        "num_frames": 1,
+        "sheet_width": 640,
+        "sheet_height": 360,
+        "animation_scale": 1
+      }
+    },
     "sounds": {
       "select_sound_path": "Assets/SFX/splash.wav"
-    },
-    "images": {
-      "normal": "Assets/Sprites/logo.png"
     },
     "entity_info": {
       "width": 640,
