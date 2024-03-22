@@ -38,7 +38,7 @@ export default class Player extends Entity {
     // Fetches all needed JSON data
     // Adds all additional needed components that default entities lack
     constructor(start_x, start_y, player_data, ability_data) {
-        super(start_x, start_y, player_data, true);
+        super(start_x, start_y, player_data);
 
         this.combat_data = player_data["combat_info"];
         this.ability_data = ability_data;
@@ -51,6 +51,7 @@ export default class Player extends Entity {
         this.mana_regen_rate = player_data["mana_regen_rate"];
 
         this.addComponent(new AudioPlayerComponent());
+        this.addComponent(new AnimationComponent(player_data, true));
 
         this.onLoaded();
     }

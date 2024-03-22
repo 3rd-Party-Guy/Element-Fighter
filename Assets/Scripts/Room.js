@@ -14,7 +14,7 @@ import AnimationSystem from "./Singletons/Systems/AnimationSystem.js";
 import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
-import Button from "./UIInteractable.js";
+import Button from "./Button.js";
 
 // A room is simply a different level.
 // This allows us to have different entities and logic for different parts of the game,
@@ -86,10 +86,13 @@ export default class Room {
                 new Button(320, 180, this.getButtonDataByName("Splash Button"));
                 break;
             case "Main Menu":
+                this.buttons_data = data.buttons_data;
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
-                
+                this.maps_data = data.maps_data;
+                this.characters_data = data.characters_data;
+
                 this.map_image.src = this.GetCurrentMapData().image_path;
                 this.SetupMapCollisions();
                 
@@ -104,6 +107,7 @@ export default class Room {
                 
                 this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
                 this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
+                this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
 
                 break;
             default:

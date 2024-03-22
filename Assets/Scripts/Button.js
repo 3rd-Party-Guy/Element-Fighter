@@ -9,7 +9,7 @@ export default class Button extends Entity {
   button_data = undefined;
 
   constructor(start_x, start_y, button_data) {
-
+    super(start_x, start_y, button_data, false);
     this.addComponent(new AudioPlayerComponent());
 
     this.button_data = button_data;

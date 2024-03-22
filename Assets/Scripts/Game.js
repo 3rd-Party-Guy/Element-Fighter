@@ -14,6 +14,7 @@ let maps_data;
 let characters_data;
 let abilities_data;
 let rooms_data;
+let buttons_data;
 
 // Fetches all JSON data and adds the needed event listeners
 async function Initialize() {
@@ -88,7 +89,8 @@ function GameLoop() {
         room.Enter(getRoomDataByName(room.next), {
             maps_data,
             characters_data,
-            abilities_data
+            abilities_data,
+            buttons_data
         });
     }
 
