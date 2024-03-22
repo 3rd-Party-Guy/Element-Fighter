@@ -93,7 +93,7 @@ export default class Room {
 
         switch (this.name) {
             case "Splash":
-                
+                break;
             case "Main Menu":
                 break;
             case "Game":
