@@ -15,10 +15,6 @@ let characters_data;
 let abilities_data;
 let rooms_data;
 
-let current_room_index = 0;
-
-// let active_players = 0;
-
 // Fetches all JSON data and adds the needed event listeners
 async function Initialize() {
     // Setup Event Callbacks
@@ -83,8 +79,7 @@ function GameLoop() {
 
     if (room.CheckLeaveConditions()) {
         room.Leave();
-        current_room_index++;
-        room.Enter(getRoomDataByName(room.room_data.next), {
+        room.Enter(getRoomDataByName(room.next), {
             maps_data,
             characters_data,
             abilities_data

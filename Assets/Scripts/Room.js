@@ -58,6 +58,14 @@ export default class Room {
         this.#setRoomData();
     }
 
+    get name() {
+        return this.room_data.name;
+    }
+
+    get next() {
+        return this.room_data.next;
+    }
+
     // Gets all needed systems for the room
     #setRoomData()
     {
@@ -81,7 +89,9 @@ export default class Room {
         this.maps_data = data.maps_data;
         this.characters_data = data.characters_data;
 
-        switch (this.room_name) {
+        console.log(`Entering ${this.name}`);
+
+        switch (this.name) {
             case "Splash": 
             case "Main Menu":
                 break;
@@ -113,7 +123,7 @@ export default class Room {
     }
 
     CheckLeaveConditions() {
-        switch (this.room_name) {
+        switch (this.name) {
             case "Splash":
             case "Main Menu":
             case "Character Select":
