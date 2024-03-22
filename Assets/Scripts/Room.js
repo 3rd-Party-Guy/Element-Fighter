@@ -110,6 +110,22 @@ export default class Room {
         this.input_manager.clear();
     }
 
+    CheckLeaveConditions() {
+        switch (this.room_name) {
+            case "Main Menu":
+                if (this.input_manager.isKeyActive("KeyW")) return true;
+                break;
+            case "Game":
+                for (const p of this.entity_manager.players)
+                    if (p.health <= 0) return true;
+                break;
+            default:
+                return true;
+        }
+
+        return false;
+    }
+
     // This functions scrapes the JSON data (see maps.json) of the current map,
     // and sets each collision box for it
     SetupMapCollisions() {

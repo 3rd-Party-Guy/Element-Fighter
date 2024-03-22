@@ -32,11 +32,7 @@ async function Initialize() {
     abilities_data = await ImportAbilities();
     rooms_data = await ImportRooms();
 
-    room.Enter(rooms_data[current_room_index + 1], {
-        maps_data,
-        characters_data,
-        abilities_data
-    });
+    room.Enter(rooms_data[current_room_index]);
 }
 
 // INFO: Only for debugging purposes
@@ -78,12 +74,22 @@ async function ImportRooms() {
 function GameLoop() {
     room.RoomLoop();
 
+    if (room.CheckLeaveConditions()) {
+        room.Leave();
+        current_room_index++;
+        room.Enter(rooms_data[current_room_index], {
+            maps_data,
+            characters_data,
+            abilities_data
+        });
+    }
+
     // Move on to next frame
     requestAnimationFrame(GameLoop);
 }
 
 // When the webpage gets loaded, this lambda-function gets called!
-window.onload = () => {
-    Initialize();
+window.onload = async () => {
+    await Initialize();
     GameLoop();
 }
