@@ -36,15 +36,10 @@ export default class EntityManager extends Singleton {
     removeProjectile(projectile_entity)
     {
         for (let i = 0; i < this.projectiles.length; i++) {
-            console.log("Projectiles Before:");
-            this.#logProjectiles();
-
             if (this.projectiles[i] === projectile_entity) {
                 this.projectiles.splice(i, 1);
                 return;
             }
-            console.log("Projectiles after:");
-            this.#logProjectiles();
         }
     }
 
@@ -52,12 +47,6 @@ export default class EntityManager extends Singleton {
         this.entities = [];
         this.players = [];
         this.projectiles = [];
-    }
-
-    #logProjectiles() {
-        for (const p of this.projectiles) {
-            console.log(`${p}\n`);
-        }
     }
 
     get all() {
