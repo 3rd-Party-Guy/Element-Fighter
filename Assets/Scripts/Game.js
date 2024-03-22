@@ -13,6 +13,9 @@ const room = new Room();
 let maps_data;
 let characters_data;
 let abilities_data;
+let rooms_data;
+
+let current_room_index = 0;
 
 // let active_players = 0;
 
@@ -27,8 +30,11 @@ async function Initialize() {
     maps_data = await ImportMaps();
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
+    rooms_data = await ImportRooms();
 
-    room.Enter(maps_data, characters_data, abilities_data);
+    console.log(`ROOMS DATA: ${rooms_data}`);
+
+    room.Enter(rooms_data[current_room_index], maps_data, characters_data, abilities_data);
 }
 
 // INFO: Only for debugging purposes
@@ -56,6 +62,13 @@ async function ImportCharacters() {
 // Imports all information from abilities.json as an object
 async function ImportAbilities() {
     const response = await fetch("Assets/abilities.json");
+    return await response.json();
+}
+
+// Imports all rooms from rooms.json as an array
+// Rooms.json simply defines the names of the rooms and their order in the game
+async function ImportRooms() {
+    const response = await fetch("Assets/rooms.json");
     return await response.json();
 }
 

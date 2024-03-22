@@ -50,6 +50,8 @@ export default class Room {
 
     active_players = 0;
 
+    room_name = undefined;
+
     constructor()
     {
         this.#setRoomData();
@@ -73,7 +75,9 @@ export default class Room {
 
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
-    Enter(maps_data, characters_data, abilities_data) {
+    Enter(room_name, maps_data, characters_data, abilities_data) {
+        this.room_name = room_name;
+        
         this.maps_data = maps_data;
         this.characters_data = characters_data;
         this.abilities_data = abilities_data;
