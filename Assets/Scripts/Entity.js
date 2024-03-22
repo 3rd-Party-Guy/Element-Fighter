@@ -18,7 +18,7 @@ export default class Entity {
     }
     
     // Adds components and fetches the necessary data
-    #setEntityData(start_x, start_y, entity_data) {
+    #setEntityData(start_x, start_y, entity_data, is_state_machine) {
         try {
             // find the right json data for this entity based on the name
             this.name = entity_data["name"];
@@ -28,6 +28,7 @@ export default class Entity {
             
             // Initialize Rendering and Physics Components with entity data
             this.addComponent(new TransformComponent(new Vector2(start_x, start_y), width, height));
+            this.addComponent(new AnimationComponent(entity_data, is_state_machine));
             this.addComponent(new RenderingComponent());
             this.addComponent(new PhysicsComponent(entity_data["entity_info"]));
         } catch (err) {

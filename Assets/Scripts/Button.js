@@ -13,21 +13,8 @@ export default class Button extends Entity {
     this.addComponent(new AudioPlayerComponent());
 
     this.button_data = button_data;
-  }
 
-  #setEntityData(start_x, start_y, entity_data) {
-    try {
-      console.log("correct");
-
-      const width = entity_data["entity_info"]["width"];
-      const height = entity_data["entity_info"]["height"];
-  
-      this.addComponent(new TransformComponent(new Vector2(start_x, start_y), width, height))
-      this.addComponent(new AnimationComponent(entity_data, false));
-      this.addComponent(new RenderingComponent());
-    } catch (err) {
-      console.error(`Error creating UI Entity\n${err}`);
-    }
+    this.onLoaded();
   }
 
   onSelect() {

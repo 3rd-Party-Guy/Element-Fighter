@@ -14,14 +14,12 @@ export default class Projectile extends Entity {
     target = undefined;
 
     constructor(owner, start_x, start_y, projectile_data, flipped) {
-        super(start_x, start_y, projectile_data);
+        super(start_x, start_y, projectile_data, false);
         
         this.life_time = projectile_data["entity_info"]["life_time"];
         this.is_flipped = flipped;
         this.owner = owner;
         this.combat_data = projectile_data["combat_info"];
-
-        this.addComponent(new AnimationComponent(projectile_data, false));
 
         this.onLoaded();
     }
