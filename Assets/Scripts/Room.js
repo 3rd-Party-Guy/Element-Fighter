@@ -198,10 +198,12 @@ export default class Room {
     // The main game loop, called in Game.js
     RoomLoop()
     { 
-            this.#EarlyUpdate();
-            this.#FixedUpdate();
-            this.#Update();
-            this.#LateUpdate();
+        this.#EarlyUpdate();
+        this.#FixedUpdate();
+        this.#Update();
+        this.#LateUpdate();
+
+        requestAnimationFrame(this.RoomLoop);
     }
     
     // EarlyUpdate is the first method called at the beginning of the game loop each frame
