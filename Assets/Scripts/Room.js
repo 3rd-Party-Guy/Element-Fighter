@@ -92,9 +92,9 @@ export default class Room {
     }
 
     Leave() {
-        // Remove Entities
-        // Remove Map Collisions
-        // Clear Input Maps
+        this.entity_manager.clear();
+        this.map_collider_manager.clear();
+        this.input_manager.clear();
     }
 
     // This functions scrapes the JSON data (see maps.json) of the current map,
@@ -188,7 +188,7 @@ export default class Room {
             this.#EarlyUpdate();
             this.#FixedUpdate();
             this.#Update();
-            this.#LateUpdate();  
+            this.#LateUpdate();
     }
     
     // EarlyUpdate is the first method called at the beginning of the game loop each frame

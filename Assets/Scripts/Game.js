@@ -8,7 +8,7 @@ import Room from "./Room.js";
 const input_manager = InputManager.getInstance(InputManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
 
-const game_room = new Room();
+const room = new Room();
 
 let maps_data;
 let characters_data;
@@ -28,7 +28,7 @@ async function Initialize() {
     characters_data = await ImportCharacters();
     abilities_data = await ImportAbilities();
 
-    game_room.Enter(maps_data, characters_data, abilities_data);
+    room.Enter(maps_data, characters_data, abilities_data);
 }
 
 // INFO: Only for debugging purposes
@@ -61,7 +61,7 @@ async function ImportAbilities() {
 
 // This is the main game loop. It is called every frame!
 function GameLoop() {
-    game_room.RoomLoop();
+    room.RoomLoop();
 
     // Move on to next frame
     requestAnimationFrame(GameLoop);
