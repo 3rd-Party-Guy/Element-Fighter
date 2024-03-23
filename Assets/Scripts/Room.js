@@ -72,13 +72,22 @@ export default class Room {
         return this.buttons_data.find(e => e.name === name);
     }
 
+    constructor() {
+        this.#setupSystems();
+    }
+
+    #setupSystems() {
+        this.#addSystem(AudioSystem.getInstance(AudioSystem));
+        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
+        this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
+        this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
+        this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
+    }
+
     // This functions gets (and sets) all the needed data needed, e.g. map data, map background image, etc.
     // Also spawns the players and calls for other setup
     Enter(room_data, data) {
         this.room_data = room_data;
-        
-        this.#addSystem(AudioSystem.getInstance(AudioSystem));
-        this.#addSystem(RenderingSystem.getInstance(RenderingSystem));
 
         switch (this.name) {
             case "Splash":
@@ -104,11 +113,6 @@ export default class Room {
                 // Setup Collision Canvas
                 this.canvas_manager.collisionContext.fillStyle = "black";
                 this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
-                
-                this.#addSystem(PhysicsSystem.getInstance(PhysicsSystem));
-                this.#addSystem(ColissionSystem.getInstance(ColissionSystem));
-                this.#addSystem(AnimationSystem.getInstance(AnimationSystem));
-
                 break;
             default:
                 break;

@@ -51,6 +51,7 @@ export default class Player extends Entity {
         this.mana_regen_rate = player_data["mana_regen_rate"];
 
         this.addComponent(new AudioPlayerComponent());
+        this.addComponent(new PhysicsComponent(player_data["entity_info"]));
 
         this.onLoaded();
     }

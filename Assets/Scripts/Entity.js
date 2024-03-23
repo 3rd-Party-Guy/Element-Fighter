@@ -30,7 +30,6 @@ export default class Entity {
             this.addComponent(new TransformComponent(new Vector2(start_x, start_y), width, height));
             this.addComponent(new AnimationComponent(entity_data, is_state_machine));
             this.addComponent(new RenderingComponent());
-            this.addComponent(new PhysicsComponent(entity_data["entity_info"]));
         } catch (err) {
             console.error("Error fetching entity data:\n", err);
         }

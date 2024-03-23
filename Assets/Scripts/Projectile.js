@@ -21,6 +21,8 @@ export default class Projectile extends Entity {
         this.owner = owner;
         this.combat_data = projectile_data["combat_info"];
 
+        this.addComponent(new PhysicsComponent(projectile_data["entity_info"]));
+
         this.onLoaded();
     }
 
