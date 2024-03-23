@@ -102,10 +102,14 @@ export default class Room {
                 this.buttons_data = data.buttons_data;
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
                 break;
-                case "Main Menu":
+            case "Main Menu":
                 this.buttons_data = data.buttons_data;
                 this.menu_manager.selectButton("Splash Button");
                 this.background_music.play('Assets/SFX/Music/menu.wav');
+                break;
+            case "Character Select":
+                this.buttons_data = data.buttons_data;
+                this.background_music.play('Assets/SFX/Music/character_select.wav');
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
