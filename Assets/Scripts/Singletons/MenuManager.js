@@ -22,7 +22,7 @@ export default class MenuManager extends Singleton {
     if (!selected) return;
 
     this.current_button = selected;
-    selected.onSelect;
+    selected.onSelect();
   }
 
   clear() {

@@ -101,11 +101,11 @@ export default class Room {
             case "Splash":
                 this.buttons_data = data.buttons_data;
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
-                this.menu_manager.selectButton("Splash Button");
                 break;
                 case "Main Menu":
                 this.buttons_data = data.buttons_data;
-                    this.background_music.play('Assets/SFX/Music/menu.wav');
+                this.menu_manager.selectButton("Splash Button");
+                this.background_music.play('Assets/SFX/Music/menu.wav');
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
@@ -133,6 +133,7 @@ export default class Room {
         this.entity_manager.clear();
         this.map_collider_manager.clear();
         this.input_manager.clear();
+        this.menu_manager.clear();
     }
 
     CheckLeaveConditions() {
