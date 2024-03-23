@@ -4,18 +4,16 @@ body {
     display: flex;
     overflow: hidden;
 
-    vertical-holder {
+    canvas {
         position: relative;
         margin: auto;
         width: 1280px;
-        height: 1440px;
-    }
-
-    canvas {
-        position: relative;
-        border: 1px solid black;
-        width: 1280px;
         height: 720px;
         image-rendering: pixelated;         /* Upscaling */
+    }
+
+    #collision-window {
+        position: absolute;
+        visibility: hidden;
     }
 }
