@@ -105,11 +105,17 @@ export default class Room {
             case "Main Menu":
                 this.buttons_data = data.buttons_data;
                 this.menu_manager.selectButton("Splash Button");
+
                 this.background_music.play('Assets/SFX/Music/menu.wav');
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/titlescreen.png';
+
                 break;
             case "Character Select":
                 this.buttons_data = data.buttons_data;
+
                 this.background_music.play('Assets/SFX/Music/character_select.wav');
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/characterselect.png';
+
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
