@@ -13,11 +13,10 @@ export default class Button extends Entity {
     this.addComponent(new AudioPlayerComponent());
 
     this.button_data = button_data;
-
     this.onLoaded();
   }
 
   onSelect() {
-
+    this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.select_sound_path);
   }
 }

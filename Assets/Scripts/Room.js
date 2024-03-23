@@ -15,6 +15,7 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 import Button from "./Button.js";
+import MenuManager from "./Singletons/MenuManager.js";
 
 // A room is simply a different level.
 // This allows us to have different entities and logic for different parts of the game,
@@ -41,6 +42,7 @@ export default class Room {
     map_collider_manager = MapColliderManager.getInstance(MapColliderManager);
     canvas_manager = CanvasManager.getInstance(CanvasManager);
     entity_manager = EntityManager.getInstance(EntityManager);
+    menu_manager = MenuManager.getInstance(MenuManager);
 
     ui_renderer = UIRenderer.getInstance(UIRenderer);
     cur_map_name = "Vulcano";
@@ -92,7 +94,8 @@ export default class Room {
         switch (this.name) {
             case "Splash":
                 this.buttons_data = data.buttons_data;
-                new Button(320, 180, this.getButtonDataByName("Splash Button"));
+                this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
+                this.menu_manager.selectButton("Splash Button");
                 break;
             case "Main Menu":
                 this.buttons_data = data.buttons_data;

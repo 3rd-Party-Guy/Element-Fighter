@@ -3,7 +3,7 @@ import EntityManager from "./EntityManager.js";
 import CanvasManager from "./CanvasManager.js";
 import { clamp } from "../Utilities.js";
 
-// Renders and calculates all UI
+// Renders and calculates all UI in-game (not menus!)
 export default class UIRenderer extends Singleton {
     buffer_start_healthbar = 5;
     buffer_end_healthbar = 5;
