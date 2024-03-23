@@ -3,7 +3,6 @@
 
 import Vector2 from "./Vector2.js";
 import TransformComponent from "./Components/TransformComponent.js";
-import PhysicsComponent from "./Components/PhysicsComponent.js";
 import RenderingComponent from "./Components/RenderingComponent.js";
 import EntityManager from "./Singletons/EntityManager.js";
 import AnimationComponent from "./Components/AnimationComponent.js";

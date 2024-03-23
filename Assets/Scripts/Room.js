@@ -7,6 +7,7 @@ import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
+import Entity from "./Entity.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
@@ -16,6 +17,8 @@ import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 import Button from "./Button.js";
 import MenuManager from "./Singletons/MenuManager.js";
+
+import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 
 // A room is simply a different level.
 // This allows us to have different entities and logic for different parts of the game,
@@ -56,6 +59,8 @@ export default class Room {
 
     active_players = 0;
 
+    background_music = new AudioPlayerComponent();
+
     get name() {
         return this.room_data.name || "";
     }
@@ -76,6 +81,7 @@ export default class Room {
 
     constructor() {
         this.#setupSystems();
+        this.background_music.loop = true;
     }
 
     #setupSystems() {
@@ -97,8 +103,9 @@ export default class Room {
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
                 this.menu_manager.selectButton("Splash Button");
                 break;
-            case "Main Menu":
+                case "Main Menu":
                 this.buttons_data = data.buttons_data;
+                    this.background_music.play('Assets/SFX/Music/menu.wav');
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
