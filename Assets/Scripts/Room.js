@@ -144,6 +144,8 @@ export default class Room {
         this.map_collider_manager.clear();
         this.input_manager.clear();
         this.menu_manager.clear();
+    
+        this.active_players = 0;
     }
 
     CheckLeaveConditions() {
