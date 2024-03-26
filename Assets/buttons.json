@@ -11,12 +11,66 @@
         "animation_scale": 1
       }
     },
-    "sounds": {
-      "select_sound_path": "Assets/SFX/splash.wav"
-    },
     "entity_info": {
       "width": 640,
       "height": 360
+    },
+    "button_info": {
+      "type": "change_room",
+      "next_scene": "Main Menu",
+      "sounds": {
+        "select_path": "",
+        "press_path": "Assets/SFX/splash.wav"
+      }
+    }
+  },
+  {
+    "name": "Start Button",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "play_button",
+        "num_frames": 1,
+        "sheet_width": 464,
+        "sheet_height": 92,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 464,
+      "height": 92
+    },
+    "button_info": {
+      "type": "change_room",
+      "next_scene": "Character Select",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Settings Button",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "settings_button",
+        "num_frames": 1,
+        "sheet_width": 464,
+        "sheet_height": 92,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 464,
+      "height": 92
+    },
+    "button_info": {
+      "type": "none",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
     }
   }
 ]

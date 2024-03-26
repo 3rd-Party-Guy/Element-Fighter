@@ -9,10 +9,14 @@
   },
   {
     "name": "Character Select",
+    "next": "Map Select"
+  },
+  {
+    "name": "Map Select",
     "next": "Game"
   },
   {
     "name": "Game",
-    "next": "Main Menu"
+    "next": "Character Select"
   }
 ]

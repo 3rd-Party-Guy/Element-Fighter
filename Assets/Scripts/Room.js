@@ -144,6 +144,8 @@ export default class Room {
         this.map_collider_manager.clear();
         this.input_manager.clear();
         this.menu_manager.clear();
+    
+        this.active_players = 0;
     }
 
     CheckLeaveConditions() {
@@ -151,7 +153,6 @@ export default class Room {
             case "Splash":
             case "Main Menu":
             case "Character Select":
-                if (this.input_manager.isKeyActive("any")) return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)
