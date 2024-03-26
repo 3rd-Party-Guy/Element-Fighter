@@ -153,7 +153,6 @@ export default class Room {
             case "Splash":
             case "Main Menu":
             case "Character Select":
-                if (this.input_manager.isKeyActive("any")) return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)

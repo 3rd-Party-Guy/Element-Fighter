@@ -1,7 +1,4 @@
-import AnimationComponent from "./Components/AnimationComponent.js";
 import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
-import RenderingComponent from "./Components/RenderingComponent.js";
-import TransformComponent from "./Components/TransformComponent.js";
 import Entity from "./Entity.js";
 
 export default class Button extends Entity {
@@ -12,11 +9,23 @@ export default class Button extends Entity {
     super(start_x, start_y, button_data, false);
     this.addComponent(new AudioPlayerComponent());
 
-    this.button_data = button_data;
+    this.button_data = button_data["button_info"];
     this.onLoaded();
   }
 
   onSelect() {
-    this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.select_sound_path);
+    if (this.is_selected) return;
+
+    this.is_selected = true;
+    this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.select_path);
+  }
+  
+  onPress() {
+    this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.press_path);
+    switch(this.button_data.type) {
+      case "change_room":
+        // Room Manager change room
+        break;
+    }
   }
 }
