@@ -2,6 +2,7 @@
 /// Description:    An abstract class followed by all definitions of commands afterwards. Used to manage Input & Actions
 
 import PhysicsComponent from "./Components/PhysicsComponent.js";
+import MenuManager from "./Singletons/MenuManager.js";
 
 // Commands are used as an interface between the input manager
 // and the actual entities
@@ -27,6 +28,35 @@ export default class Command {
         this.pressed = false;
     }
 };
+
+export class MenuLeftCommand extends Command {
+    execute() {
+        MenuManager.getInstance(MenuManager).selectLeft();
+    }
+}
+
+export class MenuRightCommand extends Command {
+    execute() {
+        MenuManager.getInstance(MenuManager).selectRight();
+    }
+}
+
+export class MenuDownCommand extends Command {
+    execute() {
+        MenuManager.getInstance(MenuManager).selectDown();
+    }
+}
+
+export class MenuUpCommand extends Command {
+    execute() {
+        MenuManager.getInstance(MenuManager).selectUp();
+    }
+}
+export class MenuPressCommand extends Command {
+    execute() {
+        MenuManager.getInstance(MenuManager).pressButton();
+    }
+}
 
 export class MoveCommand extends Command {
     xVel = 0;

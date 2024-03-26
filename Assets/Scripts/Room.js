@@ -1,6 +1,10 @@
 import Vector2 from "./Vector2.js";
 
-import { MoveCommand, JumpCommand, DuckCommand, AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand } from "./Command.js";
+import { 
+    MoveCommand, JumpCommand, DuckCommand,
+    AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand,
+    MenuRightCommand, MenuDownCommand, MenuLeftCommand, MenuUpCommand, MenuPressCommand
+} from "./Command.js";
 import Player from "./Player.js";
 
 import InputManager from "./Singletons/InputManager.js";
@@ -100,10 +104,10 @@ export default class Room {
             case "Splash":
                 this.buttons_data = data.buttons_data;
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
+                this.menu_manager.selectButton("Splash Button");
                 break;
             case "Main Menu":
                 this.buttons_data = data.buttons_data;
-                this.menu_manager.selectButton("Splash Button");
 
                 this.background_music.play('Assets/SFX/Music/menu.wav');
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/titlescreen.png';
@@ -127,8 +131,6 @@ export default class Room {
                 this.SpawnPlayer("Surtur");
                 this.SpawnPlayer("Minotaurus");
                 
-                this.SetupInputMaps();
-                
                 // Setup Collision Canvas
                 this.canvas_manager.collisionContext.fillStyle = "black";
                 this.canvas_manager.collisionContext.globalCompositeOperation = "xor";
@@ -136,6 +138,8 @@ export default class Room {
             default:
                 break;
         }
+
+        this.SetupInputMaps();
     }
 
     Leave() {
@@ -216,29 +220,39 @@ export default class Room {
 
     // Sets up the initial keyboard input lookups for both players
     SetupInputMaps() {
-        const player_one = this.entity_manager.players[0];
-        const player_two = this.entity_manager.players[1];
-    
-        // Add initial KeyCodes and Commands
-        this.input_manager.addKeyboardInputActionLookup("KeyA", new MoveCommand(player_one, -140, 0));
-        this.input_manager.addKeyboardInputActionLookup("KeyD", new MoveCommand(player_one, 140, 0));
-        this.input_manager.addKeyboardInputActionLookup("KeyW", new JumpCommand(player_one));
-        this.input_manager.addKeyboardInputActionLookup("KeyS", new DuckCommand(player_one));
-   
-        this.input_manager.addKeyboardInputActionLookup("ArrowLeft", new MoveCommand(player_two, -140, 0));
-        this.input_manager.addKeyboardInputActionLookup("ArrowRight", new MoveCommand(player_two, 140, 0));
-        this.input_manager.addKeyboardInputActionLookup("ArrowUp", new JumpCommand(player_two));
-        this.input_manager.addKeyboardInputActionLookup("ArrowDown", new DuckCommand(player_two));
-   
-        this.input_manager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand(player_one));
-        this.input_manager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand(player_one));
-        this.input_manager.addKeyboardInputActionLookup("KeyU", new AbilityOneCommand(player_one));
-        this.input_manager.addKeyboardInputActionLookup("KeyI", new AbilityTwoCommand(player_one));
-  
-        this.input_manager.addKeyboardInputActionLookup("Numpad5", new AttackLightCommand(player_two));
-        this.input_manager.addKeyboardInputActionLookup("Numpad6", new AttackHeavyCommand(player_two));
-        this.input_manager.addKeyboardInputActionLookup("Numpad8", new AbilityOneCommand(player_two));
-        this.input_manager.addKeyboardInputActionLookup("Numpad9", new AbilityTwoCommand(player_two));
+        if (this.name === "Game") {
+            const player_one = this.entity_manager.players[0];
+            const player_two = this.entity_manager.players[1];
+        
+            // Add initial KeyCodes and Commands
+            this.input_manager.addKeyboardInputActionLookup("KeyA", new MoveCommand(player_one, -140, 0));
+            this.input_manager.addKeyboardInputActionLookup("KeyD", new MoveCommand(player_one, 140, 0));
+            this.input_manager.addKeyboardInputActionLookup("KeyW", new JumpCommand(player_one));
+            this.input_manager.addKeyboardInputActionLookup("KeyS", new DuckCommand(player_one));
+       
+            this.input_manager.addKeyboardInputActionLookup("ArrowLeft", new MoveCommand(player_two, -140, 0));
+            this.input_manager.addKeyboardInputActionLookup("ArrowRight", new MoveCommand(player_two, 140, 0));
+            this.input_manager.addKeyboardInputActionLookup("ArrowUp", new JumpCommand(player_two));
+            this.input_manager.addKeyboardInputActionLookup("ArrowDown", new DuckCommand(player_two));
+       
+            this.input_manager.addKeyboardInputActionLookup("KeyJ", new AttackLightCommand(player_one));
+            this.input_manager.addKeyboardInputActionLookup("KeyK", new AttackHeavyCommand(player_one));
+            this.input_manager.addKeyboardInputActionLookup("KeyU", new AbilityOneCommand(player_one));
+            this.input_manager.addKeyboardInputActionLookup("KeyI", new AbilityTwoCommand(player_one));
+      
+            this.input_manager.addKeyboardInputActionLookup("Numpad5", new AttackLightCommand(player_two));
+            this.input_manager.addKeyboardInputActionLookup("Numpad6", new AttackHeavyCommand(player_two));
+            this.input_manager.addKeyboardInputActionLookup("Numpad8", new AbilityOneCommand(player_two));
+            this.input_manager.addKeyboardInputActionLookup("Numpad9", new AbilityTwoCommand(player_two));
+        } else {
+            this.input_manager.addKeyboardInputActionLookup("KeyA", new MenuLeftCommand());
+            this.input_manager.addKeyboardInputActionLookup("KeyD", new MenuRightCommand());
+            this.input_manager.addKeyboardInputActionLookup("KeyS", new MenuDownCommand());
+            this.input_manager.addKeyboardInputActionLookup("KeyW", new MenuUpCommand());
+
+            this.input_manager.addKeyboardInputActionLookup("Space", new MenuPressCommand());
+            this.input_manager.addKeyboardInputActionLookup("Enter", new MenuPressCommand());
+        }
     }
 
     // Renders the map background image over the whole gameplay canvas

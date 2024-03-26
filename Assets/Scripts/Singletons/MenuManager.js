@@ -22,11 +22,14 @@ export default class MenuManager extends Singleton {
     if (!selected) return;
 
     this.current_button = selected;
-    selected.onSelect();
+    this.current_button.onSelect();
   }
 
   pressButton() {
-    selected.onPress();
+    if (!this.current_button)
+      return;
+
+    this.current_button.onPress();
   }
 
   clear() {
@@ -36,19 +39,18 @@ export default class MenuManager extends Singleton {
 
   selectUp(){
     if(!this.current_button) return;
+
     let lastdistancesqrd = 999;
     let next_button = undefined;
     let validButtons = [];
 
-
-    for(const button of this.buttons)
+    for(const button of Object.values(this.buttons))
     {
       if(button === this.current_button)continue;
       if(button.y < this.current_button.y){
        validButtons.push(button);
       }
     }
-
     
     for( const button of validButtons)
     {
@@ -59,25 +61,27 @@ export default class MenuManager extends Singleton {
         }
       
     }
+
+    if(!next_button) return;
     this.current_button = next_button;
     this.current_button.onSelect();
   }
 
   selectDown(){
-    if(!this.current_button) return;
+    if (!this.current_button) return;
+
     let lastdistancesqrd = 999;
     let next_button = undefined;
     let validButtons = [];
 
-
-    for(const button of this.buttons)
+    for(const button of Object.values(this.buttons))
     {
-      if(button === this.current_button)continue;
+      if(button === this.current_button) continue;
+
       if(button.y > this.current_button.y){
        validButtons.push(button);
       }
     }
-
     
     for( const button of validButtons)
     {
@@ -88,6 +92,8 @@ export default class MenuManager extends Singleton {
         }
       
     }
+
+    if(!next_button) return;
     this.current_button = next_button;
     this.current_button.onSelect();
   }
@@ -98,15 +104,14 @@ export default class MenuManager extends Singleton {
     let next_button = undefined;
     let validButtons = [];
 
-
-    for(const button of this.buttons)
+    for(const button of Object.values(this.buttons))
     {
-      if(button === this.current_button)continue;
+      if(button === this.current_button) continue;
+
       if(button.x < this.current_button.x){
        validButtons.push(button);
       }
     }
-
     
     for( const button of validButtons)
     {
@@ -117,6 +122,8 @@ export default class MenuManager extends Singleton {
         }
       
     }
+    
+    if (!next_button) return;
     this.current_button = next_button;
     this.current_button.onSelect();
   }
@@ -127,15 +134,13 @@ export default class MenuManager extends Singleton {
     let next_button = undefined;
     let validButtons = [];
 
-
-    for(const button of this.buttons)
+    for(const button of Object.values(this.buttons))
     {
       if(button === this.current_button)continue;
       if(button.x > this.current_button.x){
        validButtons.push(button);
       }
     }
-
     
     for( const button of validButtons)
     {
@@ -146,6 +151,8 @@ export default class MenuManager extends Singleton {
         }
       
     }
+
+    if(!next_button) return;
     this.current_button = next_button;
     this.current_button.onSelect();
   }
