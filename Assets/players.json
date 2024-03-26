@@ -387,7 +387,7 @@
       }
     },
     "entity_info": {
-      "width": 128,
+      "width": 256,
       "height": 160,
       "x_friction": 0.1125,
       "max_x_velocity": 750,
@@ -400,14 +400,15 @@
     "combat_info": {
       "light_damage": 7,
       "heavy_damage": 21,
+      "dash_attack_damage": 5,
       "knockback_info": {
         "light": {
           "multiplier_x": 1000,
-          "multiplier_y": 1200
+          "multiplier_y": 500
         },
         "heavy": {
-          "multiplier_x": 0,
-          "multiplier_y": 2500
+          "multiplier_x": 1000,
+          "multiplier_y": 1000
         }
       }
     },
