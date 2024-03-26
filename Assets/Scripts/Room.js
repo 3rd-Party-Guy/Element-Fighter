@@ -7,7 +7,6 @@ import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
-import Entity from "./Entity.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
@@ -198,7 +197,7 @@ export default class Room {
         return abilities_obj;
     }
 
-    
+
 
     // Gets the spawn position based on which player it is (1, 2, 3, or 4)
     // (currently only 2 players are supported)
