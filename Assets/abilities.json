@@ -260,5 +260,38 @@
         "multiplier_y": 150
       }
     }
+  },
+  {
+    "name": "Dash",
+    "spritesheets_path": "Assets/Sprites/Projectiles/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "dash",
+        "num_frames": 6,
+        "sheet_width": 960,
+        "sheet_height": 160,
+        "animation_scale": 0.5
+      }
+    },
+    "entity_info": {
+      "width": 160,
+      "height": 160,
+      "velocity": [250,0] ,
+      "max_x_velocity": 250,
+      "x_friction": 0,
+      "gravity": 0,
+      "life_time": 4,
+      "cast_time": 0.5
+    },
+    "combat_info": {
+      "cost": 15,
+      "damage": 125,
+      "is_one_shot": false,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 1000,
+        "multiplier_y": 150
+      }
+    }
   }
 ]

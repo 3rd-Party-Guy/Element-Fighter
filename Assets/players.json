@@ -344,19 +344,19 @@
       "heavy_attack": {
         "state_info": "AttackHeavy",
         "animation_path": "Attacks/heavy_attack",
-        "num_frames": 6,
-        "sheet_width": 1683,
-        "sheet_height": 340,
+        "num_frames": 10,
+        "sheet_width": 2220,
+        "sheet_height": 160,
         "animation_scale": 0.5
 
       },
       "ability1": {
         "state_info": "AbilityOne",
         "animation_path": "Abilities/ability1",
-        "num_frames": 8,
-        "sheet_width": 1280,
+        "num_frames": 9,
+        "sheet_width": 3006,
         "sheet_height": 160,
-        "animation_scale": 0.7
+        "animation_scale": 0.3
 
       },
       "ability2": {
@@ -412,7 +412,7 @@
       }
     },
     "abilities": {
-      "ability_one": "Earthquake",
+      "ability_one": "Dash",
       "ability_two": "Rock"
     },
     "sound_paths": "Assets/SFX/Surtur/"

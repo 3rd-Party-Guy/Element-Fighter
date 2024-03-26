@@ -195,7 +195,24 @@ export default class Player extends Entity {
 
         this.is_ability_one = true;
         this.mana -= this.ability_data.ability_one.combat_info.cost;
-
+        if(this.name === "Surtur"){
+            const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
+            let physics_component = this.getComponentOfType(PhysicsComponent);
+            physics_component.has_gravity = false;
+            physics_component.maxVel = new Vector2(2000,0);
+            if(is_flipped)
+            {
+                physics_component.vel = new Vector2(-2000, 0);
+            }
+            else
+            {
+                physics_component.vel = new Vector2(2000, 0);
+            }
+            setTimeout(() => {
+                physics_component.has_gravity = true;
+            }, 600);
+            return;
+        } 
         this.#spawnAbility(this.ability_data["ability_one"]);
     }
 
