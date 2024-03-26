@@ -99,6 +99,11 @@ export default class ColissionSystem extends System {
     }
 
     #calculateAttackingPlayer(player_one, player_two) {
+        if (player_one.is_dash_attacking)
+            return player_one;
+        else if (player_two.is_dash_attacking)
+            return player_two;
+        
         if (player_one.attackState === AttackModes.AttackHeavy)
             return player_one;
         else if (player_two.attackState === AttackModes.AttackHeavy)
@@ -107,6 +112,7 @@ export default class ColissionSystem extends System {
         if (player_one.attackState === AttackModes.AttackLight)
             return player_one;
 
+        
         return player_two;
     }
 }

@@ -18,6 +18,8 @@ export default class Player extends Entity {
     is_attacking_heavy = false;
     is_ability_one = false;
     is_ability_two = false;
+    is_dash_attacking = false;
+    
 
     combat_data = undefined;
     ability_data = undefined;
@@ -85,6 +87,8 @@ export default class Player extends Entity {
             current_damage = this.combat_data.light_damage;
         else if (this.attackState === AttackModes.AttackHeavy)
             current_damage = this.combat_data.heavy_damage;
+        else if (this.is_dash_attacking)
+            current_damage = this.combat_data.dash_attack_damage;
 
         return current_damage;
     }
@@ -195,7 +199,27 @@ export default class Player extends Entity {
 
         this.is_ability_one = true;
         this.mana -= this.ability_data.ability_one.combat_info.cost;
+        if(this.name === "Surtur"){
+            const is_flipped = this.getComponentOfType(AnimationComponent).is_flipped;
+            let physics_component = this.getComponentOfType(PhysicsComponent);
+            physics_component.has_gravity = false;
+            physics_component.maxVel = new Vector2(2000,0);
+            this.is_dash_attacking = true;
+            if(is_flipped)
+            {
+                physics_component.vel = new Vector2(-2000, 0);
+            }
+            else
+            {
+                physics_component.vel = new Vector2(2000, 0);
+            }
+            setTimeout(() => {
+                physics_component.has_gravity = true;
+                this.is_dash_attacking = false;
 
+            }, 700);
+            return;
+        } 
         this.#spawnAbility(this.ability_data["ability_one"]);
     }
 
