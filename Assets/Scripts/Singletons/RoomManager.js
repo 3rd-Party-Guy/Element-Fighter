@@ -24,7 +24,7 @@ export default class RoomManager extends Singleton {
         this.all_room_data = {
             maps_data: this.maps_data,
             characters_data: this.characters_data,
-            ablitites_data: this.abilities_data,
+            abilities_data: this.abilities_data,
             buttons_data: this.buttons_data
         }
     }
@@ -33,7 +33,7 @@ export default class RoomManager extends Singleton {
         this.current_room.RoomLoop();
 
         if (this.current_room.CheckLeaveConditions())
-            this.changeRoom(this.getRoomDataByName(this.current_room.next));
+            this.changeRoom(this.getRoomDataByName(this.current_room.name).next);
     }
 
     changeRoom(name) {
