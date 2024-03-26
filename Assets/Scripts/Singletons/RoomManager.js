@@ -13,11 +13,13 @@ export default class RoomManager extends Singleton {
     current_room = new Room();
 
     async Initialize() {
-        await this.ImportRooms(),
-        await this.ImportMaps(),
-        await this.ImportCharacters(),
-        await this.ImportAbilities(),
-        await this.ImportButtons()
+        await Promise.all([
+            this.ImportRooms(),
+            this.ImportMaps(),
+            this.ImportCharacters(),
+            this.ImportAbilities(),
+            this.ImportButtons()
+        ]);
 
         this.all_room_data = {
             maps_data: this.maps_data,
