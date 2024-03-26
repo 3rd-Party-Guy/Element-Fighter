@@ -25,6 +25,10 @@ export default class MenuManager extends Singleton {
     selected.onSelect();
   }
 
+  pressButton() {
+    selected.onPress();
+  }
+
   clear() {
     this.buttons = {};
     this.current_button = {};

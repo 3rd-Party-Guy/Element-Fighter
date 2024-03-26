@@ -4,17 +4,12 @@
 import InputManager from "./Singletons/InputManager.js";
 import CanvasManager from "./Singletons/CanvasManager.js";
 import Room from "./Room.js";
+import RoomManager from "./Singletons/RoomManager.js";
 
 const input_manager = InputManager.getInstance(InputManager);
 const canvas_manager = CanvasManager.getInstance(CanvasManager);
+const room_manager = RoomManager.getInstance(RoomManager);
 
-const room = new Room();
-
-let maps_data;
-let characters_data;
-let abilities_data;
-let rooms_data;
-let buttons_data;
 
 // Fetches all JSON data and adds the needed event listeners
 async function Initialize() {
@@ -24,16 +19,10 @@ async function Initialize() {
     window.addEventListener('click', (event) => getMousePos(event));    // INFO: Debug Only
     window.addEventListener('gamepadconnected', (e) => input_manager.connectGamepad(e.gamepad.index));
 
-    rooms_data = await ImportRooms();
-    maps_data = await ImportMaps();
-    characters_data = await ImportCharacters();
-    abilities_data = await ImportAbilities();
-    buttons_data = await ImportButtons();
+    await room_manager.Initialize();
 
     // Enter Main Menu
-    room.Enter(getRoomDataByName("Splash"), {
-        buttons_data
-    });
+    room_manager.changeRoom("Splash");
 }
 
 // INFO: Only for debugging purposes
@@ -46,53 +35,9 @@ function getMousePos(e) {
     console.log(`${x}, ${y}`);
 }
 
-function getRoomDataByName(name) {
-    return rooms_data.find(e => e.name === name);
-}
-
-// Imports all information from maps.json as an object
-async function ImportMaps() {
-    const response = await fetch("Assets/maps.json");
-    return await response.json();
-}
-
-// Imports all information from players.json as an object
-async function ImportCharacters() {
-    const response = await fetch("Assets/players.json");
-    return await response.json();
-}
-
-// Imports all information from abilities.json as an object
-async function ImportAbilities() {
-    const response = await fetch("Assets/abilities.json");
-    return await response.json();
-}
-
-// Imports all rooms from rooms.json as an object
-async function ImportRooms() {
-    const response = await fetch("Assets/rooms.json");
-    return await response.json();
-}
-
-// Import all buttons from buttons.json as an object
-async function ImportButtons() {
-    const response = await fetch("Assets/buttons.json");
-    return await response.json();
-}
-
 // This is the main game loop. It is called every frame!
 function GameLoop() {
-    room.RoomLoop();
-
-    if (room.CheckLeaveConditions()) {
-        room.Leave();
-        room.Enter(getRoomDataByName(room.next), {
-            maps_data,
-            characters_data,
-            abilities_data,
-            buttons_data
-        });
-    }
+    room_manager.loop();
 
     // Move on to next frame
     requestAnimationFrame(GameLoop);

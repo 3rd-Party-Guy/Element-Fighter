@@ -198,6 +198,8 @@ export default class Room {
         return abilities_obj;
     }
 
+    
+
     // Gets the spawn position based on which player it is (1, 2, 3, or 4)
     // (currently only 2 players are supported)
     SpawnPlayer(name){
