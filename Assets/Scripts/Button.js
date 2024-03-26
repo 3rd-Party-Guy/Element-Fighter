@@ -1,5 +1,6 @@
-import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import Entity from "./Entity.js";
+import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
+import RoomManager from "./Singletons/RoomManager.js";
 
 export default class Button extends Entity {
   is_selected = false;
@@ -24,7 +25,7 @@ export default class Button extends Entity {
     this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.press_path);
     switch(this.button_data.type) {
       case "change_room":
-        // Room Manager change room
+        RoomManager.getInstance(RoomManager).changeRoom(this.button_data.next_scene)
         break;
     }
   }
