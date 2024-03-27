@@ -2,9 +2,12 @@
 // Description:     Instances of this class are responsible for reading input and executing the respective commands.
 
 import { GamepadMoveHorizontalCommand } from "./CommandGamepad.js";
-import { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand, JumpCommand, DuckCommand } from "./Command.js";
+import { AttackLightCommand, AttackHeavyCommand, AbilityOneCommand, AbilityTwoCommand,
+        JumpCommand, DuckCommand,
+        MenuUpCommand, MenuDownCommand, MenuLeftCommand, MenuRightCommand, MenuPressCommand } from "./Command.js";
 
 import EntityManager from "./Singletons/EntityManager.js";
+import RoomManager from "./Singletons/RoomManager.js";
 
 // Every gamepad has its own gamepad handler
 // All gamepad handlers are called by the input manager
@@ -21,6 +24,12 @@ export default class GamepadHandler {
     attack_heavy_command = undefined;
     ability_one_command = undefined;
     ability_two_command = undefined;
+
+    menu_up_command = new MenuUpCommand();
+    menu_down_command = new MenuDownCommand();
+    menu_left_command = new MenuLeftCommand();
+    menu_right_command = new MenuRightCommand();
+    menu_press_command = new MenuPressCommand();
 
     is_holding_jump = false;
     is_holding_duck = false;
@@ -82,6 +91,11 @@ export default class GamepadHandler {
     }
 
     handleInput() {
+        try {
+            if (RoomManager.getInstance(RoomManager).current_room.name !== "Game")
+                this.#handleMenu();
+        } catch (err) {}
+        
         if (!this.player)
             this.#initialize();
         else {
@@ -90,6 +104,20 @@ export default class GamepadHandler {
             this.#handleDuck();
             this.#handleAttacks();
         }
+    }
+
+    #handleMenu() {
+        if (this.gamepad["axes"][0] > 0.5)
+            this.menu_right_command.execute();
+        if (this.gamepad["axes"][0] < -0.5)
+            this.menu_left_command.execute();
+        if (this.gamepad["axes"][1] > 0.5)
+            this.menu_down_command.execute();
+        if (this.gamepad["axes"][1] < -0.5)
+            this.menu_up_command.execute();
+
+        if (this.anyButton)
+            this.menu_press_command.execute();
     }
 
     #moveHorizontal() {
