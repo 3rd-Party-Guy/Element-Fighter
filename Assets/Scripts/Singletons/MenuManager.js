@@ -49,6 +49,9 @@ export default class MenuManager extends Singleton {
   clear() {
     this.buttons = {};
     this.current_button = {};
+
+    this.render_char_one = "Mermaid";
+    this.render_char_two = "Mermaid";
   }
 
   selectUp() {

@@ -179,6 +179,12 @@ export default class Room {
         this.menu_manager.clear();
     
         this.active_players = 0;
+
+        // if (this.name === "Game") {
+        //     this.entity_manager.selected_character_one = "";
+        //     this.entity_manager.selected_character_two = "";
+        //     this.entity_manager.selected_characters = 0
+        // }
     }
 
     CheckLeaveConditions() {
