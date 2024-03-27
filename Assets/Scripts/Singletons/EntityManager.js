@@ -1,6 +1,7 @@
 // Author:          Nikolay Hadzhiev
 // Description:     Holds and keeps track of all entities
 
+import MenuManager from "./MenuManager.js";
 import Singleton from "./Singleton.js";
 
 // The entity manager divides and keeps track of different types of entities
@@ -13,6 +14,19 @@ export default class EntityManager extends Singleton {
     selected_character_two = "";
 
     selected_characters = 0;
+
+    selectCharacter(name) {
+        if (this.selected_characters === 0) {
+            this.selected_character_one = name;
+            MenuManager.getInstance(MenuManager).changeCursor("/Assets/Sprites/UI/Pointer/CursorP2.png");
+        }
+        else {
+            if (name === this.selected_character_one) return;
+            this.selected_character_two = name;
+        }
+
+        this.selected_characters++;
+    }
 
     // Add a new entity to the entity manager
     addEntity(entity) {

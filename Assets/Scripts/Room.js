@@ -142,8 +142,8 @@ export default class Room {
                 this.map_image.src = this.GetCurrentMapData().image_path;
                 this.SetupMapCollisions();
                 
-                this.SpawnPlayer("Surtur");
-                this.SpawnPlayer("Minotaurus");
+                this.SpawnPlayer(this.entity_manager.selected_character_one);
+                this.SpawnPlayer(this.entity_manager.selected_character_two);
                 
                 // Setup Collision Canvas
                 this.canvas_manager.collisionContext.fillStyle = "black";
@@ -169,7 +169,9 @@ export default class Room {
         switch (this.name) {
             case "Splash":
             case "Main Menu":
+                break;
             case "Character Select":
+                if (this.entity_manager.selected_characters === 2) return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)
@@ -214,8 +216,6 @@ export default class Room {
 
         return abilities_obj;
     }
-
-
 
     // Gets the spawn position based on which player it is (1, 2, 3, or 4)
     // (currently only 2 players are supported)

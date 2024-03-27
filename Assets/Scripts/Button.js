@@ -29,12 +29,7 @@ export default class Button extends Entity {
         RoomManager.getInstance(RoomManager).changeRoom(this.button_data.next_scene)
         break;
       case "select_character":
-        // const entity_manager = EntityManager.getInstance(EntityManager);
-
-        // if (entity_manager.selected_characters === 0) {
-
-        // }
-
+        EntityManager.getInstance(EntityManager).selectCharacter(this.button_data.character_name);
         break;
       default:
         break;

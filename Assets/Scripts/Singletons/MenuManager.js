@@ -48,7 +48,7 @@ export default class MenuManager extends Singleton {
   selectUp() {
     if(!this.current_button) return;
 
-    let lastdistancesqrd = 999;
+    let lastdistance = 999;
     let next_button = undefined;
     let validButtons = [];
 
@@ -65,13 +65,13 @@ export default class MenuManager extends Singleton {
     
     for( const button of validButtons)
     {
-      let distancesqrd = Math.sqrt(
+      let distance = Math.sqrt(
         Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
         Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
       );
       
-      if(distancesqrd < lastdistancesqrd){
-        lastdistancesqrd = distancesqrd;
+      if(distance < lastdistance){
+        lastdistance = distance;
         next_button = button;
       }
     }
@@ -84,7 +84,7 @@ export default class MenuManager extends Singleton {
   selectDown() {
     if (!this.current_button) return;
 
-    let lastdistancesqrd = 999;
+    let lastdistance = 999;
     let next_button = undefined;
     let validButtons = [];
   
@@ -101,13 +101,13 @@ export default class MenuManager extends Singleton {
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(
+        let distance = Math.sqrt(
           Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
           Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
         );
 
-        if(distancesqrd < lastdistancesqrd){
-          lastdistancesqrd = distancesqrd;
+        if(distance < lastdistance){
+          lastdistance = distance;
           next_button = button;
         }
       
@@ -120,7 +120,7 @@ export default class MenuManager extends Singleton {
 
   selectLeft() {
     if(!this.current_button) return;
-    let lastdistancesqrd = 999;
+    let lastdistance = 999;
     let next_button = undefined;
     let validButtons = [];
 
@@ -137,13 +137,13 @@ export default class MenuManager extends Singleton {
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(
+        let distance = Math.sqrt(
           Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
           Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
         );
 
-        if(distancesqrd < lastdistancesqrd){
-          lastdistancesqrd = distancesqrd;
+        if(distance < lastdistance){
+          lastdistance = distance;
           next_button = button;
         }
       
@@ -156,7 +156,7 @@ export default class MenuManager extends Singleton {
 
   selectRight() {
     if(!this.current_button) return;
-    let lastdistancesqrd = 999;
+    let lastdistance = 999;
     let next_button = undefined;
     let validButtons = [];
 
@@ -173,13 +173,13 @@ export default class MenuManager extends Singleton {
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(
+        let distance = Math.sqrt(
           Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
           Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
         );
         
-        if(distancesqrd < lastdistancesqrd){
-          lastdistancesqrd = distancesqrd;
+        if(distance < lastdistance){
+          lastdistance = distance;
           next_button = button;
         }
       
@@ -191,7 +191,10 @@ export default class MenuManager extends Singleton {
   }
 
   renderCursor() {
-    if (!this.cursor_image || this.cursor_image.src.endsWith("undefined") || !this.current_button) return;
+    if (!this.cursor_image) return;
+    if (this.cursor_image.src.endsWith("undefined")) return;
+    if (!this.current_button) return;
+    if (!this.current_button.transform) return;
 
     const ctx = CanvasManager.getInstance(CanvasManager).gameplayContext;
     ctx.drawImage(
