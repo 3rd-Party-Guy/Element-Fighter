@@ -171,7 +171,7 @@ export default class MenuManager extends Singleton {
     {
       const button = this.buttons[s];
 
-      if(button === this.current_button)continue;
+      if(button === this.current_button) continue;
       if(button.transform.position.x > this.current_button.transform.position.x){
        validButtons.push(button);
       }

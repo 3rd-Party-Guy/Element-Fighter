@@ -11,7 +11,7 @@ export default class RoomManager extends Singleton {
     all_room_data = {};
 
     current_room = new Room();
-    is_map_selected = false;
+    map_name = "";
 
     async Initialize() {
         await Promise.all([

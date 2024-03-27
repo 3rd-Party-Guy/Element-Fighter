@@ -11,6 +11,8 @@ import InputManager from "./Singletons/InputManager.js";
 import MapColliderManager from "./Singletons/MapColliderManager.js"
 import CanvasManager from "./Singletons/CanvasManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
+import MenuManager from "./Singletons/MenuManager.js";
+import RoomManager from "./Singletons/RoomManager.js";
 
 import PhysicsSystem from "./Singletons/Systems/PhysicsSystem.js"
 import RenderingSystem from "./Singletons/Systems/RenderingSystem.js";
@@ -19,7 +21,6 @@ import ColissionSystem from "./Singletons/Systems/CollisionSystem.js";
 import UIRenderer from "./Singletons/UIRenderer.js";
 import AudioSystem from "./Singletons/Systems/AudioSystem.js"
 import Button from "./Button.js";
-import MenuManager from "./Singletons/MenuManager.js";
 
 import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 
@@ -49,9 +50,9 @@ export default class Room {
     canvas_manager = CanvasManager.getInstance(CanvasManager);
     entity_manager = EntityManager.getInstance(EntityManager);
     menu_manager = MenuManager.getInstance(MenuManager);
+    room_manager = RoomManager.getInstance(RoomManager);
 
     ui_renderer = UIRenderer.getInstance(UIRenderer);
-    map_name = "Vulcano";
     map_image = new Image();
 
     room_data = undefined;
@@ -137,8 +138,13 @@ export default class Room {
             case "Map Select": 
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/blank.png';
 
-                this.menu_manager.addButton(new Button(0, 0, this.getButtonDataByName("Colosseum")));
+                this.menu_manager.addButton(new Button(0, 0, this.getButtonDataByName("Colosseum Select")));
+                this.menu_manager.addButton(new Button(640, 0, this.getButtonDataByName("Atlantis Select")));
+                this.menu_manager.addButton(new Button(0, 360, this.getButtonDataByName("Vulcano Select")));
+                this.menu_manager.addButton(new Button(640, 360, this.getButtonDataByName("Sky Select")));
                 
+                this.menu_manager.selectButton("Colosseum Select");
+
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
@@ -180,7 +186,7 @@ export default class Room {
                 if (this.entity_manager.selected_characters === 2) return true;
                 break;
             case "Map Select":
-                if (this.room_manager.is_map_selected) return true;
+                if (this.room_manager.map_name !== "") return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)
@@ -285,7 +291,7 @@ export default class Room {
 
     // Get the JSON data for the map with the correct name
     GetCurrentMapData(){
-        return this.maps_data.find(e => e.name === this.map_name);
+        return this.maps_data.find(e => e.name === this.room_manager.map_name);
     }
 
     // The main game loop, called in Game.js

@@ -35,6 +35,8 @@ export default class Button extends Entity {
       case "select_character":
         EntityManager.getInstance(EntityManager).selectCharacter(this.button_data.character_name);
         break;
+      case "select_map":
+        RoomManager.getInstance(RoomManager).map_name = this.button_data.map_name;
       default:
         break;
     }
