@@ -126,6 +126,9 @@ export default class Player extends Entity {
     fixedUpdate(delta) {
         this.mana += this.mana_regen_rate * delta;
         this.mana = clamp(this.mana, 0, 100);
+
+        if (this.transform.position.y > 1280)
+            this.damage(1000);
     }
 
     // Makes sure that new attacks start off as unregistered
