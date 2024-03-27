@@ -148,5 +148,105 @@
         "press_path": "Assets/SFX/press.wav"
       }
     }
+  },
+  {
+    "name": "Colosseum Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "colosseum_select",
+        "num_frames": 1,
+        "sheet_width": 640,
+        "sheet_height": 360,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 640,
+      "height": 360
+    },
+    "button_info": {
+      "type": "select_map",
+      "map_name": "Colosseum",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Atlantis Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "atlantis_select",
+        "num_frames": 1,
+        "sheet_width": 640,
+        "sheet_height": 360,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 640,
+      "height": 360
+    },
+    "button_info": {
+      "type": "select_map",
+      "map_name": "Atlantis",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Vulcano Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "vulcano_select",
+        "num_frames": 1,
+        "sheet_width": 640,
+        "sheet_height": 360,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 640,
+      "height": 360
+    },
+    "button_info": {
+      "type": "select_map",
+      "map_name": "Vulcano",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Sky Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "sky_select",
+        "num_frames": 1,
+        "sheet_width": 640,
+        "sheet_height": 360,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 640,
+      "height": 360
+    },
+    "button_info": {
+      "type": "select_map",
+      "map_name": "Sky",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
   }
 ]

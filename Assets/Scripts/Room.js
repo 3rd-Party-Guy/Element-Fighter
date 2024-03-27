@@ -135,7 +135,10 @@ export default class Room {
 
                 break;
             case "Map Select": 
-                this.map_image.src = 'Assets/Sprites/UI/Overlays/mapselect.png';
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/blank.png';
+
+                this.menu_manager.addButton(new Button(0, 0, this.getButtonDataByName("Colosseum")));
+                
                 break;
             case "Game":
                 this.abilities_data = data.abilities_data;
