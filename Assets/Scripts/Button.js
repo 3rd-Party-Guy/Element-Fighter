@@ -2,9 +2,9 @@ import Entity from "./Entity.js";
 import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import RoomManager from "./Singletons/RoomManager.js";
 import EntityManager from "./Singletons/EntityManager.js";
+import MenuManager from "./Singletons/MenuManager.js";
 
 export default class Button extends Entity {
-  is_selected = false;
   button_data = undefined;
 
   constructor(start_x, start_y, button_data) {
@@ -16,10 +16,14 @@ export default class Button extends Entity {
   }
 
   onSelect() {
-    if (this.is_selected) return;
-
-    this.is_selected = true;
     this.getComponentOfType(AudioPlayerComponent).playOneShot(this.button_data.sounds.select_path);
+
+    if (this.button_data.type === "select_character") {
+      if (EntityManager.getInstance(EntityManager).selected_characters === 0)
+        MenuManager.getInstance(MenuManager).render_char_one = this.button_data.character_name;
+      else
+        MenuManager.getInstance(MenuManager).render_char_two = this.button_data.character_name;
+    }
   }
   
   onPress() {

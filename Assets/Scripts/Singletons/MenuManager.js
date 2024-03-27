@@ -7,6 +7,12 @@ export default class MenuManager extends Singleton {
 
   cursor_image = undefined;
 
+  render_char_one = "Mermaid";
+  render_char_two = "Mermaid";
+
+  preview_image_one = new Image(288, 384);
+  preview_image_two = new Image(288, 384);
+
   changeCursor(src, width, height) {
     this.cursor_image = new Image(width, height);
     this.cursor_image.src = src;
@@ -202,5 +208,14 @@ export default class MenuManager extends Singleton {
       this.current_button.transform.position.x,
       this.current_button.transform.position.y
     );
+  }
+
+  renderPreviews() {
+    this.preview_image_one.src = `/Assets/Sprites/Characters/Previews/${this.render_char_one}.png`;
+    this.preview_image_two.src = `/Assets/Sprites/Characters/Previews/${this.render_char_two}_flipped.png`;
+
+    const ctx = CanvasManager.getInstance(CanvasManager).gameplayContext;
+    ctx.drawImage(this.preview_image_one, 100, 250);
+    ctx.drawImage(this.preview_image_two, 925, 250);
   }
 }

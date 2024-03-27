@@ -51,7 +51,7 @@ export default class Room {
     menu_manager = MenuManager.getInstance(MenuManager);
 
     ui_renderer = UIRenderer.getInstance(UIRenderer);
-    cur_map_name = "Vulcano";
+    map_name = "Vulcano";
     map_image = new Image();
 
     room_data = undefined;
@@ -134,6 +134,9 @@ export default class Room {
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/characterselect.png';
 
                 break;
+            case "Map Select": 
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/mapselect.png';
+                break;
             case "Game":
                 this.abilities_data = data.abilities_data;
                 this.maps_data = data.maps_data;
@@ -172,6 +175,9 @@ export default class Room {
                 break;
             case "Character Select":
                 if (this.entity_manager.selected_characters === 2) return true;
+                break;
+            case "Map Select":
+                if (this.room_manager.is_map_selected) return true;
                 break;
             case "Game":
                 for (const p of this.entity_manager.players)
@@ -276,7 +282,7 @@ export default class Room {
 
     // Get the JSON data for the map with the correct name
     GetCurrentMapData(){
-        return this.maps_data.find(e => e.name === this.cur_map_name);
+        return this.maps_data.find(e => e.name === this.map_name);
     }
 
     // The main game loop, called in Game.js
@@ -343,6 +349,9 @@ export default class Room {
     #LateUpdate() {
         if (this.name !== "Game" && this.name !== "Splash")
             this.menu_manager.renderCursor();
+
+        if (this.name === "Character Select")
+            this.menu_manager.renderPreviews();
 
         for (const system of this.systems)
             system.lateUpdate();
