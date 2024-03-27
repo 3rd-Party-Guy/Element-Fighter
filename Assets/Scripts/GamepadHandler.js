@@ -107,17 +107,36 @@ export default class GamepadHandler {
     }
 
     #handleMenu() {
-        if (this.gamepad["axes"][0] > 0.5)
+        if (this.gamepad["axes"][0] > 0.5) {
+            this.menu_right_command.onPressed();
             this.menu_right_command.execute();
-        if (this.gamepad["axes"][0] < -0.5)
-            this.menu_left_command.execute();
-        if (this.gamepad["axes"][1] > 0.5)
-            this.menu_down_command.execute();
-        if (this.gamepad["axes"][1] < -0.5)
-            this.menu_up_command.execute();
+        } else if (this.menu_right_command.pressed)
+            this.menu_right_command.onReleased();
 
-        if (this.anyButton)
+        if (this.gamepad["axes"][0] < -0.5) {
+            this.menu_left_command.onPressed();
+            this.menu_left_command.execute();
+        } else if (this.menu_left_command.pressed)
+            this.menu_left_command.onReleased();
+
+        if (this.gamepad["axes"][1] > 0.5) {
+            this.menu_down_command.onPressed();
+            this.menu_down_command.execute();
+        } else if (this.menu_down_command.pressed)
+            this.menu_down_command.onReleased();
+
+        if (this.gamepad["axes"][1] < -0.5) {
+            this.menu_up_command.onPressed();
+            this.menu_up_command.execute();
+        } else if (this.menu_up_command.pressed)
+            this.menu_up_command.onReleased();
+
+
+        if (this.lightAttackButton.pressed || this.heavyAttackButton.pressed) {
+            this.menu_press_command.onPressed();
             this.menu_press_command.execute();
+        } else if (this.menu_press_command.pressed)
+            this.menu_press_command.onReleased();
     }
 
     #moveHorizontal() {

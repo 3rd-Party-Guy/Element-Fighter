@@ -31,30 +31,40 @@ export default class Command {
 
 export class MenuLeftCommand extends Command {
     execute() {
+        if (!this.first_call) return;
         MenuManager.getInstance(MenuManager).selectLeft();
+        super.execute();
     }
 }
 
 export class MenuRightCommand extends Command {
     execute() {
+        if (!this.first_call) return;
         MenuManager.getInstance(MenuManager).selectRight();
+        super.execute();
     }
 }
 
 export class MenuDownCommand extends Command {
     execute() {
+        if (!this.first_call) return;
         MenuManager.getInstance(MenuManager).selectDown();
+        super.execute();
     }
 }
 
 export class MenuUpCommand extends Command {
     execute() {
+        if (!this.first_call) return;
         MenuManager.getInstance(MenuManager).selectUp();
+        super.execute();
     }
 }
 export class MenuPressCommand extends Command {
     execute() {
+        if (!this.first_call) return;
         MenuManager.getInstance(MenuManager).pressButton();
+        super.execute();
     }
 }
 
