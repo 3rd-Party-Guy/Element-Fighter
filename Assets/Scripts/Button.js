@@ -1,6 +1,7 @@
 import Entity from "./Entity.js";
 import AudioPlayerComponent from "./Components/AudioPlayerComponent.js";
 import RoomManager from "./Singletons/RoomManager.js";
+import EntityManager from "./Singletons/EntityManager.js";
 
 export default class Button extends Entity {
   is_selected = false;
@@ -26,6 +27,16 @@ export default class Button extends Entity {
     switch(this.button_data.type) {
       case "change_room":
         RoomManager.getInstance(RoomManager).changeRoom(this.button_data.next_scene)
+        break;
+      case "select_character":
+        // const entity_manager = EntityManager.getInstance(EntityManager);
+
+        // if (entity_manager.selected_characters === 0) {
+
+        // }
+
+        break;
+      default:
         break;
     }
   }

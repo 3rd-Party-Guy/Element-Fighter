@@ -109,12 +109,22 @@ export default class Room {
             case "Main Menu":
                 this.buttons_data = data.buttons_data;
 
+                this.menu_manager.addButton(new Button(408, 535, this.getButtonDataByName("Start Button")));
+                this.menu_manager.selectButton("Start Button");
+
                 this.background_music.play('Assets/SFX/Music/menu.wav');
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/titlescreen.png';
 
                 break;
             case "Character Select":
                 this.buttons_data = data.buttons_data;
+
+                this.menu_manager.addButton(new Button(472, 305, this.getButtonDataByName("Mermaid Select")));
+                this.menu_manager.addButton(new Button(472, 473, this.getButtonDataByName("Minotaurus Select")));
+                this.menu_manager.addButton(new Button(640, 305, this.getButtonDataByName("Sylph Select")));
+                this.menu_manager.addButton(new Button(640, 473, this.getButtonDataByName("Surtur Select")));
+
+                this.menu_manager.selectButton("Mermaid Select");
 
                 this.background_music.play('Assets/SFX/Music/character_select.wav');
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/characterselect.png';

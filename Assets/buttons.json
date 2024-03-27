@@ -31,13 +31,13 @@
       "animation": {
         "animation_path": "play_button",
         "num_frames": 1,
-        "sheet_width": 464,
+        "sheet_width": 463,
         "sheet_height": 92,
         "animation_scale": 1
       }
     },
     "entity_info": {
-      "width": 464,
+      "width": 463,
       "height": 92
     },
     "button_info": {
@@ -50,23 +50,99 @@
     }
   },
   {
-    "name": "Settings Button",
+    "name": "Mermaid Select",
     "spritesheets_path": "Assets/Sprites/UI/Buttons/",
     "spritesheets_info": {
       "animation": {
-        "animation_path": "settings_button",
+        "animation_path": "mermaid_select",
         "num_frames": 1,
-        "sheet_width": 464,
-        "sheet_height": 92,
+        "sheet_width": 168,
+        "sheet_height": 168,
         "animation_scale": 1
       }
     },
     "entity_info": {
-      "width": 464,
-      "height": 92
+      "width": 168,
+      "height": 168
     },
     "button_info": {
-      "type": "none",
+      "type": "select_character",
+      "character_name": "Mermaid",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Minotaurus Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "minotaurus_select",
+        "num_frames": 1,
+        "sheet_width": 168,
+        "sheet_height": 168,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 168,
+      "height": 168
+    },
+    "button_info": {
+      "type": "select_character",
+      "character_name": "Minotaurus",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Surtur Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "surtur_select",
+        "num_frames": 1,
+        "sheet_width": 168,
+        "sheet_height": 168,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 168,
+      "height": 168
+    },
+    "button_info": {
+      "type": "select_character",
+      "character_name": "Surtur",
+      "sounds": {
+        "select_path": "Assets/SFX/select.wav",
+        "press_path": "Assets/SFX/press.wav"
+      }
+    }
+  },
+  {
+    "name": "Sylph Select",
+    "spritesheets_path": "Assets/Sprites/UI/Buttons/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "sylph_select",
+        "num_frames": 1,
+        "sheet_width": 168,
+        "sheet_height": 168,
+        "animation_scale": 1
+      }
+    },
+    "entity_info": {
+      "width": 168,
+      "height": 168
+    },
+    "button_info": {
+      "type": "select_character",
+      "character_name": "Sylph",
       "sounds": {
         "select_path": "Assets/SFX/select.wav",
         "press_path": "Assets/SFX/press.wav"

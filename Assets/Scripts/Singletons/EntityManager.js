@@ -9,6 +9,11 @@ export default class EntityManager extends Singleton {
     players = [];
     projectiles = [];
 
+    selected_character_one = "";
+    selected_character_two = "";
+
+    selected_characters = 0;
+
     // Add a new entity to the entity manager
     addEntity(entity) {
         // Prevents adding an entity that is already listed

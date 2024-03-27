@@ -3,6 +3,7 @@ import Singleton from "./Singleton.js";
 export default class MenuManager extends Singleton {
   buttons = {};
   current_button = undefined;
+  cursor_sprite = "Assets/Sprites/UI/Pointer/CursorP1.png";
 
   addButton(button) {
     const key = Symbol.for(button.name);
@@ -37,7 +38,7 @@ export default class MenuManager extends Singleton {
     this.current_button = {};
   }
 
-  selectUp(){
+  selectUp() {
     if(!this.current_button) return;
 
     let lastdistancesqrd = 999;
@@ -67,7 +68,7 @@ export default class MenuManager extends Singleton {
     this.current_button.onSelect();
   }
 
-  selectDown(){
+  selectDown() {
     if (!this.current_button) return;
 
     let lastdistancesqrd = 999;
@@ -98,7 +99,7 @@ export default class MenuManager extends Singleton {
     this.current_button.onSelect();
   }
 
-  selectLeft(){
+  selectLeft() {
     if(!this.current_button) return;
     let lastdistancesqrd = 999;
     let next_button = undefined;
@@ -128,7 +129,7 @@ export default class MenuManager extends Singleton {
     this.current_button.onSelect();
   }
 
-  selectRight(){
+  selectRight() {
     if(!this.current_button) return;
     let lastdistancesqrd = 999;
     let next_button = undefined;
@@ -155,5 +156,9 @@ export default class MenuManager extends Singleton {
     if(!next_button) return;
     this.current_button = next_button;
     this.current_button.onSelect();
+  }
+
+  renderCursor() {
+    
   }
 }
