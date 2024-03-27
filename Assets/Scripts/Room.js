@@ -180,11 +180,15 @@ export default class Room {
     
         this.active_players = 0;
 
-        // if (this.name === "Game") {
-        //     this.entity_manager.selected_character_one = "";
-        //     this.entity_manager.selected_character_two = "";
-        //     this.entity_manager.selected_characters = 0
-        // }
+        try {
+            if (this.name === "Game") {
+                this.entity_manager.selected_character_one = "";
+                this.entity_manager.selected_character_two = "";
+                this.entity_manager.selected_characters = 0;
+
+                this.room_manager.map_name = "";
+            }
+        } catch (error) {}
     }
 
     CheckLeaveConditions() {
