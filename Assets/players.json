@@ -362,17 +362,17 @@
       "ability2": {
         "state_info": "AbilityTwo",
         "animation_path": "Abilities/ability2",
-        "num_frames": 8,
-        "sheet_width": 1280,
+        "num_frames": 13,
+        "sheet_width": 2210,
         "sheet_height": 160,
-        "animation_scale": 1
+        "animation_scale": 0.15
 
       },
       "jump": {
         "state_info": "Jumping",
         "animation_path": "Movement/jump",
         "num_frames": 3,
-        "sheet_width": 480,
+        "sheet_width": 510,
         "sheet_height": 160,
         "animation_scale": 1
 
@@ -381,7 +381,7 @@
         "state_info": "Falling",
         "animation_path": "Movement/jump",
         "num_frames": 3,
-        "sheet_width": 480,
+        "sheet_width": 510,
         "sheet_height": 160,
         "animation_scale": 1
       }
@@ -414,7 +414,7 @@
     },
     "abilities": {
       "ability_one": "Dash",
-      "ability_two": "Rock"
+      "ability_two": "Eyebeam"
     },
     "sound_paths": "Assets/SFX/Surtur/"
   }

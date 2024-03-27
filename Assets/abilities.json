@@ -293,5 +293,38 @@
         "multiplier_y": 150
       }
     }
+  },
+  {
+    "name": "Eyebeam",
+    "spritesheets_path": "Assets/Sprites/Projectiles/",
+    "spritesheets_info": {
+      "animation": {
+        "animation_path": "eyebeam",
+        "num_frames": 8,
+        "sheet_width": 480,
+        "sheet_height": 160,
+        "animation_scale": 0.3
+      }
+    },
+    "entity_info": {
+      "width": 200,
+      "height": 160,
+      "velocity": [1150,0],
+      "max_x_velocity": 1150,
+      "x_friction": 0,
+      "gravity": 0,
+      "life_time": 4,
+      "cast_time": 0.5
+    },
+    "combat_info": {
+      "cost": 16,
+      "damage": 13,
+      "is_one_shot": true,
+      "knockback_info": {
+        "has_knockback": true,
+        "multiplier_x": 1000,
+        "multiplier_y": 0
+      }
+    }
   }
 ]

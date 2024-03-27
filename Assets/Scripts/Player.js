@@ -271,6 +271,9 @@ export default class Player extends Entity {
 
         let ability_width = ability_data["entity_info"]["width"];
 
+
+        
+
         let start_pos = new Vector2(0, 0);
         start_pos.x = transform.position.x;
 
@@ -281,6 +284,14 @@ export default class Player extends Entity {
 
         start_pos.y = transform.position.y;
 
+        if(this.ability_data["ability_two"]["name"] ==="Eyebeam"){
+             if (is_flipped)
+            start_pos.x +=  100;
+            else
+            start_pos.x -=  100;
+            
+            start_pos.y -= 30;
+        }
         setTimeout(() => {
             new Projectile(
                 this, start_pos.x, start_pos.y, ability_data, is_flipped
