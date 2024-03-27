@@ -133,12 +133,12 @@ export default class Room {
 
                 this.menu_manager.selectButton("Mermaid Select");
 
-                this.background_music.play('Assets/SFX/Music/character_select.wav');
-                this.map_image.src = 'Assets/Sprites/UI/Overlays/characterselect.png';
+                this.background_music.play('/Assets/SFX/Music/character_select.wav');
+                this.map_image.src = '/Assets/Sprites/UI/Overlays/characterselect.png';
 
                 break;
             case "Map Select": 
-                this.map_image.src = 'Assets/Sprites/UI/Overlays/blank.png';
+                this.map_image.src = '/Assets/Sprites/UI/Overlays/blank.png';
 
                 this.menu_manager.changeCursor("/Assets/Sprites/UI/Pointer/map_select_cursor.png", 640, 360);
 
