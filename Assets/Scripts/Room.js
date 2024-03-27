@@ -103,8 +103,12 @@ export default class Room {
         switch (this.name) {
             case "Splash":
                 this.buttons_data = data.buttons_data;
+
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
                 this.menu_manager.selectButton("Splash Button");
+                
+                this.menu_manager.changeCursor("Assets/Sprites/UI/Pointer/CursorP1.png");
+
                 break;
             case "Main Menu":
                 this.buttons_data = data.buttons_data;
@@ -337,6 +341,9 @@ export default class Room {
     // LateUpdate is the final method called in the game loop.
     // It renders UI and fills the collision canvas with black.
     #LateUpdate() {
+        if (this.name !== "Game" && this.name !== "Splash")
+            this.menu_manager.renderCursor();
+
         for (const system of this.systems)
             system.lateUpdate();
         

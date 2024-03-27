@@ -1,9 +1,16 @@
 import Singleton from "./Singleton.js";
+import CanvasManager from "./CanvasManager.js";
 
 export default class MenuManager extends Singleton {
   buttons = {};
   current_button = undefined;
-  cursor_sprite = "Assets/Sprites/UI/Pointer/CursorP1.png";
+
+  cursor_image = undefined;
+
+  changeCursor(src, width, height) {
+    this.cursor_image = new Image(width, height);
+    this.cursor_image.src = src;
+  }
 
   addButton(button) {
     const key = Symbol.for(button.name);
@@ -45,22 +52,28 @@ export default class MenuManager extends Singleton {
     let next_button = undefined;
     let validButtons = [];
 
-    for(const button of Object.values(this.buttons))
+    const symbols = Object.getOwnPropertySymbols(this.buttons);
+    for(const s of symbols)
     {
-      if(button === this.current_button)continue;
-      if(button.y < this.current_button.y){
+      const button = this.buttons[s];
+
+      if(button === this.current_button) continue;
+      if(button.transform.position.y < this.current_button.transform.position.y){
        validButtons.push(button);
       }
     }
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(this.current_button.x - button.x) + Math.sqrt(this.current_button.y - button.y);
-        if(distancesqrd < lastdistancesqrd){
-          lastdistancesqrd = distancesqrd;
-          next_button = button;
-        }
+      let distancesqrd = Math.sqrt(
+        Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
+        Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
+      );
       
+      if(distancesqrd < lastdistancesqrd){
+        lastdistancesqrd = distancesqrd;
+        next_button = button;
+      }
     }
 
     if(!next_button) return;
@@ -74,19 +87,25 @@ export default class MenuManager extends Singleton {
     let lastdistancesqrd = 999;
     let next_button = undefined;
     let validButtons = [];
-
-    for(const button of Object.values(this.buttons))
+  
+    const symbols = Object.getOwnPropertySymbols(this.buttons);
+    for(const s of symbols)
     {
-      if(button === this.current_button) continue;
+      const button = this.buttons[s];
 
-      if(button.y > this.current_button.y){
+      if(button === this.current_button) continue;
+      if(button.transform.position.y > this.current_button.transform.position.y){
        validButtons.push(button);
       }
     }
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(this.current_button.x - button.x) + Math.sqrt(this.current_button.y - button.y);
+        let distancesqrd = Math.sqrt(
+          Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
+          Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
+        );
+
         if(distancesqrd < lastdistancesqrd){
           lastdistancesqrd = distancesqrd;
           next_button = button;
@@ -105,18 +124,24 @@ export default class MenuManager extends Singleton {
     let next_button = undefined;
     let validButtons = [];
 
-    for(const button of Object.values(this.buttons))
+    const symbols = Object.getOwnPropertySymbols(this.buttons);
+    for(const s of symbols)
     {
-      if(button === this.current_button) continue;
+      const button = this.buttons[s];
 
-      if(button.x < this.current_button.x){
+      if(button === this.current_button) continue;
+      if(button.transform.position.x < this.current_button.transform.position.x){
        validButtons.push(button);
       }
     }
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(this.current_button.x - button.x) + Math.sqrt(this.current_button.y - button.y);
+        let distancesqrd = Math.sqrt(
+          Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
+          Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
+        );
+
         if(distancesqrd < lastdistancesqrd){
           lastdistancesqrd = distancesqrd;
           next_button = button;
@@ -135,17 +160,24 @@ export default class MenuManager extends Singleton {
     let next_button = undefined;
     let validButtons = [];
 
-    for(const button of Object.values(this.buttons))
+    const symbols = Object.getOwnPropertySymbols(this.buttons);
+    for(const s of symbols)
     {
+      const button = this.buttons[s];
+
       if(button === this.current_button)continue;
-      if(button.x > this.current_button.x){
+      if(button.transform.position.x > this.current_button.transform.position.x){
        validButtons.push(button);
       }
     }
     
     for( const button of validButtons)
     {
-        let distancesqrd = Math.sqrt(this.current_button.x - button.x) + Math.sqrt(this.current_button.y - button.y);
+        let distancesqrd = Math.sqrt(
+          Math.pow(this.current_button.transform.position.x - button.transform.position.x, 2) + 
+          Math.pow(this.current_button.transform.position.y - button.transform.position.y, 2)
+        );
+        
         if(distancesqrd < lastdistancesqrd){
           lastdistancesqrd = distancesqrd;
           next_button = button;
@@ -159,6 +191,13 @@ export default class MenuManager extends Singleton {
   }
 
   renderCursor() {
-    
+    if (!this.cursor_image || this.cursor_image.src.endsWith("undefined") || !this.current_button) return;
+
+    const ctx = CanvasManager.getInstance(CanvasManager).gameplayContext;
+    ctx.drawImage(
+      this.cursor_image,
+      this.current_button.transform.position.x,
+      this.current_button.transform.position.y
+    );
   }
 }
