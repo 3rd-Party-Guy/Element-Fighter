@@ -105,25 +105,27 @@ export default class Room {
             case "Splash":
                 this.buttons_data = data.buttons_data;
 
+                this.menu_manager.changeCursor("Assets/Sprites/UI/Pointer/CursorP1.png");
+
                 this.menu_manager.addButton(new Button(320, 180, this.getButtonDataByName("Splash Button")));
                 this.menu_manager.selectButton("Splash Button");
                 
-                this.menu_manager.changeCursor("Assets/Sprites/UI/Pointer/CursorP1.png");
-
                 break;
-            case "Main Menu":
-                this.buttons_data = data.buttons_data;
-
-                this.menu_manager.addButton(new Button(408, 535, this.getButtonDataByName("Start Button")));
-                this.menu_manager.selectButton("Start Button");
-
-                this.background_music.play('Assets/SFX/Music/menu.wav');
-                this.map_image.src = 'Assets/Sprites/UI/Overlays/titlescreen.png';
-
-                break;
+                case "Main Menu":
+                    this.buttons_data = data.buttons_data;
+                    
+                    this.menu_manager.addButton(new Button(408, 535, this.getButtonDataByName("Start Button")));
+                    this.menu_manager.selectButton("Start Button");
+                    
+                    this.background_music.play('Assets/SFX/Music/menu.wav');
+                    this.map_image.src = 'Assets/Sprites/UI/Overlays/titlescreen.png';
+                    
+                    break;
             case "Character Select":
                 this.buttons_data = data.buttons_data;
 
+                this.menu_manager.changeCursor("/Assets/Sprites/UI/Pointer/select_rectangle_one.png", 168, 168);
+                        
                 this.menu_manager.addButton(new Button(472, 305, this.getButtonDataByName("Mermaid Select")));
                 this.menu_manager.addButton(new Button(472, 473, this.getButtonDataByName("Minotaurus Select")));
                 this.menu_manager.addButton(new Button(640, 305, this.getButtonDataByName("Sylph Select")));
@@ -137,6 +139,8 @@ export default class Room {
                 break;
             case "Map Select": 
                 this.map_image.src = 'Assets/Sprites/UI/Overlays/blank.png';
+
+                this.menu_manager.changeCursor("/Assets/Sprites/UI/Pointer/map_select_cursor.png", 640, 360);
 
                 this.menu_manager.addButton(new Button(0, 0, this.getButtonDataByName("Colosseum Select")));
                 this.menu_manager.addButton(new Button(640, 0, this.getButtonDataByName("Atlantis Select")));

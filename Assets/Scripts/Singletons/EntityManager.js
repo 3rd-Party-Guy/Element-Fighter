@@ -18,7 +18,7 @@ export default class EntityManager extends Singleton {
     selectCharacter(name) {
         if (this.selected_characters === 0) {
             this.selected_character_one = name;
-            MenuManager.getInstance(MenuManager).changeCursor("/Assets/Sprites/UI/Pointer/CursorP2.png");
+            MenuManager.getInstance(MenuManager).changeCursor("/Assets/Sprites/UI/Pointer/select_rectangle_two.png", 168, 168);
         }
         else {
             if (name === this.selected_character_one) return;

@@ -152,7 +152,6 @@ export default class MenuManager extends Singleton {
           lastdistance = distance;
           next_button = button;
         }
-      
     }
     
     if (!next_button) return;
