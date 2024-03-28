@@ -124,7 +124,7 @@ export default class Room {
             case "Character Select":
                 this.buttons_data = data.buttons_data;
 
-                this.menu_manager.changeCursor("/Assets/Sprites/UI/Pointer/select_rectangle_one.png", 168, 168);
+                this.menu_manager.changeCursor("Assets/Sprites/UI/Pointer/select_rectangle_one.png", 168, 168);
                         
                 this.menu_manager.addButton(new Button(472, 305, this.getButtonDataByName("Mermaid Select")));
                 this.menu_manager.addButton(new Button(472, 473, this.getButtonDataByName("Minotaurus Select")));
@@ -133,14 +133,14 @@ export default class Room {
 
                 this.menu_manager.selectButton("Mermaid Select");
 
-                this.background_music.play('/Assets/SFX/Music/character_select.wav');
-                this.map_image.src = '/Assets/Sprites/UI/Overlays/characterselect.png';
+                this.background_music.play('Assets/SFX/Music/character_select.wav');
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/characterselect.png';
 
                 break;
             case "Map Select": 
-                this.map_image.src = '/Assets/Sprites/UI/Overlays/blank.png';
+                this.map_image.src = 'Assets/Sprites/UI/Overlays/blank.png';
 
-                this.menu_manager.changeCursor("/Assets/Sprites/UI/Pointer/map_select_cursor.png", 640, 360);
+                this.menu_manager.changeCursor(window.location.href + "/Assets/Sprites/UI/Pointer/map_select_cursor.png", 640, 360);
 
                 this.menu_manager.addButton(new Button(0, 0, this.getButtonDataByName("Colosseum Select")));
                 this.menu_manager.addButton(new Button(640, 0, this.getButtonDataByName("Atlantis Select")));
@@ -177,7 +177,8 @@ export default class Room {
         this.map_collider_manager.clear();
         this.input_manager.clear();
         this.menu_manager.clear();
-    
+        this.ui_renderer.clear();
+
         this.active_players = 0;
 
         try {
@@ -379,7 +380,9 @@ export default class Room {
         for (const system of this.systems)
             system.lateUpdate();
         
-        this.ui_renderer.RenderUI();
-        this.canvas_manager.gameplayContext.fill();
+        if (this.name === "Game") {
+            this.ui_renderer.RenderUI();
+            this.canvas_manager.gameplayContext.fill();
+        }
     }
 }

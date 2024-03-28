@@ -12,7 +12,7 @@ export default class AudioPlayerComponent extends Component {
 
   play(new_source) {
     if (new_source)
-      this.audio.src = new_source;
+      this.audio.src = window.location.href + new_source;
     
     this.audio.loop = this.loop;
     this.audio.play();

@@ -25,6 +25,9 @@ export default class InputManager extends Singleton {
     clear() {
         this.inputKeyboardActionLookup = new Map();
         this.activeKeyboardInputLookup = new Map();
+
+        for (const gp of this.connected_gamepads)
+            gp.player = undefined;
     }
 
     // Set Input is called every time there is an input event.

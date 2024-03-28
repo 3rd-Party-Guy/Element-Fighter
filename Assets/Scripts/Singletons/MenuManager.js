@@ -213,8 +213,8 @@ export default class MenuManager extends Singleton {
   }
 
   renderPreviews() {
-    this.preview_image_one.src = `/Assets/Sprites/Characters/Previews/${this.render_char_one}.png`;
-    this.preview_image_two.src = `/Assets/Sprites/Characters/Previews/${this.render_char_two}_flipped.png`;
+    this.preview_image_one.src = window.location.href + `/Assets/Sprites/Characters/Previews/${this.render_char_one}.png`;
+    this.preview_image_two.src = window.location.href + `/Assets/Sprites/Characters/Previews/${this.render_char_two}_flipped.png`;
 
     const ctx = CanvasManager.getInstance(CanvasManager).gameplayContext;
     ctx.drawImage(this.preview_image_one, 100, 250);

@@ -274,9 +274,6 @@ export default class Player extends Entity {
 
         let ability_width = ability_data["entity_info"]["width"];
 
-
-        
-
         let start_pos = new Vector2(0, 0);
         start_pos.x = transform.position.x;
 

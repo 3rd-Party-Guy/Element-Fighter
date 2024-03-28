@@ -34,6 +34,11 @@ export default class UIRenderer extends Singleton {
         this.#RenderPlayersAvatars(ctx);
     }
 
+    clear() {
+        this.avatar_one_image.src = "";
+        this.avatar_two_image.src = "";
+    }
+
     #fetchPlayerAvatars() {
         const player_one_avatar = EntityManager.getInstance(EntityManager).players[0]?.avatarPath;
         this.avatar_one_image.src = (player_one_avatar !== undefined) ? player_one_avatar + ".png" : "";

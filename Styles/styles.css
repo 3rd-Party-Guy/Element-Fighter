@@ -5,10 +5,9 @@ body {
     overflow: hidden;
 
     canvas {
-        position: relative;
         margin: auto;
-        width: 1280px;
-        height: 720px;
+        max-width: 1280px;
+        max-height: 720px;
         image-rendering: pixelated;         /* Upscaling */
     }
 
